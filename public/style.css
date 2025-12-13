@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    max-height: 100vh;
+    height: 100%;
+    user-select: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+html {
+    height: 100%
+}
+
+div {
+    border: solid 0.2rem;
+    border-radius: 1rem;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#title {
+    line-height: 0;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 34fr 21fr 21fr 21fr 4fr;
+    flex: 1;
+    margin: 0.2rem;
+    gap: 0.2rem;
+}
+
+#flag-energy {
+    display: flex;
+    flex-direction: column;
+}
+
+#flag-tab-top {
+    width: calc(100% - 1rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#white-flag-count {
+    line-height: 0;
+}
+
+#cooldown-bar {
+    width: 75%;
+    height: 0.5rem;
+}
+
+
+#flag-tab {
+    height: 100%;
+    margin: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#overclock-btn {
+    margin-bottom: 0.5rem;
+}
+
+#energy-tab {
+    height: 100%;
+    margin: 0.2rem;
+}
