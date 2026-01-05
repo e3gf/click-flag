@@ -2,9 +2,8 @@ export default class UI {
     constructor(document) {
         this.document = document;
         this.whiteFlag = this.document.querySelector("#white-flag-image");
-        this.whiteFlagCount = this.document.querySelector("#white-flag-count");
+        this.whiteFlagCount = this.document.querySelector("#white-flag-count-display");
         this.overclockBtn = this.document.querySelector("#overclock-btn");
-        this.overclockCooldownBar = this.document.querySelector("#overclock-cooldown-bar");
         this.overclockCooldownProgress = this.document.querySelector("#overclock-cooldown-progress");
 
         // Static event listeners should be here
