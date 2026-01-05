@@ -29,6 +29,7 @@ header {
 main {
     display: grid;
     grid-template-columns: 34fr 21fr 21fr 21fr 4fr;
+    grid-template-rows: 1fr 10fr;
     flex: 1 1 auto;
     min-height: 0;
     margin: 1rem;
@@ -106,4 +107,8 @@ main {
 #layer-tab {
     background-color: var(--card);
     border-radius: 1rem;
+}
+
+.material-symbols-outlined {
+    color: var(--foreground);
 }
