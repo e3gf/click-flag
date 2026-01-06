@@ -1,5 +1,3 @@
-import timedWhile from "../utils/asyncWhile.js";
-
 export default class WhiteFlag {
     constructor() {
         this.overclockDuration = 5000;
@@ -11,10 +9,24 @@ export default class WhiteFlag {
         this.captureTimer = null;
         this.overclockActiveTimer = null;
         this.overclockCooldownTimer = null;
+
+        this.outOfEnergyIndicator = false;
+        this.outOfEnergyIndicatorTimer = null;
     }
 
-    capture(player, timerManager){
+    capture(game){
         if(!this.ready) return;
+        const player = game.player;
+        const timerManager = game.timerManager;
+        if(player.captureConsumption > player.energyCount){
+            if(this.outOfEnergyIndicatorTimer !== null) return;
+            this.outOfEnergyIndicator = true; 
+            this.outOfEnergyIndicatorTimer = timerManager.addTimer(300, () => {
+                this.outOfEnergyIndicator = false;
+                this.outOfEnergyIndicatorTimer = null;
+            }) 
+            return;
+        }
         
         const speed = this.overclockActive ? player.overclockBoost : 1;
         const delay = 1000 / player.components["CPU"].frequency / speed;
@@ -28,7 +40,9 @@ export default class WhiteFlag {
         });
     }
 
-    overclock(player, timerManager){
+    overclock(game){
+        const player = game.player;
+        const timerManager = game.timerManager;
         if(this.overclockActive || this.overclockCooldownTimer) return;
 
         this.overclockActive = true;

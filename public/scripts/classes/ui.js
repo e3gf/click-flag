@@ -6,6 +6,8 @@ export default class UI {
         this.overclockBtn = this.document.querySelector("#overclock-btn");
         this.overclockCooldownProgress = this.document.querySelector("#overclock-cooldown-progress");
         this.captureProgress = this.document.querySelector("#capture-progress");
+        this.energyCount = this.document.querySelector("#energy-count-display");
+        this.energyTabEnergyCount = this.document.querySelector("#energy-tab-energy-count-display");
     }
 
     // Methods for listeners
@@ -32,5 +34,15 @@ export default class UI {
         this.overclockCooldownProgress.style.backgroundColor = 
             overclockState === "descending" ? "red" : "green";
 
+        this.energyCount.textContent = game.player.energyCount;
+        this.energyTabEnergyCount.textContent = game.player.energyCount;
+        if(game.whiteFlag.outOfEnergyIndicator){
+            this.energyCount.style.color = "red";
+            this.energyTabEnergyCount.style.color = "red";
+        }
+        else {
+            this.energyCount.style.color = "var(--foreground)";
+            this.energyTabEnergyCount.style.color = "var(--foreground)";
+        }
     }
 }

@@ -21,11 +21,11 @@ export default class Game {
 
     bindInputs(){
         this.captureFlagEvent = () => {
-            this.whiteFlag.capture(this.player, this.timerManager);
+            this.whiteFlag.capture(this);
         }
 
         this.overclockEvent = () => {
-            this.whiteFlag.overclock(this.player, this.timerManager);
+            this.whiteFlag.overclock(this);
         }
 
 

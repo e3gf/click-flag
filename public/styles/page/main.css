@@ -287,6 +287,12 @@ main {
     margin-left: .8rem;
 }
 
+#energy-icon-count-symbol {
+    font-size: 1rem;
+    margin-left: .4rem;
+    color: var(--foreground);
+}
+
 .flag-count-display {
     margin: 0;
     line-height: 0;

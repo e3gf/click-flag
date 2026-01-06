@@ -1,7 +1,11 @@
+import roundTo from "../utils/roundTo.js";
+
 export default class Player {
     constructor(savedData = null){
         this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 0;
+        this.energyCount = savedData ? savedData.energyCount : 1e-8;
         this.capturePower = savedData ? savedData.capturePower : 1;
+        this.captureConsumption = savedData ? savedData.captureConsumption : 1e-9;
         this.capturePowerMultiplier = savedData ? savedData.capturePowerMultiplier : 1;
         this.capturePowerAddition = savedData ? savedData.capturePowerAddition : 0;
         this.overclockBoost = savedData ? savedData.overclockBoost : 4;
@@ -24,5 +28,7 @@ export default class Player {
 
     captureWhiteFlag(){
         this.whiteFlagCount += (this.capturePower + this.capturePowerAddition) * this.capturePowerMultiplier;
+        this.energyCount -= this.captureConsumption;
+        this.energyCount = roundTo(this.energyCount, 11);
     }
 }
