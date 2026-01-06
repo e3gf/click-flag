@@ -5,18 +5,45 @@ import WhiteFlag from "./flags.js";
 
 export default class Game {
     constructor(document){ 
-        this.uiManager = new UI(document);
         this.player = new Player();
         this.timerManager = new Timer();
         this.whiteFlag = new WhiteFlag();
 
-        this.uiManager.addDynamicListener("whiteFlag", "click", () => { 
-            this.whiteFlag.capture(this.player, this.timerManager); 
-            this.uiManager.updateWhiteFlagCount(this.player.whiteFlagCount);
-        });
+        this.uiManager = new UI(document);
+        
+        this.lastTime = performance.now();
+        this.loop = this.loop.bind(this);
+        requestAnimationFrame(this.loop);
 
-        this.uiManager.addDynamicListener("overclockBtn", "click", () => {
-            this.whiteFlag.overclock(this.player, this.timerManager, this.uiManager);
-        })
+        this.bindInputs();
+
+    }
+
+    bindInputs(){
+        this.captureFlagEvent = () => {
+            this.whiteFlag.capture(this.player, this.timerManager);
+        }
+
+        this.overclockEvent = () => {
+            this.whiteFlag.overclock(this.player, this.timerManager);
+        }
+
+
+        this.uiManager.addDynamicListener("whiteFlag", "click", this.captureFlagEvent);
+        this.uiManager.addDynamicListener("overclockBtn", "click", this.overclockEvent);
+    }
+
+    loop(now){
+        const delta = now - this.lastTime;
+        this.lastTime = now;
+
+        this.update(delta);
+        this.uiManager.render(this);
+
+        requestAnimationFrame(this.loop);
+    }
+
+    update(delta){
+        this.timerManager.update(delta);
     }
 }

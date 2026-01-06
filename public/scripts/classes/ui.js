@@ -5,8 +5,7 @@ export default class UI {
         this.whiteFlagCount = this.document.querySelector("#white-flag-count-display");
         this.overclockBtn = this.document.querySelector("#overclock-btn");
         this.overclockCooldownProgress = this.document.querySelector("#overclock-cooldown-progress");
-
-        // Static event listeners should be here
+        this.captureProgress = this.document.querySelector("#capture-progress");
     }
 
     // Methods for listeners
@@ -21,21 +20,17 @@ export default class UI {
         else console.error(`Element ${elementName} not found.`);
     }
 
+    render(game){
+        this.whiteFlagCount.textContent = game.player.whiteFlagCount;
 
+        const captureRatio = game.whiteFlag.getCaptureRatio(game.timerManager);
+        this.captureProgress.style.width = `${captureRatio * 100}%`;
 
-    // Element specific methods
+        const overclockRatio = game.whiteFlag.getOverclockRatio(game.timerManager);
+        const overclockState = game.whiteFlag.getOverclockState();
+        this.overclockCooldownProgress.style.width = `${overclockRatio * 100}%`;
+        this.overclockCooldownProgress.style.backgroundColor = 
+            overclockState === "descending" ? "red" : "green";
 
-    updateWhiteFlagCount(amount){
-        this.whiteFlagCount.textContent = amount;
-    }
-
-    updateOverclockCooldownBar(ratio, state){
-        this.overclockCooldownProgress.style.width = `${ratio * 100}%`;
-        if(state === "ascending"){
-            this.overclockCooldownProgress.style.backgroundColor = "green";
-        }
-        else {
-            this.overclockCooldownProgress.style.backgroundColor = "red";
-        }
     }
 }

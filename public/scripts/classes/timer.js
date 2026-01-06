@@ -4,92 +4,64 @@ export default class Timer {
         this.timerIdCounter = 0;
     }
 
-    addTimer(callback, delay){
+    addTimer(duration, callback, repeating = false){
         const id = this.timerIdCounter;
         this.timerIdCounter++;
 
-        const timerInfo = {
-            callback: callback,
-            delay: delay,
-            startTime: Date.now(),
-            timeoutId: setTimeout(() => this.executeTimer(id), delay),
-            active: true,
+        this.timers[id] = {
+            callback,
+            duration,
+            elapsed: 0,
+            repeating,
         }
 
-        this.timers[id] = timerInfo;
         return id;
     }
 
-    executeTimer(id){
+    update(delta){
+        for(const id in this.timers){
+            const t = this.timers[id];
+            t.elapsed += delta;
+
+            if(t.elapsed >= t.duration){
+                t.callback();
+                if(t.repeating){
+                    t.elapsed %= t.duration; // need to add logic for repeating timers to execute properly
+                }
+                else {
+                    delete this.timers[id];
+                }
+            }
+        }
+    }
+
+    editTimerDuration(id, newDuration, absolute = false){
         const timer = this.timers[id];
-        if(timer && timer.active){
-            timer.callback();
-            delete this.timers[id];
+        console.log(id, newDuration);
+        if(!timer) {
+            console.error(`Nonexistent timer id: ${id}`);
+            return;
         }
-    }
-
-    editTimerDelay(id, newDelay, absolute = false){
-        const timer = this.timers[id];
-
-        if(!absolute && timer){
-            clearTimeout(timer.timeoutId);
-
-            const ratio = this.getTimeRatio(id);
-            const newTimeIn = ratio * newDelay;
-            const newStartTime = Date.now() - newTimeIn;
-            const remainingTime = newDelay - newTimeIn;
-
-            timer.startTime = newStartTime;
-            timer.delay = remainingTime;
-            timer.timeoutId = setTimeout(() => this.executeTimer(id), remainingTime);
-
+        if(!absolute){
+            console.log("a");
+            const ratio = timer.elapsed / timer.duration;
+            this.timers[id].duration = newDuration;
+            this.timers[id].elapsed = ratio * newDuration;
+        } else {
+            this.timers[id].duration = newDuration;
+            if(this.timers[id].elapsed >= newDuration){
+                this.timers[id].elapsed %= newDuration;
+                //need to a dd logic for repeating timers to execute properly
+            }
         }
-
-        else if(absolute && timer){
-            clearTimeout(timer.timeoutId);
-
-            const timeIn = this.getTimeIn();
-            const remainingTime = newDelay - timeIn;
-
-            timer.delay = remainingTime;
-            timer.timeoutId = setTimeout(() => this.executeTimer(id), remainingTime);
-
-        }
-
-        else {
-            console.error(`This with id ${id} does not exist.`);
-        }
-
-    }
-
-    pauseTimer(){
-
-    }
-
-    resumeTimer(){
-
-    }
-
-    getTimeIn(id){
-        const timer = this.timers[id];
-        return Date.now() - timer.startTime;
-    }
-
-    getRemainingTime(){
-
     }
 
     getTimeRatio(id){
         const timer = this.timers[id];
-        return (Date.now() - timer.startTime) / timer.delay;
+        return timer ? Math.min(timer.elapsed / timer.duration, 1) : 1;
     }
 
-    removeTimer(){
-
+    removeTimer(id){
+        if(this.timers[id]) delete this.timers[id];
     }
-    
-    removeAllTimers(){
-
-    }
-
 }

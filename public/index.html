@@ -45,7 +45,7 @@
                 <div id="flag-tab-content">
                     <div id="flag-tab-left">
                         <div id="system-info">
-                            <h2 class="system-info-layer text">Layer 2</h2>
+                            <h2 class="system-info-layer text">Layer 1</h2>
                             <div id="system-info-data">
                                 <p class="system-info-p text">Cp: 8.26e3283</p>
                                 <p class="system-info-p text">CCP/s: 8.26e3283</p>
@@ -62,14 +62,26 @@
                         <img src="content/flag-white.svg" alt="Flag" id="white-flag-image" draggable="false">   
                     </div>
                 </div>
-                <div id="overclock-cooldown-progress"></div>
+                <div id="flag-progress-bars">
+                    <div id="capture-progress"></div>
+                    <div id="overclock-cooldown-progress"></div>
+                </div>
             </div>
             <div id="energy-tab">
-                <div id="energy-upgrades"></div>
-                <div id="current-energy-count">
-                    <p class="text">348.7kW</p>
+                <div id="energy-tab-energy-count">
+                    <p id="energy-tab-energy-count-display" class="text">348.7kW</p>
                 </div>
-                <div id="energy-tab-right"></div>
+                <div id="energy-tab-content">
+                    <div id="energy-upgrades"></div>
+                    <div id="energy-tab-right">
+                        <div id="energy-tab-info">
+                            <p class="text energy-info-text">Power generation: 1.14kW/s</p>
+                            <p class="text energy-info-text">Curr. consumption: 1.08kW/s</p>
+                            <p class="text energy-info-text">Max. consumption: 1.43kW/s</p>
+                        </div>
+                        <img src="" alt="" id="wheel">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="upgrade-tab" id="click-upgrades-tab">
@@ -82,7 +94,9 @@
 
         </div>
         <div id="layer-tab">
-            <div id="layer-white-flag" class="layer-btn"></div>
+            <div id="layer-white-flag" class="layer-btn">
+                <img src="content/flag-white.svg" alt="" id="layer-white-flag-icon" class="layer-flag-icon">
+            </div>
             <div id="layer-green-flag" class="layer-btn"></div>
             <div id="layer-red-flag" class="layer-btn"></div>
             <div id="layer-blue-flag" class="layer-btn"></div>
