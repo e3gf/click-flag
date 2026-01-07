@@ -186,6 +186,10 @@ main {
 #energy-tab-right {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 }
 
 #energy-tab-info {
@@ -208,6 +212,13 @@ main {
     background-color: var(--card2);
     padding: 0.1rem 1rem 0.3rem 1rem;
     border-radius: 0 0 100% 100%;
+    display: flex;
+    gap: .4rem;
+    align-items: center;
+}
+
+#energy-tab-energy-icon-symbol {
+    font-size: 1rem;
 }
 
 #energy-tab-energy-count-display {
@@ -327,4 +338,8 @@ main {
 
 #settings-icon {
     font-size: 2.3rem;
+}
+
+#wheel {
+    width: 9rem;
 }
