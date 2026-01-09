@@ -59,8 +59,8 @@
   --card: #2a3130;
   --card-foreground: #e5e5e5;
   --card2: #555762;
+  --card2-1: #888b9c;
   --card3: #424456;
-  --capture-progress: #3fd9ff;
   --popover: #2a3130;
   --popover-foreground: #e5e5e5;
   --primary: #4063e3;
@@ -107,4 +107,8 @@
   --shadow-lg: 0px 5px 10px -2px hsl(0 0% 10.1961% / 0.10), 0px 4px 6px -3px hsl(0 0% 10.1961% / 0.10);
   --shadow-xl: 0px 5px 10px -2px hsl(0 0% 10.1961% / 0.10), 0px 8px 10px -3px hsl(0 0% 10.1961% / 0.10);
   --shadow-2xl: 0px 5px 10px -2px hsl(0 0% 10.1961% / 0.25);
+
+  --capture-progress: #3fd9ff;
+  --upgrade-level-unfilled: #3c3507;
+  --upgrade-level-filled: #c8b537;
 }

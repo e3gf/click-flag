@@ -1,0 +1,29 @@
+#layer-tab {
+    background-color: var(--card);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.layer-btn {
+    background-color: var(--card2);
+    width: 80%;
+    height: 0;
+    padding-bottom: 80%;
+    border-radius: 30%;
+    position: relative;
+}
+
+.layer-flag-icon {
+    position: absolute;
+    width: 1.3rem;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.layer-btn:first-child {
+    margin-top: 10%;
+}

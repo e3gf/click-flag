@@ -1,0 +1,129 @@
+.upgrade-tab {
+    min-height: 0;
+    overflow: auto;
+    background-color: var(--card);
+    border-radius: 1rem;
+    scrollbar-width: none; 
+}
+
+.upgrade {
+    margin: .4rem;
+    background-color: var(--card2);
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.upgrade-title {
+    margin: .4rem;
+    color: var(--foreground);
+}
+
+.upgrade-information-p {
+    line-height: 0;
+    font-size: 0.85rem;
+    margin-left: .4rem;
+}
+
+.upgrade-buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .2rem;
+}
+
+.upgrade-buttons-2-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .2rem;
+}
+
+.upgrade-info-button {
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
+    font-size: 1rem;
+}
+
+.upgrade-buttons {
+    display: flex;
+    gap: .5rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+    align-items: end;
+    margin-bottom: .5rem;
+}
+
+.upgrade-quantity-button {
+    height: 1.5rem;
+    width: 2rem;
+    min-width: 1.75rem;
+    border-radius: .5rem;
+    background-color: var(--card2-1);
+    font-size: 0.7rem;
+}
+
+.upgrade-quantity-input {
+    height: 1.5rem;
+    width: 3rem;
+    min-width: 3rem;
+    padding: 0;
+    font-size: .7rem;
+    text-align: center;
+    border-radius: .5rem;
+    background-color: var(--card2-1);
+    color: var(--foreground);
+}
+
+.upgrade-quantity-button-next {
+    height: 1.5rem;
+    width: 3rem;
+    min-width: 3rem;
+    background-color: var(--card2-1);
+    text-align: center;
+    font-size: .7rem;
+    border-radius: .5rem;
+}
+
+.upgrade-buy {
+    width: 100%;
+    height: 2.5rem;
+    border-radius: .5rem;
+    background-color: var(--card2-1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.upgrade-level {
+    height: .25rem;
+    background-color: var(--upgrade-level-unfilled);
+}
+
+.upgrade-level-indicator {
+    height: 100%;
+    width: 5rem;
+    background-color: var(--upgrade-level-filled);
+}
+
+.upgrade-buy-indicator {
+    font-size: 0.85rem;
+    line-height: 0;
+    margin: 0;
+}
+
+.upgrade-buy-cost-container {
+    display: flex;
+    gap: .2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.upgrade-buy-cost {
+    font-size: 0.7rem;
+    line-height: 0;
+    margin: 0;
+}
+
+.upgrade-buy-cost-flag {
+    width: .4rem;
+}

@@ -1,53 +1,76 @@
+import SmartElement from "./smartElement.js";
+
+
 export default class UI {
     constructor(document) {
         this.document = document;
 
-        this.whiteFlag = this.document.querySelector("#white-flag-image");
-        this.whiteFlagCount = this.document.querySelector("#white-flag-count-display");
-        this.overclockBtn = this.document.querySelector("#overclock-btn");
-        this.overclockCooldownProgress = this.document.querySelector("#overclock-cooldown-progress");
-        this.captureProgress = this.document.querySelector("#capture-progress");
+        this.elements = {}
+        this.bindElements();
+    }
 
-        this.energyCount = this.document.querySelector("#energy-count-display");
-        this.energyTabEnergyCount = this.document.querySelector("#energy-tab-energy-count-display");
-        this.wheel = this.document.querySelector("#wheel");
+    bindElements(){
+        this.createSmartElement("whiteFlag", "white-flag-image");
+        this.createSmartElement("whiteFlagCount", "white-flag-count-display");
+        this.createSmartElement("overclockBtn", "overclock-btn");
+        this.createSmartElement("overclockCooldownProgress", "overclock-cooldown-progress");
+        this.createSmartElement("captureProgress", "capture-progress");
 
+        this.createSmartElement("energyCount", "energy-count-display");
+        this.createSmartElement("energyTabEnergyCount", "energy-tab-energy-count-display");
+        this.createSmartElement("wheel", "wheel");
+
+        this.createSmartElement("componentUpgradeTab", "component-upgrades-tab");
+    }
+
+    createSmartElement(name, id){
+        const element = this.document.querySelector(`#${id}`);
+        if(element === undefined){
+            console.error(`Element with id ${id} does not exist.`);
+            return;
+        }
+        this.elements[name] = new SmartElement(element);
     }
 
     addDynamicListener(elementName, event, callback){
-        if(this[elementName]) this[elementName].addEventListener(event, callback);
+        if(this.elements[elementName]) this.elements[elementName].addEventListener(event, callback);
         else console.error(`Element ${elementName} not found.`);
     }
 
     removeDynamicListener(elementName, event, callback){
-        if(this[elementName]) this[elementName].removeEventListener(event, callback);
+        if(this.elements[elementName]) this.elements[elementName].removeEventListener(event, callback);
         else console.error(`Element ${elementName} not found.`);
     }
 
     render(game){
-        this.whiteFlagCount.textContent = game.player.whiteFlagCount;
+        const player = game.player;
+        const timerManager = game.timerManager;
+        const whiteFlag = game.whiteFlag;
+        const wheel = game.wheel;
 
-        const captureRatio = game.whiteFlag.getCaptureRatio(game.timerManager);
-        this.captureProgress.style.width = `${captureRatio * 100}%`;
+        this.elements.whiteFlagCount.text(player.whiteFlagCount);
 
-        const overclockRatio = game.whiteFlag.getOverclockRatio(game.timerManager);
-        const overclockState = game.whiteFlag.getOverclockState();
-        this.overclockCooldownProgress.style.width = `${overclockRatio * 100}%`;
-        this.overclockCooldownProgress.style.backgroundColor = 
-            overclockState === "descending" ? "red" : "green";
+        const captureRatio = whiteFlag.getCaptureRatio(timerManager);
+        this.elements.captureProgress.style("width", `${captureRatio * 100}%`);
 
-        this.energyCount.textContent = game.player.energyCount;
-        this.energyTabEnergyCount.textContent = game.player.energyCount;
-        if(game.whiteFlag.outOfEnergyIndicator){
-            this.energyCount.style.color = "red";
-            this.energyTabEnergyCount.style.color = "red";
+        const overclockRatio = whiteFlag.getOverclockRatio(timerManager);
+        const overclockState = whiteFlag.getOverclockState();
+        this.elements.overclockCooldownProgress.style("width", `${overclockRatio * 100}%`);
+        this.elements.overclockCooldownProgress.style("backgroundColor", 
+            overclockState === "descending" ? "red" : "green");
+
+        this.elements.energyCount.text(player.energyCount);
+        this.elements.energyTabEnergyCount.text(player.energyCount);
+        if(whiteFlag.outOfEnergyIndicator){
+            this.elements.energyCount.style("color", "red");
+            this.elements.energyTabEnergyCount.style("color", "red");
         }
         else {
-            this.energyCount.style.color = "var(--foreground)";
-            this.energyTabEnergyCount.style.color = "var(--foreground)";
+            this.elements.energyCount.style("color", "var(--foreground)");
+            this.elements.energyTabEnergyCount.style("color", "var(--foreground)");
         }
 
-        const wheelSpinRatio = game.wheel.getSpinRatio(game.timerManager);
-        this.wheel.style.rotate = `${wheelSpinRatio * 360}deg`;
+        const wheelSpinRatio = wheel.getSpinRatio(timerManager);
+        this.elements.wheel.style("rotate", `${wheelSpinRatio * 360}deg`);
     }
 }

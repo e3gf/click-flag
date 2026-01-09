@@ -1,4 +1,4 @@
-export default class Timer {
+export default class TimerManager {
     constructor(){
         this.timers = {};
         this.timerIdCounter = 0;
@@ -51,7 +51,7 @@ export default class Timer {
             this.timers[id].duration = newDuration;
             if(this.timers[id].elapsed >= newDuration){
                 this.timers[id].elapsed %= newDuration;
-                //need to a dd logic for repeating timers to execute properly
+                //need to add logic for repeating timers to execute properly
             }
         }
     }
