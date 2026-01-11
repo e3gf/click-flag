@@ -1,12 +1,14 @@
 export default class TimerManager {
+    #timerIdCounter;
+
     constructor(){
         this.timers = {};
-        this.timerIdCounter = 0;
+        this.#timerIdCounter = 0;
     }
 
     addTimer(duration, callback, repeating = false){
-        const id = this.timerIdCounter;
-        this.timerIdCounter++;
+        const id = this.#timerIdCounter;
+        this.#timerIdCounter++;
 
         this.timers[id] = {
             callback,
@@ -37,13 +39,11 @@ export default class TimerManager {
 
     editTimerDuration(id, newDuration, absolute = false){
         const timer = this.timers[id];
-        console.log(id, newDuration);
         if(!timer) {
             console.error(`Nonexistent timer id: ${id}`);
             return;
         }
         if(!absolute){
-            console.log("a");
             const ratio = timer.elapsed / timer.duration;
             this.timers[id].duration = newDuration;
             this.timers[id].elapsed = ratio * newDuration;

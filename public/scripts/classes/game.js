@@ -13,7 +13,7 @@ export default class Game {
         this.wheel = new Wheel();
 
         this.uiManager = new UI(document);
-        this.upgradeManager = new UpgradeManager(this.player, this.uiManager);
+        this.upgradeManager = new UpgradeManager(this, this.uiManager);
         
         this.lastTime = performance.now();
         this.loop = this.loop.bind(this);
@@ -22,12 +22,12 @@ export default class Game {
         this.uiUpdateAccumulator = 0;
         this.uiUpdateInterval = 1000 / 30; // ~ 30 fps
 
-        this.bindInputs();
-        this.createUpgrades();
+        this.#bindInputs();
+        this.#createUpgrades();
 
     }
 
-    bindInputs(){
+    #bindInputs(){
         this.captureFlagEvent = () => {
             this.whiteFlag.capture(this);
         };
@@ -47,9 +47,11 @@ export default class Game {
         this.uiManager.addDynamicListener("wheel", "click", this.spinWheelEvent);
     }
 
-    createUpgrades(){
+    #createUpgrades(){
         this.upgradeManager.add("RAM");
         this.upgradeManager.add("CPU");
+        this.upgradeManager.add("CoolingFan");
+        this.upgradeManager.add("ThermalPaste");
     }
 
     loop(now){

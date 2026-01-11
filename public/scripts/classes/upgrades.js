@@ -1,9 +1,14 @@
 import { UPGRADE_DEFS } from "../config/upgradeDefs.js";
+import { geometricSeriesSum } from "../utils/formulae.js";
+import roundTo from "../utils/roundTo.js";
 
 export default class UpgradeManager {
-    constructor(player, ui) {
-        this.player = player;
-        this.ui = ui;
+    #game;
+    #ui;
+
+    constructor(game, ui) {
+        this.#game = game;
+        this.#ui = ui;
         this.list = {};
     }
 
@@ -13,8 +18,8 @@ export default class UpgradeManager {
         const def = UPGRADE_DEFS[name];
         if (!def) throw new Error(`Unknown upgrade: ${name}`);
 
-        const upgrade = new Upgrade(this.player, name, def);
-        const view = new UpgradeView(this.ui, upgrade);
+        const upgrade = new Upgrade(this.#game, name, def);
+        const view = new UpgradeView(this.#ui, upgrade);
 
         this.list[name] = { upgrade, view };
     }
@@ -22,11 +27,12 @@ export default class UpgradeManager {
 
 
 class Upgrade {
-    constructor(player, name, def) {
-        this.player = player;
-        this.title = name
-        this.name = name.replace(" ", "");
+    constructor(game, name, def) {
+        this.game = game;
+        this.player = game.player;
+        this.name = name;
         this.def = def;
+        this.title = def.title;
 
         this.layer = def.layer;
         this.type = def.type;
@@ -46,7 +52,7 @@ class Upgrade {
         this.selectedCost = this.cost;
 
         this.boosts = {};
-        this.consumption = 0;
+        this.consumption = this.bought * def.consumptionPerUnit;
 
         this.recalculate();
     }
@@ -68,19 +74,16 @@ class Upgrade {
 
     recalculate() {
         for (const [key, boost] of Object.entries(this.def.boosts)) {
-            const value =
-                this.bought *
-                boost.perUnit *
-                boost.perLevelMultiplier ** (this.level - 1);
-
+            const value = boost.valueFunction(this.bought, this.level);
+            const prevValue = this.boosts[key];
             this.boosts[key] = value;
-            boost.apply(this.player, value);
+            boost.apply(this.game, value, prevValue);
         }
 
         if (this.def.consumptionPerUnit) {
             const prev = this.consumption;
-            this.consumption = this.bought * this.def.consumptionPerUnit;
-            this.player.captureConsumption += this.consumption - prev;
+            this.consumption = this.def.consumptionFunction(this.bought, this.level);
+            this.def.consumptionApply(this.player, this.consumption, prev);
         }
 
         if(this.selected === "max") this.select(this.getMaxAffordable());
@@ -96,11 +99,7 @@ class Upgrade {
     }
 
     calculateCost(amount) {
-        return Math.floor(
-            this.cost *
-            (1 - Math.pow(this.costMultiplier, amount)) /
-            (1 - this.costMultiplier)
-        );
+        return Math.floor(geometricSeriesSum(this.cost, this.costMultiplier, amount));
     }
 
     getMaxAffordable() {
@@ -157,7 +156,7 @@ class UpgradeView {
 
     build() {
         const u = this.upgrade;
-        const boostNames = Object.keys(u.def.boosts);
+        const boostNames = Object.keys(u.def.boosts).map((key) => key.replaceAll(" ", ""));
         const boostValues = Object.values(u.boosts);
 
         this.elementIds = {
@@ -179,44 +178,44 @@ class UpgradeView {
 
         this.radioGroupName = `${u.name}radioGroup`;
 
-
-        this.ui.elements.componentUpgradeTab.add(`
-            <div class="component-upgrade upgrade">
-                <h3 class="component-upgrade-title upgrade-title">${u.title}</h3>
-                <div class="component-upgrade-information upgrade-information">
-                    <p class="component-upgrade-information-p upgrade-information-p text" id="${this.elementIds.upgradeInformationLevel}">Level: ${u.level} (${u.bought} / ${u.nextLevelRequirement})</p>
+        const tab = this.pickTab(u);
+        tab.add(`
+            <div class="${u.type}-upgrade upgrade">
+                <h3 class="${u.type}-upgrade-title upgrade-title">${u.title}</h3>
+                <div class="${u.type}-upgrade-information upgrade-information">
+                    <p class="${u.type}-upgrade-information-p upgrade-information-p text" id="${this.elementIds.upgradeInformationLevel}">Level: ${u.level} (${u.bought} / ${u.nextLevelRequirement})</p>
                     ${this.elementIds.upgradeInformationBoostValues.map((key, i) => {
-            return `<p class="component-upgrade-information-p upgrade-information-p text">${boostNames[i]}: <span id="${key}">${boostValues[i]}</span></p>`
-        }).join("")}
-                    ${u.def.consumptionPerUnit ? `<p class="component-upgrade-information-p upgrade-information-p text">Consumption: <span id="${this.elementIds.upgradeInformationConsumption}">${u.consumption}</span></p>` : ``}
+                        return `<p class="${u.type}-upgrade-information-p upgrade-information-p text">${Object.values(u.def.boosts)[i].name}: <span id="${key}">${boostValues[i]}</span></p>`
+                    }).join("")}
+                    ${u.def.consumptionPerUnit ? `<p class="${u.type}-upgrade-information-p upgrade-information-p text">Consumption: <span id="${this.elementIds.upgradeInformationConsumption}">${u.consumption}</span></p>` : ``}
                 </div>
-                <div class="component-upgrade-buttons upgrade-buttons" id=${this.elementIds.upgradeButtons}>
+                <div class="${u.type}-upgrade-buttons upgrade-buttons" id=${this.elementIds.upgradeButtons}>
                     <div class="upgrade-buttons-grid">
                         <label class="radio-card">
                             <input type="radio" name="${this.radioGroupName}" value="1" hidden checked>
-                            <div class="component-upgrade-quantity-button upgrade-quantity-button text">1</div>
+                            <div class="${u.type}-upgrade-quantity-button upgrade-quantity-button text">1</div>
                         </label>
                         <label class="radio-card">
                             <input type="radio" name="${this.radioGroupName}" value="10" hidden>
-                            <div class="component-upgrade-quantity-button upgrade-quantity-button text">10</div>
+                            <div class="${u.type}-upgrade-quantity-button upgrade-quantity-button text">10</div>
                         </label>
                         <label class="radio-card">
                             <input type="radio" name="${this.radioGroupName}" value="100" hidden>
-                            <div class="component-upgrade-quantity-button upgrade-quantity-button text">100</div>
+                            <div class="${u.type}-upgrade-quantity-button upgrade-quantity-button text">100</div>
                         </label>
                         <label class="radio-card">
                             <input type="radio" name="${this.radioGroupName}" value="max" hidden>
-                            <div class="component-upgrade-quantity-button upgrade-quantity-button text">Max</div>
+                            <div class="${u.type}-upgrade-quantity-button upgrade-quantity-button text">Max</div>
                         </label>
                     </div>
                     <div class="upgrade-buttons-2-grid">
                         <label class="radio-card">
                             <input type="radio" name="${this.radioGroupName}" value="next" hidden>
-                            <div class="component-upgrade-quantity-button-next upgrade-quantity-button-next text">Next</div>
+                            <div class="${u.type}-upgrade-quantity-button-next upgrade-quantity-button-next text">Next</div>
                         </label>
-                        <input class="component-upgrade-quantity-input upgrade-quantity-input" id="${this.elementIds.upgradeQuantityInput}" placeholder="Custom">
+                        <input class="${u.type}-upgrade-quantity-input upgrade-quantity-input" id="${this.elementIds.upgradeQuantityInput}" placeholder="Custom">
                     </div>
-                    <button class="component-upgrade-buy upgrade-buy" id="${this.elementIds.buyButtonId}">
+                    <button class="${u.type}-upgrade-buy upgrade-buy" id="${this.elementIds.buyButtonId}">
                         <p class="upgrade-buy-indicator text">Buy <span class="upgrade-buy-amount" id="${this.elementIds.upgradeBuyAmount}">1</span></p>
                         <div class="upgrade-buy-cost-container">
                             <img src="content/flag-white.svg" alt="" class="upgrade-buy-cost-flag">
@@ -224,8 +223,8 @@ class UpgradeView {
                         </div>
                     </button>
                 </div>
-                <div class="component-upgrade-level upgrade-level">
-                    <div class="component-upgrade-level-indicator upgrade-level-indicator" id="${this.elementIds.upgradeLevelIndicator}"></div>
+                <div class="${u.type}-upgrade-level upgrade-level">
+                    <div class="${u.type}-upgrade-level-indicator upgrade-level-indicator" id="${this.elementIds.upgradeLevelIndicator}"></div>
                 </div>
                 <span class="material-symbols-outlined upgrade-info-button" id="${this.elementIds.upgradeInfoButton}">
                     info
@@ -242,7 +241,7 @@ class UpgradeView {
             else if(!(key[0] === "upgradeInformationConsumption" && !u.def.consumptionPerUnit)) {
                 this.ui.createSmartElement(key[1], key[1]);
             }
-        })
+        });
 
         this.ui.addDynamicListener(this.elementIds.buyButtonId, "click", () => {
             u.buy();
@@ -255,7 +254,7 @@ class UpgradeView {
                 this.ui.elements[this.elementIds.upgradeQuantityInput].value("");
                 this.ui.elements[this.elementIds.upgradeQuantityInput].toggle("selected-quantity", false);
             }
-        })
+        });
 
         this.ui.addDynamicListener(this.elementIds.upgradeQuantityInput, "input", (e) => {
             const t = e.target;
@@ -268,7 +267,11 @@ class UpgradeView {
                 u.select(1);
                 this.selectBtn(0);
             }
-        })
+        });
+
+//        this.ui.addDynamicListener(this.elementIds.upgradeInfoButton, "click", () => { 
+  //          this.ui.openUpgradeInfo(u.def.info);
+    //    })
     }
 
     render(player) {
@@ -276,10 +279,10 @@ class UpgradeView {
         this.ui.elements[this.elementIds.upgradeInformationLevel].text(`Level: ${u.level} (${u.bought} / ${u.nextLevelRequirement})`);
 
         this.elementIds.upgradeInformationBoostValues.forEach((value, i) => {
-            this.ui.elements[value].text(`${Object.values(u.boosts)[i]}`);
+            this.ui.elements[value].text(`${roundTo(Object.values(u.boosts)[i], 3)}`);
         });
 
-        if (u.def.consumptionPerUnit) this.ui.elements[this.elementIds.upgradeInformationConsumption].text(`${u.consumption}`);
+        if (u.def.consumptionPerUnit) this.ui.elements[this.elementIds.upgradeInformationConsumption].text(`${roundTo(u.consumption, 3)}`);
 
         this.ui.elements[this.elementIds.upgradeBuyAmount].text(`${u.selectedAmount}`);
 
@@ -297,5 +300,12 @@ class UpgradeView {
     selectBtn(i){
         const btns = this.ui.querySelectorAll(`input[type="radio"][name="${this.radioGroupName}"]`);
         btns[i].checked = true;
+    }
+
+    pickTab(u){
+        switch(u.type){
+            case "component": return this.ui.elements.componentUpgradeTab; 
+            case "energy": return this.ui.elements.energyUpgradeTab;
+        }
     }
 }

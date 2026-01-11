@@ -6,10 +6,10 @@ export default class UI {
         this.document = document;
 
         this.elements = {}
-        this.bindElements();
+        this.#bindElements();
     }
 
-    bindElements(){
+    #bindElements(){
         this.createSmartElement("whiteFlag", "white-flag-image");
         this.createSmartElement("whiteFlagCount", "white-flag-count-display");
         this.createSmartElement("overclockBtn", "overclock-btn");
@@ -21,6 +21,7 @@ export default class UI {
         this.createSmartElement("wheel", "wheel");
 
         this.createSmartElement("componentUpgradeTab", "component-upgrades-tab");
+        this.createSmartElement("energyUpgradeTab", "energy-upgrades-tab");
 
         this.createSmartElement("systemInfoCP", "system-info-cp");
         this.createSmartElement("systemInfoCCPS", "system-info-ccps");
@@ -89,10 +90,10 @@ export default class UI {
         this.elements.systemInfoOCDuration.text(`OC Duration: ${player.overclockDuration}`);
         this.elements.systemInfoOCCooldown.text(`OC Cooldown: ${player.overclockCooldown}`);
 
-        this.renderUpdates(game);
+        this.#renderUpdates(game);
     }
 
-    renderUpdates(game){
+    #renderUpdates(game){
         const upgradeManager = game.upgradeManager;
         Object.values(upgradeManager.list).forEach(element => {
             element.view.render(game.player);
