@@ -11,9 +11,9 @@ export default class Game {
         this.timerManager = new TimerManager();
         this.whiteFlag = new WhiteFlag();
         this.wheel = new Wheel();
-        this.upgradeManager = new UpgradeManager();
 
         this.uiManager = new UI(document);
+        this.upgradeManager = new UpgradeManager(this.player, this.uiManager);
         
         this.lastTime = performance.now();
         this.loop = this.loop.bind(this);
@@ -30,15 +30,15 @@ export default class Game {
     bindInputs(){
         this.captureFlagEvent = () => {
             this.whiteFlag.capture(this);
-        }
+        };
 
         this.overclockEvent = () => {
             this.whiteFlag.overclock(this);
-        }
+        };
 
         this.spinWheelEvent = () => {
             this.wheel.spinWheel(this);
-        }
+        };
 
 
         this.uiManager.addDynamicListener("whiteFlag", "click", this.captureFlagEvent);
@@ -48,10 +48,8 @@ export default class Game {
     }
 
     createUpgrades(){
-        this.upgradeManager.add(this.uiManager, "L1Component", "RAM");
-        this.upgradeManager.add(this.uiManager, "L1Component", "CPU");
-        this.upgradeManager.add(this.uiManager, "L1Component", "GenericUpgrade1");
-        this.upgradeManager.add(this.uiManager, "L1Component", "GenericUpgrade2");
+        this.upgradeManager.add("RAM");
+        this.upgradeManager.add("CPU");
     }
 
     loop(now){

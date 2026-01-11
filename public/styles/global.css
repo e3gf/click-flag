@@ -60,6 +60,7 @@
   --card-foreground: #e5e5e5;
   --card2: #555762;
   --card2-1: #888b9c;
+  --card2-1-selected: #aaafbd;
   --card3: #424456;
   --popover: #2a3130;
   --popover-foreground: #e5e5e5;
@@ -111,4 +112,7 @@
   --capture-progress: #3fd9ff;
   --upgrade-level-unfilled: #3c3507;
   --upgrade-level-filled: #c8b537;
+  --insufficient-currency: #c92525;
+  --cooldown-progress-ascending: #38ac38;
+  --cooldown-progress-descending: #c92525;
 }

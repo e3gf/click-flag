@@ -56,13 +56,13 @@
                         <div id="system-info">
                             <h2 class="system-info-layer text">Layer 1</h2>
                             <div id="system-info-data">
-                                <p class="system-info-p text">Cp: 8.26e3283</p>
-                                <p class="system-info-p text">CCP/s: 8.26e3283</p>
-                                <p class="system-info-p text">UCP/s: 3.21e3284</p>
-                                <p class="system-info-p text">RAM: 84.3GB</p>
-                                <p class="system-info-p text">CPU: 8.3GHz</p>
-                                <p class="system-info-p text">OC duration: 17.1s</p>
-                                <p class="system-info-p text">OC cooldown: 22.3s</p>
+                                <p class="system-info-p text" id="system-info-cp">CP: 1</p>
+                                <p class="system-info-p text" id="system-info-ccps">CCP/s: 0</p>
+                                <p class="system-info-p text" id="system-info-ucps">UCP/s: 0</p>
+                                <p class="system-info-p text" id="system-info-ram">RAM: 0</p>
+                                <p class="system-info-p text" id="system-info-cpu">CPU: 0</p>
+                                <p class="system-info-p text" id="system-info-oc-duration">OC duration: 5s</p>
+                                <p class="system-info-p text" id="system-info-oc-cooldown">OC cooldown: 60.0s</p>
                             </div>
                         </div>
                         <button id="overclock-btn" class="text">Overclock</button>
@@ -73,7 +73,7 @@
                 </div>
                 <div id="flag-progress-bars">
                     <div id="capture-progress"></div>
-                    <div id="overclock-cooldown-progress"></div>
+                    <div id="overclock-cooldown-progress" class="overclock-cooldown-base"></div>
                 </div>
             </div>
             <div id="energy-tab">

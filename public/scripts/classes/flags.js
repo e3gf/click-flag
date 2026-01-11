@@ -1,8 +1,5 @@
 export default class WhiteFlag {
     constructor() {
-        this.overclockDuration = 5000;
-        this.overclockCooldown = 60000;
-
         this.ready = true;
         this.overclockActive = false;
 
@@ -29,7 +26,7 @@ export default class WhiteFlag {
         }
         
         const speed = this.overclockActive ? player.overclockBoost : 1;
-        const delay = 1000 / player.components["CPU"].frequency / speed;
+        const delay = 1000 / player.captureFrequency / speed;
 
         player.captureWhiteFlag();
         this.ready = false;
@@ -46,13 +43,13 @@ export default class WhiteFlag {
         if(this.overclockActive || this.overclockCooldownTimer) return;
 
         this.overclockActive = true;
-        if(this.captureTimer !== null) timerManager.editTimerDuration(this.captureTimer, 1000 / player.components["CPU"].frequency / player.overclockBoost);
+        if(this.captureTimer !== null) timerManager.editTimerDuration(this.captureTimer, 1000 / player.captureFrequency / player.overclockBoost);
 
-        this.overclockActiveTimer = timerManager.addTimer(this.overclockDuration, () => {
+        this.overclockActiveTimer = timerManager.addTimer(player.overclockDuration, () => {
             this.overclockActive = false;
             this.overclockActiveTimer = null;
-            if(this.captureTimer !== null) timerManager.editTimerDuration(this.captureTimer, 1000 / player.components["CPU"].frequency);
-            this.overclockCooldownTimer = timerManager.addTimer(this.overclockCooldown, () => {
+            if(this.captureTimer !== null) timerManager.editTimerDuration(this.captureTimer, 1000 / player.captureFrequency);
+            this.overclockCooldownTimer = timerManager.addTimer(player.overclockCooldown, () => {
                 this.overclockCooldownTimer = null;
             })
         })

@@ -60,6 +60,9 @@
     border-radius: .5rem;
     background-color: var(--card2-1);
     font-size: 0.7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .upgrade-quantity-input {
@@ -82,6 +85,9 @@
     text-align: center;
     font-size: .7rem;
     border-radius: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .upgrade-buy {
@@ -126,4 +132,13 @@
 
 .upgrade-buy-cost-flag {
     width: .4rem;
+}
+
+.radio-card input:checked + .upgrade-quantity-button, 
+.radio-card input:checked + .upgrade-quantity-button-next {
+    background-color: var(--card2-1-selected);
+}
+
+.selected-quantity {
+    background-color: var(--card2-1-selected);
 }

@@ -108,3 +108,7 @@ main {
 #settings-icon {
     font-size: 2.3rem;
 }
+
+.insufficient-currency {
+    color: var(--insufficient-currency);
+}
