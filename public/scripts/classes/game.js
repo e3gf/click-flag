@@ -57,8 +57,19 @@ export default class Game {
         this.upgradeManager.add("ThermalPaste");
 
         this.upgradeManager.add("NanoTurbine");
+        this.upgradeManager.add("MicroTurbine");
+        this.upgradeManager.add("MiniTurbine");
 
         this.upgradeManager.add("Grandpas");
+        this.upgradeManager.add("SixYearOlds");
+        this.upgradeManager.add("Teenagers");
+        this.upgradeManager.add("ScriptKiddies");
+        this.upgradeManager.add("JuniorProgrammers");
+        this.upgradeManager.add("JuniorHackers");
+        this.upgradeManager.add("SeniorProgrammers");
+        this.upgradeManager.add("SeniorHackers");
+        this.upgradeManager.add("AGI");
+        this.upgradeManager.add("ElliotAlderson");
     }
 
     loop(now){

@@ -2,7 +2,7 @@ import roundTo from "../utils/roundTo.js";
 
 export default class Player {
     constructor(savedData = null){
-        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 0;
+        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 1e55;
         this.energyCount = savedData ? savedData.energyCount : 0;
         this.capturePower = savedData ? savedData.capturePower : 1;
         this.captureFrequency = savedData ? savedData.captureFrequency : 0.2;

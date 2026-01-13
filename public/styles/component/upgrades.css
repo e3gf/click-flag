@@ -118,6 +118,17 @@
     background-color: var(--automation-progress-unfilled);
 }
 
+.upgrade-progress-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .4rem;
+}
+
 .upgrade-progress-indicator {
     height: 100%;
     width: 0%;
@@ -128,6 +139,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    font-size: .8rem;
+}
+
+.upgrade-progress-value-in {
     font-size: .8rem;
 }
 
@@ -147,8 +162,12 @@
     background-color: var(--automation-progress-filled);
 }
 
-.energy-upgrade-progress-value, .energy-upgrade-progress-time {
+.energy-upgrade-progress-value, .energy-upgrade-progress-value-in, .energy-upgrade-progress-time {
     color: var(--energy-progress-text);
+}
+
+.energy-upgrade-progress-symbol {
+    font-size: .75rem;
 }
 
 .automation-upgrade-progress-value, .automation-upgrade-progress-time {
@@ -162,7 +181,7 @@
 
 .upgrade-level-indicator {
     height: 100%;
-    width: 5rem;
+    width: 0%;
     background-color: var(--upgrade-level-filled);
 }
 

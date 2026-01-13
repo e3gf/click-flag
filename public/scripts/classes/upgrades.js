@@ -255,6 +255,7 @@ class UpgradeView {
             upgradeProgressIndicator: `${u.name}-upgrade-progress-indicator`,
             upgradeProgressValue: `${u.name}-upgrade-progress-value`,
             upgradeProgressTime: `${u.name}-upgrade-progress-time`,
+            upgradeProgressBolt: `${u.name}-upgrade-progress-bolt`,
         }
 
         this.radioGroupName = `${u.name}radioGroup`;
@@ -307,11 +308,14 @@ class UpgradeView {
                 ${this.periodicCheck() ? 
                 `<div class="${u.type}-upgrade-progress upgrade-progress">
                     <div class="${u.type}-upgrade-progress-indicator upgrade-progress-indicator" id="${this.elementIds.upgradeProgressIndicator}"></div>
-                    ${!u.def.energyConsumer ? 
-                    `<span class></span>` 
+                    ${u.type === "energy" ? 
+                    `<div class="energy-upgrade-progress-container upgrade-progress-container">
+                        <span class="energy-upgrade-progress-symbol material-symbols-outlined" id="${this.elementIds.upgradeProgressBolt}"></span>
+                        <span class="${u.type}-upgrade-progress-value-in upgrade-progress-value-in" id="${this.elementIds.upgradeProgressValue}"></span>
+                    </div>` 
                     : 
-                    ``}
-                    <span class="${u.type}-upgrade-progress-value upgrade-progress-value" id="${this.elementIds.upgradeProgressValue}"></span>
+                    `<span class="${u.type}-upgrade-progress-value upgrade-progress-value" id="${this.elementIds.upgradeProgressValue}"></span>`
+                    }
                     <span class="${u.type}-upgrade-progress-time upgrade-progress-time" id="${this.elementIds.upgradeProgressTime}"></span>
                 </div>` 
                 : 
@@ -386,16 +390,24 @@ class UpgradeView {
         this.ui.elements[this.elementIds.upgradeLevelIndicator].style("width", `${(u.bought - u.lastLevelRequirement) / (u.nextLevelRequirement - u.lastLevelRequirement) * 100}%`);
 
         if (this.periodicCheck() && u.bought){
-            this.ui.elements[this.elementIds.upgradeProgressIndicator].style("width", 
-                u.thresholdReached ? `100%` : `${
-                    (u.state === "running" || !u.def.energyConsumer) ? u.timerManager.getTimeRatio(u.periodicTimer) * 100 : 0}%`
-            );
+            if(u.def.energyConsumer){
+                this.ui.elements[this.elementIds.upgradeProgressIndicator].style("width", u.state === "running" ? `${u.thresholdReached ? 100 : u.timerManager.getTimeRatio(u.periodicTimer) * 100}%` : `0%`);
+            }
+            else {
+                this.ui.elements[this.elementIds.upgradeProgressIndicator].style("width", `${u.thresholdReached ? `100` : u.timerManager.getTimeRatio(u.periodicTimer) * 100}%`);
+            }
             this.ui.elements[this.elementIds.upgradeProgressValue].text(
                 u.thresholdReached ? `${formatNumber(u.periodic["value"]*(1000/u.threshold))}/s` : `${formatNumber(u.periodic["value"])}`
             );
             this.ui.elements[this.elementIds.upgradeProgressTime].text(
                 u.thresholdReached ? `` : `${toSeconds(u.periodic["time"])}`
             );
+
+            if(u.type === "energy"){
+                this.ui.elements[this.elementIds.upgradeProgressBolt].text(
+                    u.bought ? `bolt` : ``
+                );
+            }
         }
     }
 
@@ -423,7 +435,8 @@ class UpgradeView {
                 || (key[0] === "upgradeProgressIndicator" 
                     || key[0] === "upgradeProgressValue" 
                     || key[0] === "upgradeProgressTime") 
-                    && (u.type === "component" || u.type === "general");
+                    && (u.type === "component" || u.type === "general")
+                || key[0] === "upgradeProgressBolt" && !(u.type === "energy");
     }
 
     periodicCheck(){
