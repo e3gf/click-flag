@@ -1,3 +1,4 @@
+import { formatNumber, toSeconds } from "../utils/formatting.js";
 import SmartElement from "./smartElement.js";
 
 
@@ -22,12 +23,11 @@ export default class UI {
 
         this.createSmartElement("componentUpgradeTab", "component-upgrades-tab");
         this.createSmartElement("energyUpgradeTab", "energy-upgrades-tab");
+        this.createSmartElement("automationUpgradeTab", "automation-upgrades-tab");
 
         this.createSmartElement("systemInfoCP", "system-info-cp");
         this.createSmartElement("systemInfoCCPS", "system-info-ccps");
         this.createSmartElement("systemInfoUCPS", "system-info-ucps");
-        this.createSmartElement("systemInfoRAM", "system-info-ram");
-        this.createSmartElement("systemInfoCPU", "system-info-cpu");
         this.createSmartElement("systemInfoOCDuration", "system-info-oc-duration");
         this.createSmartElement("systemInfoOCCooldown", "system-info-oc-cooldown");
     }
@@ -66,7 +66,7 @@ export default class UI {
         const wheel = game.wheel;
         const upgradeManager = game.upgradeManager;
 
-        this.elements.whiteFlagCount.text(player.whiteFlagCount);
+        this.elements.whiteFlagCount.text(formatNumber(player.whiteFlagCount));
 
         const captureRatio = whiteFlag.getCaptureRatio(timerManager);
         this.elements.captureProgress.style("width", `${captureRatio * 100}%`);
@@ -76,19 +76,17 @@ export default class UI {
         this.elements.overclockCooldownProgress.style("width", `${overclockRatio * 100}%`);
         this.elements.overclockCooldownProgress.toggle("cooldown-progress-descending", overclockState === "descending");
 
-        this.elements.energyCount.text(player.energyCount);
-        this.elements.energyTabEnergyCount.text(player.energyCount);
+        this.elements.energyCount.text(formatNumber(player.energyCount));
+        this.elements.energyTabEnergyCount.text(formatNumber(player.energyCount));
         this.elements.energyCount.toggle("insufficient-currency", whiteFlag.outOfEnergyIndicator);
         this.elements.energyTabEnergyCount.toggle("insufficient-currency", whiteFlag.outOfEnergyIndicator);
 
         const wheelSpinRatio = wheel.getSpinRatio(timerManager);
         this.elements.wheel.style("rotate", `${wheelSpinRatio * 360}deg`);
 
-        this.elements.systemInfoCP.text(`CP: ${player.capturePower}`);
-        this.elements.systemInfoRAM.text(`RAM: ${upgradeManager.list["RAM"].upgrade.boosts["Bytes"]}`);
-        this.elements.systemInfoCPU.text(`CPU : ${upgradeManager.list["CPU"].upgrade.boosts["Frequency"]}`);
-        this.elements.systemInfoOCDuration.text(`OC Duration: ${player.overclockDuration}`);
-        this.elements.systemInfoOCCooldown.text(`OC Cooldown: ${player.overclockCooldown}`);
+        this.elements.systemInfoCP.text(`CP: ${formatNumber(player.capturePower)}`);
+        this.elements.systemInfoOCDuration.text(`OC Duration: ${toSeconds(player.overclockDuration)}`);
+        this.elements.systemInfoOCCooldown.text(`OC Cooldown: ${toSeconds(player.overclockCooldown)}`);
 
         this.#renderUpdates(game);
     }

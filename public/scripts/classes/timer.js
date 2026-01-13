@@ -26,11 +26,15 @@ export default class TimerManager {
             t.elapsed += delta;
 
             if(t.elapsed >= t.duration){
-                t.callback();
                 if(t.repeating){
-                    t.elapsed %= t.duration; // need to add logic for repeating timers to execute properly
+                    const times = t.elapsed / t.duration;
+                    const timesFloored = Math.floor(times);
+                    const remainder = times - timesFloored;
+                    t.elapsed = remainder * t.duration;
+                    t.callback(timesFloored);
                 }
                 else {
+                    t.callback();
                     delete this.timers[id];
                 }
             }
@@ -45,20 +49,45 @@ export default class TimerManager {
         }
         if(!absolute){
             const ratio = timer.elapsed / timer.duration;
-            this.timers[id].duration = newDuration;
-            this.timers[id].elapsed = ratio * newDuration;
+            timer.duration = newDuration;
+            timer.elapsed = ratio * newDuration;
         } else {
-            this.timers[id].duration = newDuration;
-            if(this.timers[id].elapsed >= newDuration){
-                this.timers[id].elapsed %= newDuration;
-                //need to add logic for repeating timers to execute properly
+            timer.duration = newDuration;
+            if(timer.elapsed >= newDuration){
+                const times = timer.elapsed / newDuration;
+                const timesFloored = Math.floor(times);
+                const remainder = times - timesFloored;
+                t.elapsed = remainder * newDuration;
+                t.callback(timesFloored);
             }
         }
     }
 
+    editTimerCallback(id, newCallback){
+        const timer = this.timers[id];
+        if(!timer){
+            console.error(`Nonexistent timer id: ${id}`);
+            return;
+        }
+        timer.callback = newCallback;
+    }
+
     getTimeRatio(id){
         const timer = this.timers[id];
+        if(!timer){
+            console.error(`Nonexistent timer id: ${id}`);
+            return;
+        }
         return timer ? Math.min(timer.elapsed / timer.duration, 1) : 1;
+    }
+
+    resetTimer(id){
+        const timer = this.timers[id];
+        if(!timer){
+            console.error(`Nonexistent timer id: ${id}`);
+            return;
+        }
+        timer.elapsed = 0;
     }
 
     removeTimer(id){

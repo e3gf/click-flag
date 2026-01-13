@@ -1,4 +1,5 @@
 import { UPGRADE_DEFS } from "../config/upgradeDefs.js";
+import { formatNumber, toSeconds } from "../utils/formatting.js";
 import { geometricSeriesSum } from "../utils/formulae.js";
 import roundTo from "../utils/roundTo.js";
 
@@ -25,14 +26,45 @@ export default class UpgradeManager {
     }
 }
 
+export class UpgradeScheduler {
+    constructor(game){
+        this.game = game;
+    }
+
+    update(){
+        const player = this.game.player;
+        const candidates = this.game.energyConsumers.filter(u => u.bought && u.state === "offline");
+        const sortedCandidates = candidates.sort((a, b) => b.def.priority - a.def.priority);
+        for(const upgrade of sortedCandidates){
+            const energyNeeded = upgrade.consumption;
+
+            if(player.energyCount >= energyNeeded){
+                this.startUpgrade(upgrade);
+                upgrade.state = "running";
+            } 
+        }
+    }
+
+    startUpgrade(upgrade){
+        if(upgrade.state === "running") return;
+        const player = this.game.player;
+        player.energyCount -= upgrade.consumption;
+        this.game.timerManager.resetTimer(upgrade.periodicTimer);
+    }
+}
 
 class Upgrade {
     constructor(game, name, def) {
         this.game = game;
         this.player = game.player;
+        this.timerManager = game.timerManager;
         this.name = name;
         this.def = def;
         this.title = def.title;
+
+        if(this.def.energyConsumer){
+            game.energyConsumers.push(this);
+        }
 
         this.layer = def.layer;
         this.type = def.type;
@@ -54,6 +86,14 @@ class Upgrade {
         this.boosts = {};
         this.consumption = this.bought * def.consumptionPerUnit;
 
+        this.periodic = {};
+        this.periodicTimer = null;
+        this.threshold = 100; // this is when repeating timers stop showing progress but are visually instant and capped at this temporal value 
+        this.thresholdReached = false;
+
+        this.state = "offline";
+        this.outOfEnergyTimer = null;
+
         this.recalculate();
     }
 
@@ -73,14 +113,51 @@ class Upgrade {
     }
 
     recalculate() {
-        for (const [key, boost] of Object.entries(this.def.boosts)) {
-            const value = boost.valueFunction(this.bought, this.level);
-            const prevValue = this.boosts[key];
-            this.boosts[key] = value;
-            boost.apply(this.game, value, prevValue);
+        if(this.def.boosts){
+            for (const [key, boost] of Object.entries(this.def.boosts)) {
+                const value = boost.valueFunction(this.bought, this.level);
+                const prevValue = this.boosts[key];
+                this.boosts[key] = {value: value, type: boost.type};
+                boost.apply(this.game, value, prevValue);
+            }
         }
 
-        if (this.def.consumptionPerUnit) {
+        if(this.def.periodic && this.bought){
+            const p = this.def.periodic; 
+            const value = p.valueFunction(this.bought, this.level);
+            const time = p.timeFunction(this.level, this.threshold);
+            this.periodic["value"] = value;
+            this.periodic["time"] = time.f;
+            if(time.s > 1) {
+                this.thresholdReached = true;
+                this.periodic["time"] = this.threshold;
+                this.periodic["value"] *= time.s;
+            }
+            let callback;
+            if(this.def.energyConsumer) {
+                const consumption = this.def.consumptionFunction(this.bought, this.level);
+                this.consumption = consumption;
+                callback = (times) => {
+                    if(this.state !== "running") return;
+                    p.apply(this.game, this.periodic["value"], times);
+                    this.state = "offline";
+                }
+            }
+            else {
+                callback = (times) => {
+                    p.apply(this.game, this.periodic["value"], times);
+                }
+            }
+            if(this.periodicTimer === null){
+                this.periodicTimer = this.timerManager.addTimer(this.periodic["time"], callback, true);
+            }
+            else {
+                this.timerManager.editTimerDuration(this.periodicTimer, this.periodic["time"]);
+                this.timerManager.editTimerCallback(this.periodicTimer, callback);
+            }
+        }
+
+        if (this.type === "component" && this.def.consumptionPerUnit) {
             const prev = this.consumption;
             this.consumption = this.def.consumptionFunction(this.bought, this.level);
             this.def.consumptionApply(this.player, this.consumption, prev);
@@ -174,6 +251,10 @@ class UpgradeView {
             buyButtonId: `${u.name}-upgrade-buy-button`,
             upgradeButtons: `${u.name}-upgrade-buttons`,
             upgradeQuantityInput: `${u.name}-upgrade-quantity-input`,
+
+            upgradeProgressIndicator: `${u.name}-upgrade-progress-indicator`,
+            upgradeProgressValue: `${u.name}-upgrade-progress-value`,
+            upgradeProgressTime: `${u.name}-upgrade-progress-time`,
         }
 
         this.radioGroupName = `${u.name}radioGroup`;
@@ -223,6 +304,19 @@ class UpgradeView {
                         </div>
                     </button>
                 </div>
+                ${this.periodicCheck() ? 
+                `<div class="${u.type}-upgrade-progress upgrade-progress">
+                    <div class="${u.type}-upgrade-progress-indicator upgrade-progress-indicator" id="${this.elementIds.upgradeProgressIndicator}"></div>
+                    ${!u.def.energyConsumer ? 
+                    `<span class></span>` 
+                    : 
+                    ``}
+                    <span class="${u.type}-upgrade-progress-value upgrade-progress-value" id="${this.elementIds.upgradeProgressValue}"></span>
+                    <span class="${u.type}-upgrade-progress-time upgrade-progress-time" id="${this.elementIds.upgradeProgressTime}"></span>
+                </div>` 
+                : 
+                `` 
+                }
                 <div class="${u.type}-upgrade-level upgrade-level">
                     <div class="${u.type}-upgrade-level-indicator upgrade-level-indicator" id="${this.elementIds.upgradeLevelIndicator}"></div>
                 </div>
@@ -238,7 +332,7 @@ class UpgradeView {
                     this.ui.createSmartElement(ID, ID);
                 });
             }
-            else if(!(key[0] === "upgradeInformationConsumption" && !u.def.consumptionPerUnit)) {
+            else if(!(this.evaluateValidIds(key))) {
                 this.ui.createSmartElement(key[1], key[1]);
             }
         });
@@ -276,20 +370,33 @@ class UpgradeView {
 
     render(player) {
         const u = this.upgrade;
-        this.ui.elements[this.elementIds.upgradeInformationLevel].text(`Level: ${u.level} (${u.bought} / ${u.nextLevelRequirement})`);
+        this.ui.elements[this.elementIds.upgradeInformationLevel].text(`Level: ${formatNumber(u.level)} (${formatNumber(u.bought)} / ${formatNumber(u.nextLevelRequirement)})`);
 
         this.elementIds.upgradeInformationBoostValues.forEach((value, i) => {
-            this.ui.elements[value].text(`${roundTo(Object.values(u.boosts)[i], 3)}`);
+            this.ui.elements[value].text(`${this.formatterDecider(Object.values(u.boosts)[i])}`);
         });
 
-        if (u.def.consumptionPerUnit) this.ui.elements[this.elementIds.upgradeInformationConsumption].text(`${roundTo(u.consumption, 3)}`);
+        if (u.def.consumptionPerUnit) this.ui.elements[this.elementIds.upgradeInformationConsumption].text(`${formatNumber(u.consumption)}`);
 
-        this.ui.elements[this.elementIds.upgradeBuyAmount].text(`${u.selectedAmount}`);
+        this.ui.elements[this.elementIds.upgradeBuyAmount].text(`${formatNumber(u.selectedAmount)}`);
 
-        this.ui.elements[this.elementIds.upgradeBuyCost].text(`${u.selectedCost}`);
+        this.ui.elements[this.elementIds.upgradeBuyCost].text(`${formatNumber(u.selectedCost)}`);
         this.ui.elements[this.elementIds.upgradeBuyCost].toggle(`insufficient-currency`, player.whiteFlagCount < u.selectedCost);
 
         this.ui.elements[this.elementIds.upgradeLevelIndicator].style("width", `${(u.bought - u.lastLevelRequirement) / (u.nextLevelRequirement - u.lastLevelRequirement) * 100}%`);
+
+        if (this.periodicCheck() && u.bought){
+            this.ui.elements[this.elementIds.upgradeProgressIndicator].style("width", 
+                u.thresholdReached ? `100%` : `${
+                    (u.state === "running" || !u.def.energyConsumer) ? u.timerManager.getTimeRatio(u.periodicTimer) * 100 : 0}%`
+            );
+            this.ui.elements[this.elementIds.upgradeProgressValue].text(
+                u.thresholdReached ? `${formatNumber(u.periodic["value"]*(1000/u.threshold))}/s` : `${formatNumber(u.periodic["value"])}`
+            );
+            this.ui.elements[this.elementIds.upgradeProgressTime].text(
+                u.thresholdReached ? `` : `${toSeconds(u.periodic["time"])}`
+            );
+        }
     }
 
     clearBtnSelection(){
@@ -306,6 +413,28 @@ class UpgradeView {
         switch(u.type){
             case "component": return this.ui.elements.componentUpgradeTab; 
             case "energy": return this.ui.elements.energyUpgradeTab;
+            case "automation": return this.ui.elements.automationUpgradeTab;
+        }
+    }
+
+    evaluateValidIds(key){ // if one of them is true, the smartElement associated with this should not be created
+        const u = this.upgrade;
+        return key[0] === "upgradeInformationConsumption" && !u.def.consumptionPerUnit 
+                || (key[0] === "upgradeProgressIndicator" 
+                    || key[0] === "upgradeProgressValue" 
+                    || key[0] === "upgradeProgressTime") 
+                    && (u.type === "component" || u.type === "general");
+    }
+
+    periodicCheck(){
+        const u = this.upgrade;
+        return u.type === "energy" || u.type === "automation";
+    }
+
+    formatterDecider(v){
+        switch(v.type){
+            case "normal": return formatNumber(v.value);
+            case "temporal": return toSeconds(v.value);
         }
     }
 }

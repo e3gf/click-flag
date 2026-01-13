@@ -24,9 +24,8 @@ export default class WhiteFlag {
             }) 
             return;
         }
-        
-        const speed = this.overclockActive ? player.overclockBoost : 1;
-        const delay = 1000 / player.captureFrequency / speed;
+       
+        const delay = this.getCaptureDelay(player);
 
         player.captureWhiteFlag();
         this.ready = false;
@@ -79,5 +78,10 @@ export default class WhiteFlag {
         if(this.overclockActive) return "descending";
         if(this.overclockCooldownTimer !== null) return "ascending";
         return "ready";
+    }
+
+    getCaptureDelay(player){
+        const speed = this.overclockActive ? player.overclockBoost : 1;
+        return 1000 / player.captureFrequency / speed;
     }
 }

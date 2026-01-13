@@ -112,6 +112,12 @@
   --capture-progress: #3fd9ff;
   --upgrade-level-unfilled: #3c3507;
   --upgrade-level-filled: #c8b537;
+  --energy-progress-unfilled: #154371;
+  --energy-progress-filled: #2d91f5;
+  --energy-progress-text: #88f1ff;
+  --automation-progress-unfilled: #0d2f0d;
+  --automation-progress-filled: #35d635;
+  --automation-progress-text: #d0ff00;
   --insufficient-currency: #c92525;
   --cooldown-progress-ascending: #38ac38;
   --cooldown-progress-descending: #c92525;

@@ -3,7 +3,7 @@ import Player from "./player.js";
 import TimerManager from "./timer.js";
 import WhiteFlag from "./flags.js";
 import Wheel from "./wheel.js";
-import UpgradeManager from "./upgrades.js";
+import UpgradeManager, { UpgradeScheduler } from "./upgrades.js";
 
 export default class Game {
     constructor(document){ 
@@ -14,6 +14,7 @@ export default class Game {
 
         this.uiManager = new UI(document);
         this.upgradeManager = new UpgradeManager(this, this.uiManager);
+        this.upgradeScheduler = new UpgradeScheduler(this);
         
         this.lastTime = performance.now();
         this.loop = this.loop.bind(this);
@@ -21,6 +22,8 @@ export default class Game {
 
         this.uiUpdateAccumulator = 0;
         this.uiUpdateInterval = 1000 / 30; // ~ 30 fps
+
+        this.energyConsumers = [];
 
         this.#bindInputs();
         this.#createUpgrades();
@@ -52,6 +55,10 @@ export default class Game {
         this.upgradeManager.add("CPU");
         this.upgradeManager.add("CoolingFan");
         this.upgradeManager.add("ThermalPaste");
+
+        this.upgradeManager.add("NanoTurbine");
+
+        this.upgradeManager.add("Grandpas");
     }
 
     loop(now){
@@ -70,6 +77,7 @@ export default class Game {
     }
 
     update(delta){
+        this.upgradeScheduler.update();
         this.timerManager.update(delta);
     }
 }
