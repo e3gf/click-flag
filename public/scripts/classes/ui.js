@@ -19,11 +19,14 @@ export default class UI {
 
         this.createSmartElement("energyCount", "energy-count-display");
         this.createSmartElement("energyTabEnergyCount", "energy-tab-energy-count-display");
+        this.createSmartElement("energyGeneration", "energy-info-generation");
+        this.createSmartElement("energyConsumption", "energy-info-consumption");
         this.createSmartElement("wheel", "wheel");
 
         this.createSmartElement("componentUpgradeTab", "component-upgrades-tab");
         this.createSmartElement("energyUpgradeTab", "energy-upgrades-tab");
         this.createSmartElement("automationUpgradeTab", "automation-upgrades-tab");
+        this.createSmartElement("generalUpgradeTab", "general-upgrades-tab");
 
         this.createSmartElement("systemInfoCP", "system-info-cp");
         this.createSmartElement("systemInfoCCPS", "system-info-ccps");
@@ -80,6 +83,8 @@ export default class UI {
         this.elements.energyTabEnergyCount.text(formatNumber(player.energyCount));
         this.elements.energyCount.toggle("insufficient-currency", whiteFlag.outOfEnergyIndicator);
         this.elements.energyTabEnergyCount.toggle("insufficient-currency", whiteFlag.outOfEnergyIndicator);
+        this.elements.energyGeneration.text(`${formatNumber(player.energyGeneration)}/s`);
+        this.elements.energyConsumption.text(`${formatNumber(player.energyConsumption)}/s`);
 
         const wheelSpinRatio = wheel.getSpinRatio(timerManager);
         this.elements.wheel.style("rotate", `${wheelSpinRatio * 360}deg`);

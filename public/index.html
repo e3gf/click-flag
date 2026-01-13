@@ -85,9 +85,8 @@
                     <div id="energy-upgrades-tab"></div>
                     <div id="energy-tab-right">
                         <div id="energy-tab-info">
-                            <p class="text energy-info-text">Power generation: 1.14kW/s</p>
-                            <p class="text energy-info-text">Curr. consumption: 1.08kW/s</p>
-                            <p class="text energy-info-text">Max. consumption: 1.43kW/s</p>
+                            <p class="text energy-info-text"><span class="material-symbols-outlined energy-info-bolt">bolt</span>Generation: <span id="energy-info-generation">0/s</span></p>
+                            <p class="text energy-info-text"><span class="material-symbols-outlined energy-info-bolt">bolt</span>Consumption: <span id="energy-info-consumption">0/s</span></p>
                         </div>
                         <img src="content/wheel.svg" alt="" id="wheel" draggable="false" >
                     </div>
@@ -95,7 +94,7 @@
             </div>
         </div>
         <div class="upgrade-tab" id="component-upgrades-tab">
-            <!-- <div class="component-upgrade upgrade">
+            <!-- <div class="component-upgrade upgrade">-
                 <h3 class="component-upgrade-title upgrade-title">Test upgrade</h3>
                 <div class="component-upgrade-information upgrade-information">
                     <p class="component-upgrade-information-p upgrade-information-p text">Level: 5 (2.314M / 16.78M)</p>

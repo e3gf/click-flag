@@ -25,6 +25,8 @@ export default class Game {
 
         this.energyConsumers = [];
 
+        this.flagHeld = false;
+
         this.#bindInputs();
         this.#createUpgrades();
 
@@ -32,8 +34,19 @@ export default class Game {
 
     #bindInputs(){
         this.captureFlagEvent = () => {
-            this.whiteFlag.capture(this);
+            if(!this.flagHeld) this.whiteFlag.capture(this);
         };
+
+        this.startHoldEvent = () => {
+            this.flagHeld = true;
+        }
+
+        this.endHoldEvent = () => {
+            this.timerManager.addTimer(this.uiUpdateInterval, () => {
+                this.flagHeld = false
+                this.whiteFlag.outOfEnergyIndicator = false;
+            });
+        }
 
         this.overclockEvent = () => {
             this.whiteFlag.overclock(this);
@@ -44,7 +57,10 @@ export default class Game {
         };
 
 
+
         this.uiManager.addDynamicListener("whiteFlag", "click", this.captureFlagEvent);
+        this.uiManager.addDynamicListener("whiteFlag", "mousedown", this.startHoldEvent);
+        this.uiManager.addDynamicListener("whiteFlag", "mouseup", this.endHoldEvent);
         this.uiManager.addDynamicListener("overclockBtn", "click", this.overclockEvent);
 
         this.uiManager.addDynamicListener("wheel", "click", this.spinWheelEvent);
@@ -70,12 +86,15 @@ export default class Game {
         this.upgradeManager.add("SeniorHackers");
         this.upgradeManager.add("AGI");
         this.upgradeManager.add("ElliotAlderson");
+
+        // this.upgradeManager.add("Gen1");
     }
 
     loop(now){
         const delta = now - this.lastTime;
         this.lastTime = now;
 
+        this.events();
         this.update(delta);
 
         this.uiUpdateAccumulator += delta;
@@ -87,8 +106,12 @@ export default class Game {
         requestAnimationFrame(this.loop);
     }
 
+    events(){
+        if(this.flagHeld) this.whiteFlag.capture(this);
+    }
+
     update(delta){
-        this.upgradeScheduler.update();
         this.timerManager.update(delta);
+        this.upgradeScheduler.update();
     }
 }

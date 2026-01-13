@@ -12,16 +12,13 @@ export default class WhiteFlag {
     }
 
     capture(game){
+        this.outOfEnergyIndicator = false;
         if(!this.ready) return;
         const player = game.player;
         const timerManager = game.timerManager;
         if(player.captureConsumption > player.energyCount){
             if(this.outOfEnergyIndicatorTimer !== null) return;
             this.outOfEnergyIndicator = true; 
-            this.outOfEnergyIndicatorTimer = timerManager.addTimer(300, () => {
-                this.outOfEnergyIndicator = false;
-                this.outOfEnergyIndicatorTimer = null;
-            }) 
             return;
         }
        

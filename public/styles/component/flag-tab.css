@@ -6,7 +6,7 @@
 }
 
 #flag-tab {
-    height: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -50,8 +50,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    width: 80%;
+    gap: .5rem;
+    width: 13rem;
     height: 70%;
     background-color: var(--card2);
     border-radius: 1rem; 
@@ -60,6 +60,12 @@
 #system-info-data {
     margin-bottom: .5rem;
     font-size: .95rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-left: .5rem;
+
 }
 
 .system-info-layer {

@@ -15,6 +15,9 @@ export default class Player {
         this.overclockCooldown = savedData ? savedData.overclockCooldown : 60000;
         this.overclockDuration = savedData ? savedData.overclockDuration : 5000;
         this.overclockBoost = savedData ? savedData.overclockBoost : 4;
+
+        this.energyConsumption = 0;
+        this.energyGeneration = 0;
     }   
 
     captureWhiteFlag(){

@@ -241,7 +241,6 @@ export const UPGRADE_DEFS = {
         start: { bought: 0, level: 0 },
 
         consumptionPerUnit: 0,
-        boosts: {},
         periodic: {
             perUnit: 0.5,
             perLevelMultiplier: 2.1,
@@ -281,7 +280,6 @@ export const UPGRADE_DEFS = {
         start: { bought: 0, level: 0 },
 
         consumptionPerUnit: 0,
-        boosts: {},
         periodic: {
             perUnit: 5,
             perLevelMultiplier: 2.5,
@@ -321,12 +319,11 @@ export const UPGRADE_DEFS = {
         start: { bought: 0, level: 0 },
 
         consumptionPerUnit: 0,
-        boosts: {},
         periodic: {
             perUnit: 50,
-            perLevelMultiplier: 2.75,
+            perLevelMultiplier: 3,
             time: 4000,
-            timePerLevelDecrease: 2,
+            timePerLevelDecrease: 2.5,
             apply(game, value, times){
                 game.player.energyCount += times * value;
             },
@@ -371,8 +368,6 @@ export const UPGRADE_DEFS = {
         consumptionFunction(bought, level){
             return (this.consumptionPerUnit * bought) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
         },
-
-        boosts: {},
 
         periodic: {
             perUnit: 1,
@@ -424,8 +419,6 @@ export const UPGRADE_DEFS = {
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
-        boosts: {},
-
         periodic: {
             perUnit: 8,
             perLevelMultiplier: 1.75,
@@ -445,10 +438,6 @@ export const UPGRADE_DEFS = {
             }
         },
         levelFormula: { a: 2, c: 0}, 
-
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
@@ -475,12 +464,9 @@ export const UPGRADE_DEFS = {
         consumptionPolynomial: 1.5,
         consumptionPerLevelMulti: 1.60,
         consumptionFunction(bought, level){
-            console.log(bought);
             if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
-
-        boosts: {},
 
         periodic: {
             perUnit: 50,
@@ -501,10 +487,6 @@ export const UPGRADE_DEFS = {
             }
         },
         levelFormula: { a: 2, c: 0}, 
-
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
@@ -536,8 +518,6 @@ export const UPGRADE_DEFS = {
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
-        boosts: {},
-
         periodic: {
             perUnit: 250,
             perLevelMultiplier: 2.5,
@@ -557,10 +537,6 @@ export const UPGRADE_DEFS = {
             }
         },
         levelFormula: { a: 2, c: 0}, 
-
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
@@ -592,8 +568,6 @@ export const UPGRADE_DEFS = {
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
-        boosts: {},
-
         periodic: {
             perUnit: 1500,
             perLevelMultiplier: 3,
@@ -613,10 +587,6 @@ export const UPGRADE_DEFS = {
             }
         },
         levelFormula: { a: 2, c: 0}, 
-
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
@@ -648,8 +618,6 @@ export const UPGRADE_DEFS = {
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
-        boosts: {},
-
         periodic: {
             perUnit: 20000,
             perLevelMultiplier: 3.5,
@@ -669,10 +637,6 @@ export const UPGRADE_DEFS = {
             }
         },
         levelFormula: { a: 2, c: 0}, 
-
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
@@ -704,8 +668,6 @@ export const UPGRADE_DEFS = {
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
-        boosts: {},
-
         periodic: {
             perUnit: 150000,
             perLevelMultiplier: 4,
@@ -725,10 +687,6 @@ export const UPGRADE_DEFS = {
             }
         },
         levelFormula: { a: 2, c: 0}, 
-
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
@@ -760,8 +718,6 @@ export const UPGRADE_DEFS = {
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
-        boosts: {},
-
         periodic: {
             perUnit: 2500000,
             perLevelMultiplier: 4,
@@ -781,10 +737,6 @@ export const UPGRADE_DEFS = {
             }
         },
         levelFormula: { a: 2, c: 0}, 
-
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
@@ -816,8 +768,6 @@ export const UPGRADE_DEFS = {
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
-        boosts: {},
-
         periodic: {
             perUnit: 8e7,
             perLevelMultiplier: 4.5,
@@ -837,10 +787,6 @@ export const UPGRADE_DEFS = {
             }
         },
         levelFormula: { a: 2, c: 0}, 
-
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
@@ -872,8 +818,6 @@ export const UPGRADE_DEFS = {
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
-        boosts: {},
-
         periodic: {
             perUnit: 1e9,
             perLevelMultiplier: 5.25,
@@ -898,12 +842,28 @@ export const UPGRADE_DEFS = {
             return levelRequirement(this.levelFormula, n);
         },
 
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
-
         getLevelBounds(a){
             return getLevelBounds(this.levelFormula, a);
+        }
+    },
+
+    // general
+
+    Gen1: {
+        title: "General",
+        desc: "Triple automation upgrade production!",
+        layer: 1,
+        static: true,
+        type: "general",
+        baseCost: 500,
+        start: { bought: 0},
+
+        energyConsumer: false,
+
+        consumptionPerUnit: 0,
+
+        apply(game){
+            console.log("Successfully bought!");
         }
     },
 };

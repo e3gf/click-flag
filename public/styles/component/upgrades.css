@@ -14,9 +14,25 @@
     position: relative;
 }
 
+.general-upgrade {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upgrade-titledesc-wrapper {
+    width: 100%;
+}
+
+
 .upgrade-title {
     margin: .4rem 0 0 .4rem;
     color: var(--foreground);
+}
+
+.upgrade-description {
+    margin: .4rem; 
+    font-size: .8rem;
 }
 
 .upgrade-information {
@@ -103,6 +119,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+}
+
+.general-upgrade-buy {
+    width: 7rem;
+    margin: 0 0 .5rem 0;
 }
 
 .upgrade-progress {
