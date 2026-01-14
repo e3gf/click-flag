@@ -1,0 +1,107 @@
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 1rem;
+}
+
+#sign-up-tab {
+  background: var(--card);
+  width: 100%;
+  max-width: 380px;
+  padding: 2.5rem 2rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+#sign-up-tab h1 {
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--card-foreground);
+  margin-bottom: 2.2rem;
+  letter-spacing: -0.02em;
+}
+
+#username-input,
+#password-input,
+#password-confirm-input input{
+  margin-bottom: 1.4rem;
+}
+
+#username-input input,
+#password-input input,
+#password-confirm-input input {
+  width: 80%;
+  padding: 0.95rem 1.1rem;
+  background: var(--input);
+  border: 1px solid var(--border);
+  border-radius: 2rem;
+  color: var(--card-foreground);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#username-input input:focus,
+#password-input input:focus,
+#password-confirm-input input:focus {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+input::placeholder {
+  color: color-mix(in srgb, var(--muted-foreground) 80%, transparent);
+}
+
+#sign-up-tab p {
+  font-size: 0.94rem;
+  color: var(--muted-foreground);
+  margin: 1.1rem 0 0.4rem;
+  display: inline;
+}
+
+#sign-up-redirect {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.94rem;
+}
+
+#sign-in-redirect:hover,
+#sign-in-redirect:focus {
+  text-decoration: underline;
+  color: color-mix(in srgb, var(--primary) 120%, white 10%);
+}
+
+#sign-up-button {
+  margin-top: 1.6rem;
+  width: 100%;
+  padding: 1rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 2rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+#sign-up-button:hover {
+  background: color-mix(in srgb, var(--primary) 85%, black 15%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 35%, transparent);
+}
+
+#sign-up-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}

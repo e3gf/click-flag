@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/page/signin.css">
     <title>ClickFlag - SignIn</title>
 </head>
 <body>
     <div id="sign-in-tab">
         <h1>Sign in</h1>
-        <div id="username-input"></div>
-        <div id="password-input"></div>
-        <p>Don't have an account?</p><a href="/signup" id="sign-up-redirect">Sign up instead</a> 
-        <div id="sign-in-buttton"></div> 
+        <div id="username-input">
+            <input type="text" id="username" placeholder="Username">
+        </div>
+        <div id="password-input">
+            <input type="password" id="password" placeholder="Password">
+        </div>
+        <p>Don't have an account?</p><a href="/signup" id="sign-up-redirect"> Sign up instead</a> 
+        <button id="sign-in-button">Sign In</button> 
     </div>
 </body>
 </html>
