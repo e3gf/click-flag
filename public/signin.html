@@ -6,22 +6,21 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/global.css">
     <link rel="stylesheet" href="styles/page/signin.css">
-    <script src="scripts/signin.js"></script>
+    <script type="module" src="scripts/signin.js"></script>
     <title>ClickFlag - SignIn</title>
 </head>
 <body>
     <div id="sign-in-tab">
-        <h1 class="text">Sign in</h1>
+        <h1>Sign in</h1>
         <div id="username-input">
             <input type="text" id="username" placeholder="Username">
-            <p class="error" id="username-error"></p>
         </div>
         <div id="password-input">
             <input type="password" id="password" placeholder="Password">
-            <p class="error" id="password-error"></p>
         </div>
         <p class="text">Don't have an account? </p><a href="/signup.html" id="sign-up-redirect">Sign up instead</a> 
         <button id="sign-in-button">Sign In</button> 
+        <p class="error" id="main-error"></p>
     </div>
 </body>
 </html>

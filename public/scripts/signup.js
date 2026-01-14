@@ -1,4 +1,5 @@
 import { clearError, showError } from "./utils/pass-validation.js";
+import { signUp } from "./api/auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("dark");
@@ -76,14 +77,30 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
         if(usernameInput.value === "" || passwordInput.value === "" || passwordConfirmInput.value === "" || usernameError || passwordError || passwordConfirmError) return;
+
+        clearError("server-error");
 
         const username = usernameInput.value;
         const password = passwordInput.value;
         const passwordConfirm = passwordConfirmInput;
 
-        
+        btn.disabled = true;
+
+        try {
+            await signUp({
+                username: username,
+                password: password,
+                passwordConfirm: passwordConfirm
+            });
+
+            window.location.href = "/";
+        } catch (err) {
+            showError("server-error", err.message);
+        } finally {
+            btn.disabled = false;
+        }
     })
 
 });

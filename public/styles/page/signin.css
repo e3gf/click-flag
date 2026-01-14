@@ -61,7 +61,7 @@ input::placeholder {
   color: color-mix(in srgb, var(--muted-foreground) 80%, transparent);
 }
 
-#sign-in-tab p {
+.text {
   font-size: 0.94rem;
   color: var(--muted-foreground);
   margin: 1.1rem 0 0.4rem;
@@ -104,4 +104,8 @@ input::placeholder {
 #sign-in-button:active {
   transform: translateY(0);
   box-shadow: none;
+}
+
+.error {
+  color: var(--error);
 }
