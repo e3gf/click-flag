@@ -3,9 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/page/profile.css">
+    <title>ClickFlag - Profile</title>
 </head>
 <body>
+    <div id="profile-tab">
+        <button id="go-back-button"></button>
+        <h1 class="text">Profile</h1>
+        <div id="user-options-tab">
+            <h2 class="text">User</h2>
+            <input type="text" id="change-username" placeholder="Change username">
+            <input type="text" id="change-username-confirm" placeholder="Confirm username">
+            <input type="text" id="current-password" placeholder="Current password">
+            <input type="text" id="new-password" placeholder="New password">
+            <input type="text" id="new-password-confirm" placeholder="Confirm password">
+            <button id="change-username-button">Change username</button>
+            <button id="change-password-button">Change password</button>
+            <button id="copy-recovery-code-button">Copy recovery code</button>
+            <button id="sign-out-button">Sign out</button>
+        </div>
+        <div id="game-statistics-tab">
+            <h2 class="text">Game statistics</h2>
+            <div id="game-statistics-data">
+                <p class="text">White flags captured: 123</p>
+                <p class="text">Green flags captured: 456</p>
+                <p class="text">Red flags captured: 789</p>
+                <p class="text">Blue flags captured: 101112</p>
+                <p class="text">Black flags captured: 131415</p>
+                <p class="text">Energy spent: 161718</p>
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>

@@ -3,9 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/page/settings.css">
+    <title>ClickFlag - Settings</title>
 </head>
 <body>
-    
+    <div id="settings-tab">
+        <button id="go-back-button"></button>
+        <h1 class="text">Settings</h1>
+        <div id="options-tab">
+            <div id="music-volume-option">
+                <h3 class="text">Music volume</h3>
+                <input type="range" min="0" max="100" value="70">
+            </div>
+            <div id="sfx-volume-option">
+                <h3 class="text">SFX volume</h3>
+                <input type="range" min="0" max="100" value="60">
+            </div>
+            <div id="effects-option">
+                <h3 class="text">Effects</h3>
+                <input type="checkbox">
+                <span class="slider round">
+            </div>
+            <div id="lightmode-option">
+                <h3 class="text">Light mode</h3>
+                <input type="checkbox">
+                <span class="slider round">
+            </div>
+        </div>
+
+    </div>
 </body>
 </html>

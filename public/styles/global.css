@@ -107,9 +107,10 @@
   --shadow-md: 0px 5px 10px -2px hsl(0 0% 10.1961% / 0.10), 0px 2px 4px -3px hsl(0 0% 10.1961% / 0.10);
   --shadow-lg: 0px 5px 10px -2px hsl(0 0% 10.1961% / 0.10), 0px 4px 6px -3px hsl(0 0% 10.1961% / 0.10);
   --shadow-xl: 0px 5px 10px -2px hsl(0 0% 10.1961% / 0.10), 0px 8px 10px -3px hsl(0 0% 10.1961% / 0.10);
-  --shadow-2xl: 0px 5px 10px -2px hsl(0 0% 10.1961% / 0.25);
+  --shadow-2xl: 0px 5px 10px -2px hsla(171, 100%, 50%, 0.25);
 
   --capture-progress: #3fd9ff;
+  --overclock-ccp-indicator: rgb(0, 238, 255);
   --upgrade-level-unfilled: #3c3507;
   --upgrade-level-filled: #c8b537;
   --energy-progress-unfilled: #154371;
@@ -118,6 +119,7 @@
   --automation-progress-unfilled: #0d2f0d;
   --automation-progress-filled: #35d635;
   --automation-progress-text: #d0ff00;
+  --out-of-energy-indicator: #501111;
   --insufficient-currency: #c92525;
   --cooldown-progress-ascending: #38ac38;
   --cooldown-progress-descending: #c92525;

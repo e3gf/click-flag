@@ -121,3 +121,7 @@ main > * {
 .insufficient-currency {
     color: var(--insufficient-currency);
 }
+
+.hidden {
+    display: none;
+}

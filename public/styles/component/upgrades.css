@@ -155,6 +155,7 @@
     width: 0%;
 }
 
+
 .upgrade-progress-value {
     position: absolute;
     top: 50%;
@@ -236,4 +237,8 @@
 
 .selected-quantity {
     background-color: var(--card2-1-selected);
+}
+
+.upgrade-progress-indicator-energyless {
+    background-color: var(--out-of-energy-indicator);
 }

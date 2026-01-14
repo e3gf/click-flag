@@ -72,7 +72,8 @@ export default class UI {
         this.elements.whiteFlagCount.text(formatNumber(player.whiteFlagCount));
 
         const captureRatio = whiteFlag.getCaptureRatio(timerManager);
-        this.elements.captureProgress.style("width", `${captureRatio * 100}%`);
+        if(player.captureFrequency < player.captureFrequencyThreshold) this.elements.captureProgress.style("width", `${captureRatio * 100}%`);
+        else this.elements.captureProgress.style("width", `100%`);
 
         const overclockRatio = whiteFlag.getOverclockRatio(timerManager);
         const overclockState = whiteFlag.getOverclockState();
@@ -89,7 +90,11 @@ export default class UI {
         const wheelSpinRatio = wheel.getSpinRatio(timerManager);
         this.elements.wheel.style("rotate", `${wheelSpinRatio * 360}deg`);
 
-        this.elements.systemInfoCP.text(`CP: ${formatNumber(player.capturePower)}`);
+        this.elements.systemInfoCP.text(`CP: ${formatNumber(player.getCapturePower())}`);
+        this.elements.systemInfoCCPS.toggle(`overclocked-info-indicator`, whiteFlag.overclockActive);
+        if(whiteFlag.overclockActive) this.elements.systemInfoCCPS.text(`CCP: ${formatNumber(player.getCapturePower()) / (1 / player.overclockBoost / Math.min(player.captureFrequencyThreshold, player.captureFrequency))}/s`)
+        else this.elements.systemInfoCCPS.text(`CCP: ${formatNumber(player.getCapturePower() / (1 / Math.min(player.captureFrequencyThreshold, player.captureFrequency)))}/s`);
+        this.elements.systemInfoUCPS.text(`UCP: ${formatNumber(player.automationGeneration)}/s`);
         this.elements.systemInfoOCDuration.text(`OC Duration: ${toSeconds(player.overclockDuration)}`);
         this.elements.systemInfoOCCooldown.text(`OC Cooldown: ${toSeconds(player.overclockCooldown)}`);
 

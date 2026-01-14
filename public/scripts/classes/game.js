@@ -7,7 +7,7 @@ import UpgradeManager, { UpgradeScheduler } from "./upgrades.js";
 
 export default class Game {
     constructor(document){ 
-        this.player = new Player();
+        this.player = new Player(this);
         this.timerManager = new TimerManager();
         this.whiteFlag = new WhiteFlag();
         this.wheel = new Wheel();

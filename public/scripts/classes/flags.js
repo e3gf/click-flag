@@ -3,6 +3,7 @@ export default class WhiteFlag {
         this.ready = true;
         this.overclockActive = false;
 
+        this.captureSpeedThreshold = 100;
         this.captureTimer = null;
         this.overclockActiveTimer = null;
         this.overclockCooldownTimer = null;
@@ -16,7 +17,7 @@ export default class WhiteFlag {
         if(!this.ready) return;
         const player = game.player;
         const timerManager = game.timerManager;
-        if(player.captureConsumption > player.energyCount){
+        if(player.captureConsumption * player.getFreqValueMultiplier() > player.energyCount){
             if(this.outOfEnergyIndicatorTimer !== null) return;
             this.outOfEnergyIndicator = true; 
             return;
@@ -79,6 +80,6 @@ export default class WhiteFlag {
 
     getCaptureDelay(player){
         const speed = this.overclockActive ? player.overclockBoost : 1;
-        return 1000 / player.captureFrequency / speed;
+        return Math.max(this.captureSpeedThreshold, 1000 / player.captureFrequency / speed);
     }
 }

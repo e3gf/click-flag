@@ -135,6 +135,7 @@ class Upgrade {
             const value = p.valueFunction(this.bought, this.level);
             const time = p.timeFunction(this.level, this.threshold);
             const prevValue = ((this?.periodic["value"] ?? 0) * (this?.periodic["valueMulti"] ?? 0));
+            const prevTime = (this?.periodic["time"] ?? this.def.periodic.time);
             this.periodic["value"] = value;
             this.periodic["time"] = time.f;
             this.periodic["valueMulti"] = 1;
@@ -142,6 +143,9 @@ class Upgrade {
                 this.thresholdReached = true;
                 this.periodic["time"] = this.threshold;
                 this.periodic["valueMulti"] = time.s;
+            }
+            if(this.type === "automation"){
+                this.player.automationGeneration += (this.periodic["value"] * this.periodic["valueMulti"] * 1000 / this.periodic["time"] - prevValue * 1000 / prevTime);
             }
             let callback;
             if(this.def.energyConsumer) {
@@ -437,7 +441,8 @@ class UpgradeView {
 
         if (this.periodicCheck() && u.bought){
             if(u.def.energyConsumer){
-                this.ui.elements[this.elementIds.upgradeProgressIndicator].style("width", u.state === "running" ? `${u.thresholdReached ? 100 : u.timerManager.getTimeRatio(u.periodicTimer) * 100}%` : `0%`);
+                this.ui.elements[this.elementIds.upgradeProgressIndicator].style("width", u.state === "running" ? `${u.thresholdReached ? 100 : u.timerManager.getTimeRatio(u.periodicTimer) * 100}%` : `100%`);
+                this.ui.elements[this.elementIds.upgradeProgressIndicator].toggle("upgrade-progress-indicator-energyless", u.state !== "running");
             }
             else {
                 this.ui.elements[this.elementIds.upgradeProgressIndicator].style("width", `${u.thresholdReached ? `100` : u.timerManager.getTimeRatio(u.periodicTimer) * 100}%`);
