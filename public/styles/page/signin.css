@@ -1,22 +1,24 @@
+* {
+  font-family: "JetBrains Mono";
+}
 
 body {
   background: var(--background);
   color: var(--foreground);
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: var(--font-sans);
   margin: 0;
-  padding: 1rem;
+  user-select: none;
 }
 
 #sign-in-tab {
   background: var(--card);
   width: 100%;
   max-width: 380px;
-  padding: 2.5rem 2rem;
-  border-radius: var(--radius);
+  padding: 2rem;
+  border-radius: 2rem;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
   text-align: center;
@@ -27,12 +29,13 @@ body {
   font-weight: 600;
   color: var(--card-foreground);
   margin-bottom: 2.2rem;
+  margin-top: 0;
   letter-spacing: -0.02em;
 }
 
 #username-input,
 #password-input {
-  margin-bottom: 1.4rem;
+  margin-bottom: 1rem;
 }
 
 #username-input input,
@@ -80,7 +83,7 @@ input::placeholder {
 
 #sign-in-button {
   margin-top: 1.6rem;
-  width: 100%;
+  width: 8rem;
   padding: 1rem;
   background: var(--primary);
   color: var(--primary-foreground);

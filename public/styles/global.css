@@ -109,6 +109,8 @@
   --shadow-xl: 0px 5px 10px -2px hsl(0 0% 10.1961% / 0.10), 0px 8px 10px -3px hsl(0 0% 10.1961% / 0.10);
   --shadow-2xl: 0px 5px 10px -2px hsla(171, 100%, 50%, 0.25);
 
+  --error: #ff3c3c;
+
   --capture-progress: #3fd9ff;
   --overclock-ccp-indicator: rgb(0, 238, 255);
   --upgrade-level-unfilled: #3c3507;

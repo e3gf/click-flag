@@ -46,7 +46,6 @@ export class UpgradeScheduler {
     }
 
     startUpgrade(upgrade, consumption){
-        if(upgrade.state === "running") return;
         const player = this.game.player;
         player.energyCount -= consumption;
         this.game.timerManager.resetTimer(upgrade.periodicTimer);
@@ -162,7 +161,6 @@ class Upgrade {
             else {
                 if(this.type === "energy"){
                     const generation = this.periodic["value"] * this.periodic["valueMulti"];
-                    console.log(generation, prevValue);
                     this.player.energyGeneration += (generation - prevValue) * 1000 / this.periodic["time"];
                 }
                 callback = (times) => {
@@ -399,7 +397,7 @@ class UpgradeView {
                 const t = e.target;
                 this.ui.elements[this.elementIds.upgradeQuantityInput].toggle("selected-quantity", t.value !== "");
                 if (t.value !== "") {
-                    u.select(parseInt(t.value));
+                    u.select(t.value);
                     this.clearBtnSelection();
                 }
                 else {

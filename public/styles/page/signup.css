@@ -1,3 +1,6 @@
+* {
+  font-family: "JetBrains Mono";
+}
 
 body {
   background: var(--background);
@@ -6,17 +9,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: var(--font-sans);
   margin: 0;
-  padding: 1rem;
 }
 
 #sign-up-tab {
   background: var(--card);
   width: 100%;
   max-width: 380px;
-  padding: 2.5rem 2rem;
-  border-radius: var(--radius);
+  padding: 2rem;
+  border-radius: 2rem;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
   text-align: center;
@@ -27,13 +28,14 @@ body {
   font-weight: 600;
   color: var(--card-foreground);
   margin-bottom: 2.2rem;
+  margin-top: 0;
   letter-spacing: -0.02em;
 }
 
 #username-input,
 #password-input,
-#password-confirm-input input{
-  margin-bottom: 1.4rem;
+#password-confirm-input input {
+  margin-bottom: 1rem;
 }
 
 #username-input input,
@@ -61,14 +63,13 @@ input::placeholder {
   color: color-mix(in srgb, var(--muted-foreground) 80%, transparent);
 }
 
-#sign-up-tab p {
+#redirect-text {
   font-size: 0.94rem;
   color: var(--muted-foreground);
-  margin: 1.1rem 0 0.4rem;
   display: inline;
 }
 
-#sign-up-redirect {
+#sign-in-redirect {
   color: var(--primary);
   text-decoration: none;
   font-weight: 500;
@@ -83,7 +84,7 @@ input::placeholder {
 
 #sign-up-button {
   margin-top: 1.6rem;
-  width: 100%;
+  width: 8rem;
   padding: 1rem;
   background: var(--primary);
   color: var(--primary-foreground);
@@ -104,4 +105,11 @@ input::placeholder {
 #sign-up-button:active {
   transform: translateY(0);
   box-shadow: none;
+}
+
+.error {
+  color: var(--error);
+  margin: 0;
+  margin-top: .5rem;
+  line-height: 1;
 }

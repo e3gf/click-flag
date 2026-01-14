@@ -93,6 +93,7 @@ main > * {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    text-decoration: none;
 }
 
 #username {
@@ -112,6 +113,7 @@ main > * {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
 }
 
 #settings-icon {

@@ -9,7 +9,6 @@ export default class WhiteFlag {
         this.overclockCooldownTimer = null;
 
         this.outOfEnergyIndicator = false;
-        this.outOfEnergyIndicatorTimer = null;
     }
 
     capture(game){
@@ -18,7 +17,6 @@ export default class WhiteFlag {
         const player = game.player;
         const timerManager = game.timerManager;
         if(player.captureConsumption * player.getFreqValueMultiplier() > player.energyCount){
-            if(this.outOfEnergyIndicatorTimer !== null) return;
             this.outOfEnergyIndicator = true; 
             return;
         }

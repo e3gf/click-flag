@@ -21,6 +21,7 @@ export default class UI {
         this.createSmartElement("energyTabEnergyCount", "energy-tab-energy-count-display");
         this.createSmartElement("energyGeneration", "energy-info-generation");
         this.createSmartElement("energyConsumption", "energy-info-consumption");
+        this.createSmartElement("energyCCPConsumption", "energy-info-ccp-consumption");
         this.createSmartElement("wheel", "wheel");
 
         this.createSmartElement("componentUpgradeTab", "component-upgrades-tab");
@@ -67,7 +68,6 @@ export default class UI {
         const timerManager = game.timerManager;
         const whiteFlag = game.whiteFlag;
         const wheel = game.wheel;
-        const upgradeManager = game.upgradeManager;
 
         this.elements.whiteFlagCount.text(formatNumber(player.whiteFlagCount));
 
@@ -86,6 +86,7 @@ export default class UI {
         this.elements.energyTabEnergyCount.toggle("insufficient-currency", whiteFlag.outOfEnergyIndicator);
         this.elements.energyGeneration.text(`${formatNumber(player.energyGeneration)}/s`);
         this.elements.energyConsumption.text(`${formatNumber(player.energyConsumption)}/s`);
+        this.elements.energyCCPConsumption.text(`${formatNumber(player.captureConsumption)}/s`); // Finish
 
         const wheelSpinRatio = wheel.getSpinRatio(timerManager);
         this.elements.wheel.style("rotate", `${wheelSpinRatio * 360}deg`);
@@ -98,10 +99,10 @@ export default class UI {
         this.elements.systemInfoOCDuration.text(`OC Duration: ${toSeconds(player.overclockDuration)}`);
         this.elements.systemInfoOCCooldown.text(`OC Cooldown: ${toSeconds(player.overclockCooldown)}`);
 
-        this.#renderUpdates(game);
+        this.#renderUpgrades(game);
     }
 
-    #renderUpdates(game){
+    #renderUpgrades(game){
         const upgradeManager = game.upgradeManager;
         Object.values(upgradeManager.list).forEach(element => {
             element.view.render(game.player);

@@ -27,7 +27,6 @@ export default class Player {
     captureWhiteFlag(){
         this.whiteFlagCount += this.getCapturePower();
         this.energyCount -= this.captureConsumption * this.getFreqValueMultiplier();
-        this.energyCount = roundTo(this.energyCount, 3);
     }
 
     getCapturePower(){
@@ -40,6 +39,5 @@ export default class Player {
 
     spinWheel(){
         this.energyCount += 1;
-        this.energyCount = roundTo(this.energyCount, 3);
     }
 }
