@@ -38,8 +38,7 @@ body {
   margin-bottom: 1rem;
 }
 
-#username-input input,
-#password-input input {
+input {
   width: 80%;
   padding: 0.95rem 1.1rem;
   background: var(--input);
@@ -50,8 +49,7 @@ body {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-#username-input input:focus,
-#password-input input:focus {
+input:focus {
   outline: none;
   border-color: var(--ring);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);

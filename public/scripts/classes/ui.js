@@ -11,6 +11,8 @@ export default class UI {
     }
 
     #bindElements(){
+        this.createSmartElement("body", "body");
+
         this.createSmartElement("whiteFlag", "white-flag-image");
         this.createSmartElement("whiteFlagCount", "white-flag-count-display");
         this.createSmartElement("overclockBtn", "overclock-btn");

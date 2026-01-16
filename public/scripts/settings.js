@@ -1,21 +1,22 @@
 import { saveSettings } from "./api/settings.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    document.body.classList.add("dark");
+    const loadedSettings = localStorage.getItem("settings");
+    document.body.classList.toggle("dark", !(JSON.parse(loadedSettings)?.lightMode));
     const musicVolume = document.querySelector("#music-volume");
     const sfxVolume = document.querySelector("#sfx-volume");
     const effectsEnabled = document.querySelector("#effects-enabled");
     const lightMode = document.querySelector("#light-mode");
+    const optionsTab = document.querySelector("#options-tab");
 
     const saveBtn = document.querySelector("#save-settings-button");
-    const errorEl = document.querySelector("#settings-error");
 
-    // Initial state (would normally come from backend)
-    const initialSettings = {
-        musicVolume: musicVolume.value,
-        sfxVolume: sfxVolume.value,
-        effectsEnabled: effectsEnabled.checked,
-        lightMode: lightMode.checked,
+
+    let initialSettings = loadedSettings ? JSON.parse(loadedSettings) : {
+        musicVolume: 50,
+        sfxVolume: 50,
+        effectsEnabled: true,
+        lightMode: false,
     };
 
     const getCurrentSettings = () => ({
@@ -25,6 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
         lightMode: lightMode.checked,
     });
 
+    const setValues = (settings) => {
+        musicVolume.value = settings.musicVolume;
+        sfxVolume.value = settings.sfxVolume;
+        effectsEnabled.checked = settings.effectsEnabled;
+        lightMode.checked = settings.lightMode;
+    }
+
     const hasChanges = () => {
         const current = getCurrentSettings();
         return Object.keys(initialSettings).some(
@@ -33,43 +41,22 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const updateSaveButtonVisibility = () => {
-        saveBtn.style.display = hasChanges() ? "block" : "none";
+        saveBtn.classList.toggle("save-settings-button-changes", hasChanges());
+        saveBtn.disabled = !hasChanges();
     };
 
-    const clearError = () => {
-        errorEl.textContent = "";
-    };
+    optionsTab.addEventListener("input", updateSaveButtonVisibility);
+    optionsTab.addEventListener("check", updateSaveButtonVisibility);
 
-    const showError = (msg) => {
-        errorEl.textContent = msg;
-    };
-
-    // Listen to changes
-    [
-        musicVolume,
-        sfxVolume,
-        effectsEnabled,
-        lightMode
-    ].forEach(el => {
-        el.addEventListener("input", updateSaveButtonVisibility);
-        el.addEventListener("change", updateSaveButtonVisibility);
-    });
-
-    saveBtn.addEventListener("click", async () => {
-        clearError();
+    saveBtn.addEventListener("click", () => {
         saveBtn.disabled = true;
+        saveBtn.classList.toggle("save-settings-button-changes", false);
 
-        try {
-            const settings = getCurrentSettings();
-            await saveSettings(settings);
-
-            // Update baseline
-            Object.assign(initialSettings, settings);
-            updateSaveButtonVisibility();
-        } catch (err) {
-            showError(err.message || "Failed to save settings.");
-        } finally {
-            saveBtn.disabled = false;
-        }
+        const newSettings = getCurrentSettings();
+        document.body.classList.toggle("dark", !newSettings.lightMode);
+        localStorage.setItem("settings", JSON.stringify(newSettings));
+        initialSettings = newSettings;
     });
+
+    setValues(initialSettings);
 });

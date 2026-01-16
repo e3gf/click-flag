@@ -33,19 +33,13 @@ export default class Game {
     }
 
     #bindInputs(){
-        this.captureFlagEvent = () => {
-            if(!this.flagHeld) this.whiteFlag.capture(this);
-        };
-
         this.startHoldEvent = () => {
             this.flagHeld = true;
         }
 
         this.endHoldEvent = () => {
-            this.timerManager.addTimer(this.uiUpdateInterval, () => {
-                this.flagHeld = false
-                this.whiteFlag.outOfEnergyIndicator = false;
-            });
+            this.flagHeld = false
+            this.whiteFlag.outOfEnergyIndicator = false;
         }
 
         this.overclockEvent = () => {
@@ -57,10 +51,8 @@ export default class Game {
         };
 
 
-
-        this.uiManager.addDynamicListener("whiteFlag", "click", this.captureFlagEvent);
         this.uiManager.addDynamicListener("whiteFlag", "mousedown", this.startHoldEvent);
-        this.uiManager.addDynamicListener("whiteFlag", "mouseup", this.endHoldEvent);
+        this.uiManager.addDynamicListener("body", "mouseup", this.endHoldEvent);
         this.uiManager.addDynamicListener("overclockBtn", "click", this.overclockEvent);
 
         this.uiManager.addDynamicListener("wheel", "click", this.spinWheelEvent);
