@@ -1,111 +1,143 @@
 * {
-  font-family: "JetBrains Mono";
+    font-family: "JetBrains Mono";
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    user-select: none;
 }
 
 #sign-up-tab {
-  background: var(--card);
-  width: 100%;
-  max-width: 380px;
-  padding: 2rem;
-  border-radius: 2rem;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-lg);
-  text-align: center;
+    background: var(--card);
+    width: 100%;
+    max-width: 380px;
+    padding: 2rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
 }
 
 #sign-up-tab h1 {
-  font-size: 1.85rem;
-  font-weight: 600;
-  color: var(--card-foreground);
-  margin-bottom: 2.2rem;
-  margin-top: 0;
-  letter-spacing: -0.02em;
-}
-
-#username-input,
-#password-input,
-#password-confirm-input input {
-  margin-bottom: 1rem;
+    font-size: 1.85rem;
+    font-weight: 600;
+    color: var(--card-foreground);
+    margin-bottom: 2.2rem;
+    margin-top: 0;
+    letter-spacing: -0.02em;
 }
 
 input {
-  width: 80%;
-  padding: 0.95rem 1.1rem;
-  background: var(--input);
-  border: 1px solid var(--border);
-  border-radius: 2rem;
-  color: var(--card-foreground);
-  font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+    width: 80%;
+    padding: 0.95rem 1.1rem;
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    color: var(--card-foreground);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
 }
 
 input:focus {
-  outline: none;
-  border-color: var(--ring);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+    outline: none;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
 }
 
 input::placeholder {
-  color: color-mix(in srgb, var(--muted-foreground) 80%, transparent);
+    color: color-mix(in srgb, var(--muted-foreground) 80%, transparent);
 }
 
 #redirect-text {
-  font-size: 0.94rem;
-  color: var(--muted-foreground);
-  display: inline;
+    font-size: 0.94rem;
+    color: var(--muted-foreground);
+    display: inline;
 }
 
 #sign-in-redirect {
-  color: var(--primary);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.94rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.94rem;
 }
 
 #sign-in-redirect:hover,
 #sign-in-redirect:focus {
-  text-decoration: underline;
-  color: color-mix(in srgb, var(--primary) 120%, white 10%);
+    text-decoration: underline;
+    color: color-mix(in srgb, var(--primary) 120%, white 10%);
 }
 
-#sign-up-button {
-  margin-top: 1.6rem;
-  width: 8rem;
-  padding: 1rem;
-  background: var(--primary);
-  color: var(--primary-foreground);
-  border: none;
-  border-radius: 2rem;
-  font-size: 1.05rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.22s ease;
+
+.button-area {
+    margin-top: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#sign-up-button:hover {
-  background: color-mix(in srgb, var(--primary) 85%, black 15%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 35%, transparent);
+.button {
+    width: 8rem;
+    padding: 1rem;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: 2rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
 }
 
-#sign-up-button:active {
-  transform: translateY(0);
-  box-shadow: none;
+.button:not(.disabled):hover {
+    background: color-mix(in srgb, var(--primary) 85%, black 15%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 35%, transparent);
+}
+
+.button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.hidden {
+    display: none;
 }
 
 .error {
-  color: var(--error);
-  margin: 0;
-  margin-top: .5rem;
-  line-height: 1;
+    color: var(--error);
+    margin: 0;
+    margin-top: .5rem;
+    line-height: 1;
+}
+
+.button.disabled {
+    background-color: var(--muted);
+    cursor: default;
+}
+
+.recovery-code {
+    font-size: 1.5rem;
+    margin: .5rem;
+    cursor: pointer;
+}
+
+#recovery-button {
+    margin-top: 1rem;
+}
+
+.copied-indicator {
+    color: var(--success-color);
+    margin: 0;
 }

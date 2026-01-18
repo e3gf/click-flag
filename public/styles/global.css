@@ -110,6 +110,7 @@
   --shadow-2xl: 0px 5px 10px -2px hsla(171, 100%, 50%, 0.25);
 
   --error: #ff3c3c;
+  --success-color: #26d726;
 
   --capture-progress: #3fd9ff;
   --overclock-ccp-indicator: rgb(0, 238, 255);

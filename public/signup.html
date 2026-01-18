@@ -11,22 +11,35 @@
 </head>
 <body>
     <div id="sign-up-tab">
-        <h1 class="text">Sign up</h1>
-        <div id="username-input">
-            <input type="text" id="username" placeholder="Username" maxlength="20">
-            <p class="error" id="username-error"></p>
+        <div id="sign-up-part">
+            <h1 class="text">Sign up</h1>
+            <div class="inputs">
+                <div class="input-area" id="username-input">
+                    <input type="text" id="username" placeholder="Username" maxlength="20">
+                    <p class="error hidden" id="username-error"></p>
+                </div>
+                <div class="input-area" id="password-input">
+                    <input type="password" id="password" placeholder="Password" maxlength="32">
+                    <p class="error hidden" id="password-error"></p>
+                </div>
+                <div class="input-area" id="password-confirm-input">
+                    <input type="password" id="password-confirm" placeholder="Confirm password" maxlength="32">
+                    <p class="error hidden" id="password-confirm-error"></p>
+                </div>
+            </div>
+            <div class="button-area">
+                <p class="text" id="redirect-text">Already have an account? <a href="/signin.html" id="sign-in-redirect">Sign in instead</a></p>
+                <button class="button disabled" id="sign-up-button">Sign Up</button>
+            </div>
+            <p class="error hidden" id="server-error"></p>
         </div>
-        <div id="password-input">
-            <input type="password" id="password" placeholder="Password" maxlength="32">
-            <p class="error" id="password-error"></p>
+        <div id="recovery-code-part" class="hidden">
+            <h1 class="text">Recovery code</h1>
+            <p class="recovery-description text">In the case that you forget your password, you will be able to use this recovery code to access your account.</p>
+            <p class="recovery-code text" id="recovery-code"></p>
+            <p class="copied-indicator hidden" id="copy-indicator">Copied!</p>
+            <button class="button" id="recovery-button">Continue</button>
         </div>
-        <div id="password-confirm-input">
-            <input type="password" id="password-confirm" placeholder="Confirm password" maxlength="32">
-            <p class="error" id="password-confirm-error"></p>
-        </div>
-        <p class="text" id="redirect-text">Already have an account? </p><a href="/signin.html" id="sign-in-redirect">Sign in instead</a>
-        <button id="sign-up-button">Sign Up</button>
-        <p class="error" id="server-error"></p>
     </div>
 </body>
 </html>

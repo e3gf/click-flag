@@ -1,109 +1,104 @@
 * {
-  font-family: "JetBrains Mono";
+    font-family: "JetBrains Mono";
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  user-select: none;
+    background: var(--background);
+    color: var(--foreground);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    user-select: none;
 }
 
 #sign-in-tab {
-  background: var(--card);
-  width: 100%;
-  max-width: 380px;
-  padding: 2rem;
-  border-radius: 2rem;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-lg);
-  text-align: center;
+    background: var(--card);
+    width: 100%;
+    max-width: 380px;
+    padding: 2rem;
+    border-radius: 2rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
 }
 
 #sign-in-tab h1 {
-  font-size: 1.85rem;
-  font-weight: 600;
-  color: var(--card-foreground);
-  margin-bottom: 2.2rem;
-  margin-top: 0;
-  letter-spacing: -0.02em;
-}
-
-#username-input,
-#password-input {
-  margin-bottom: 1rem;
+    font-size: 1.85rem;
+    font-weight: 600;
+    color: var(--card-foreground);
+    margin-bottom: 2.2rem;
+    margin-top: 0;
+    letter-spacing: -0.02em;
 }
 
 input {
-  width: 80%;
-  padding: 0.95rem 1.1rem;
-  background: var(--input);
-  border: 1px solid var(--border);
-  border-radius: 2rem;
-  color: var(--card-foreground);
-  font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+    width: 80%;
+    padding: 0.95rem 1.1rem;
+    background: var(--input);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    color: var(--card-foreground);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus {
-  outline: none;
-  border-color: var(--ring);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+    outline: none;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
 }
 
 input::placeholder {
-  color: color-mix(in srgb, var(--muted-foreground) 80%, transparent);
+    color: color-mix(in srgb, var(--muted-foreground) 80%, transparent);
 }
 
 .text {
-  font-size: 0.94rem;
-  color: var(--muted-foreground);
-  margin: 1.1rem 0 0.4rem;
-  display: inline;
+    font-size: 0.94rem;
+    color: var(--muted-foreground);
+    margin: 1.1rem 0 0.4rem;
+    display: inline;
 }
 
 #sign-up-redirect {
-  color: var(--primary);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.94rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.94rem;
 }
 
 #sign-up-redirect:hover,
 #sign-up-redirect:focus {
-  text-decoration: underline;
-  color: color-mix(in srgb, var(--primary) 120%, white 10%);
+    text-decoration: underline;
+    color: color-mix(in srgb, var(--primary) 120%, white 10%);
 }
 
 #sign-in-button {
-  margin-top: 1.6rem;
-  width: 8rem;
-  padding: 1rem;
-  background: var(--primary);
-  color: var(--primary-foreground);
-  border: none;
-  border-radius: 2rem;
-  font-size: 1.05rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.22s ease;
+    margin-top: 1.6rem;
+    width: 8rem;
+    padding: 1rem;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: 2rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.22s ease;
 }
 
 #sign-in-button:hover {
-  background: color-mix(in srgb, var(--primary) 85%, black 15%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 35%, transparent);
+    background: color-mix(in srgb, var(--primary) 85%, black 15%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 35%, transparent);
 }
 
 #sign-in-button:active {
-  transform: translateY(0);
-  box-shadow: none;
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 .error {
-  color: var(--error);
+    color: var(--error);
 }
