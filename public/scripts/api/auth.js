@@ -13,3 +13,17 @@ export function signIn({ username, password}) {
         body: JSON.stringify({ username, password }),
     });
 }
+
+export function recover({ recoveryCode }) {
+    return http("/api/auth/recover", {
+        method: "POST",
+        body: JSON.stringify({ recoveryCode }),
+    });
+}
+
+export function resetPassword({ newPassword, newPasswordConfirm }) {
+    return http("/api/auth/reset-password", {
+        method: "POST",
+        body: JSON.stringify({ newPassword, newPasswordConfirm }),
+    });
+}

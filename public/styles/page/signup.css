@@ -76,7 +76,6 @@ input::placeholder {
 #sign-in-redirect:hover,
 #sign-in-redirect:focus {
     text-decoration: underline;
-    color: color-mix(in srgb, var(--primary) 120%, white 10%);
 }
 
 

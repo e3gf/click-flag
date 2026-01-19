@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="styles/global.css">
     <link rel="stylesheet" href="styles/page/signin.css">
     <script type="module" src="scripts/signin.js"></script>
@@ -11,16 +12,58 @@
 </head>
 <body>
     <div id="sign-in-tab">
-        <h1>Sign in</h1>
-        <div id="username-input">
-            <input type="text" id="username" placeholder="Username">
+        <div id="sign-in-part">
+            <h1 class="normal-heading">Sign in</h1>
+            <div class="inputs">
+                <div id="username-input">
+                    <input type="text" id="username" placeholder="Username">
+                </div>
+                <div id="password-input">
+                    <input type="password" id="password" placeholder="Password">
+                </div>
+            </div>
+            <div class="button-area">
+                <p class="text">Don't have an account? <a href="/signup.html" id="sign-up-redirect">Sign up instead</a></p>
+                <button class="button" id="sign-in-button">Sign In</button>
+            </div>
+            <p class="text" id="forgot-password">Forgot password</p>
+            <p class="error hidden" id="main-error"></p>
         </div>
-        <div id="password-input">
-            <input type="password" id="password" placeholder="Password">
+        <div id="input-recovery-part" class="hidden">
+            <div class="recovery-top">
+                <h1 class="heading-with-back">Recover account</h1>
+                <div id="go-back-button">
+                    <span class="material-symbols-outlined">
+                        arrow_back
+                    </span>
+                </div>
+            </div>
+            <div class="inputs">
+                <div id="recovery-code-input"><input type="text" class="text" id="recovery-code" placeholder="Recovery code" maxlength="16"></div>
+            </div>
+            <div class="button-area" id="recovery-button-area">
+                <button class="button" id="recovery-code-button">Recover</button>
+            </div>
+            <p class="error hidden" id="recovery-error"></p>
         </div>
-        <p class="text">Don't have an account? </p><a href="/signup.html" id="sign-up-redirect">Sign up instead</a> 
-        <button id="sign-in-button">Sign In</button> 
-        <p class="error" id="main-error"></p>
+        <div id="reset-password-part" class="hidden">
+            <h1 class="normal-heading">Reset password</h1>
+            <div class="inputs">
+                <div id="new-password-input">
+                    <input type="password" class="text" id="new-password" placeholder="New password">
+                    <p class="error hidden" id="new-password-error"></p>
+                </div>
+                <div id="new-password-confirm-input">
+                    <input type="password" class="text" id="new-password-confirm" placeholder="Confirm password">
+                    <p class="error hidden" id="new-password-confirm-error"></p>
+                </div>
+            </div>
+            <div class="button-area" id="reset-button-area">
+                <button class="button" id="reset-password-button">Reset password</button>
+            </div>
+            <p class="error hidden" id="reset-error"></p>
+        </div>
+        </div>
     </div>
 </body>
 </html>

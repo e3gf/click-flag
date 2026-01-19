@@ -1,4 +1,4 @@
-import { clearError, showError } from "./utils/pass-validation.js";
+import { clearError, showError, validateConfirmPassword, validatePassword } from "./utils/pass-validation.js";
 import { signUp } from "./api/auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -53,58 +53,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     passwordInput.addEventListener("input", (e) => {
         const v = e.target.value;
-        if(v === ""){
-            clearError("password-error");
-            clearError("password-confirm-error");
-            passwordError = false; 
-            checkBtnState();
-            return;
-        }
-        if(v.length < 6){
-            showError("password-error", "Password should be at least 6 characters long.");
-            if(passwordConfirmInput.value !== "") showError("password-confirm-error", "Passwords do not match.");
-            else {
-                clearError("password-confirm-error")
-                passwordConfirmError = true;
-            checkBtnState();
-            };
-            passwordError = true; 
-            checkBtnState();
-            return;
-        }
-        clearError("password-error");
-        passwordError = false; 
+        ({passwordError, passwordConfirmError} = 
+            validatePassword(
+                v, 
+                passwordConfirmInput, 
+                passwordError, 
+                passwordConfirmError, 
+                "password-error", 
+                "password-confirm-error"
+            ));
         checkBtnState();
-        if(passwordConfirmInput.value !== "" && passwordConfirmInput.value !== v){
-            showError("password-confirm-error", "Passwords do not match.");
-            passwordConfirmError = true;
-            checkBtnState();
-            return;
-        }
-        
-        clearError("password-confirm-error");
-        passwordConfirmError = false; 
-        checkBtnState();
-    })
-
+    })  
     passwordConfirmInput.addEventListener("input", (e) => {
         const v = e.target.value;
-        if(v === ""){
-            clearError("password-confirm-error");
-            passwordConfirmError = false; 
-            checkBtnState();
-            return;
-        }
-        if(passwordInput.value !== "" && v !== passwordInput.value){
-            showError("password-confirm-error", "Passwords do not match.");
-            passwordConfirmError = true; 
-            checkBtnState();
-        }
-        else{
-            clearError("password-confirm-error");
-            passwordConfirmError = false; 
-            checkBtnState();
-        }
+        passwordConfirmError = 
+            validateConfirmPassword(
+                v, 
+                passwordInput, 
+                passwordConfirmError, 
+                "password-confirm-error"
+            );
+        checkBtnState();
     })
 
     const goToRecovery = (code) => {
@@ -114,8 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     signUpBtn.addEventListener("click", async () => {
-        if(usernameInput.value === "" || passwordInput.value === "" || passwordConfirmInput.value === "" || usernameError || passwordError || passwordConfirmError) return;
-
         clearError("server-error");
 
         const username = usernameInput.value;

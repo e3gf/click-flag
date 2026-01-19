@@ -22,15 +22,22 @@ body {
     border: 1px solid var(--border);
     box-shadow: var(--shadow-lg);
     text-align: center;
+    position: relative;
 }
 
-#sign-in-tab h1 {
+.normal-heading {
     font-size: 1.85rem;
     font-weight: 600;
     color: var(--card-foreground);
     margin-bottom: 2.2rem;
     margin-top: 0;
     letter-spacing: -0.02em;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
 }
 
 input {
@@ -57,8 +64,6 @@ input::placeholder {
 .text {
     font-size: 0.94rem;
     color: var(--muted-foreground);
-    margin: 1.1rem 0 0.4rem;
-    display: inline;
 }
 
 #sign-up-redirect {
@@ -71,12 +76,10 @@ input::placeholder {
 #sign-up-redirect:hover,
 #sign-up-redirect:focus {
     text-decoration: underline;
-    color: color-mix(in srgb, var(--primary) 120%, white 10%);
 }
 
-#sign-in-button {
-    margin-top: 1.6rem;
-    width: 8rem;
+.button {
+    min-width: 8rem;
     padding: 1rem;
     background: var(--primary);
     color: var(--primary-foreground);
@@ -88,17 +91,106 @@ input::placeholder {
     transition: all 0.22s ease;
 }
 
-#sign-in-button:hover {
+.button:not(.disabled):hover {
     background: color-mix(in srgb, var(--primary) 85%, black 15%);
     transform: translateY(-1px);
     box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 35%, transparent);
 }
 
-#sign-in-button:active {
+.button:active {
     transform: translateY(0);
     box-shadow: none;
 }
 
 .error {
     color: var(--error);
+    margin: 0;
+    margin-top: 1rem;
+}
+
+.button-area {
+    margin-top: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button.disabled {
+    background-color: var(--muted);
+    cursor: default;
+}
+
+.hidden {
+    display: none;
+}
+
+#main-error {
+    margin-bottom: 0;
+}
+
+#forgot-password {
+    display: inline-block;
+    margin: 0;
+    margin-top: .5rem;
+    color: var(--primary)
+}
+
+#forgot-password:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.recovery-top {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2.2rem;
+}
+
+.heading-with-back {
+    margin: 0;
+}
+
+#recovery-button-area {
+    margin-top: 1.2rem;
+}
+
+#go-back-button {
+    appearance: none;
+    border: none;
+    background: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.15s ease;
+    color: var(--foreground, #e5e5e5);
+    text-decoration: none;
+    position: absolute;
+    left: 1rem;
+    z-index: 1;
+}
+
+#go-back-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.08);
+}
+
+#go-back-button:active {
+    transform: scale(0.96);
+}
+
+#go-back-button .material-symbols-outlined {
+    font-size: 32px;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 500,
+        'GRAD' 0,
+        'opsz' 48;
+}
+
+#reset-button-area {
+    margin-top: 1.2rem;
 }
