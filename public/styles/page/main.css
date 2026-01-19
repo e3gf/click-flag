@@ -60,6 +60,16 @@ header {
 main {
     height: 100%;
     width: 100%;
+    position: relative;
+}
+
+.page-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+#game-container {
     display: grid;
     grid-template-columns: 34fr 19fr 19fr 19fr 5fr;
     grid-template-rows: 1fr 10fr;
@@ -69,10 +79,14 @@ main {
     min-height: 0;
     column-gap: 1rem;
     row-gap: 1rem;
+    position: absolute;
 }
 
-main > * {
-    min-height: 0;
+#profile-page:not(.hidden), #settings-page:not(.hidden) {
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #flag-energy {
@@ -87,13 +101,14 @@ main > * {
     color: var(--foreground);
 }
 
-#username-container {
+#profile-container {
     background-color: var(--card);
     border-radius: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     text-decoration: none;
+    cursor: pointer;
 }
 
 #username {
@@ -114,6 +129,7 @@ main > * {
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    cursor: pointer;
 }
 
 #settings-icon {
@@ -126,4 +142,36 @@ main > * {
 
 .hidden {
     display: none;
+}
+
+.go-back-button {
+    appearance: none;
+    border: none;
+    background: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.15s ease;
+    color: var(--foreground, #e5e5e5);
+    position: absolute;
+    text-decoration: none;
+    left: 0;
+    z-index: 1;
+}
+
+.go-back-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.08);
+}
+
+.go-back-button:active {
+    transform: scale(0.96);
+}
+
+.go-back-button .material-symbols-outlined {
+    font-size: 32px;
 }

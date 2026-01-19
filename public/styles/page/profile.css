@@ -2,17 +2,6 @@
   font-family: "JetBrains Mono";
 }
 
-body {
-    background: var(--background);
-    color: var(--foreground);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    user-select: none;
-}
-
 #profile-tab {
     background: var(--card);
     width: 60%;
@@ -43,37 +32,7 @@ body {
     margin: 0;
 }
 
-#go-back-button {
-    appearance: none;
-    border: none;
-    background: none;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease, transform 0.15s ease;
-    color: var(--foreground, #e5e5e5);
-    position: absolute;
-    text-decoration: none;
-    left: 0;
-    z-index: 1;
-}
 
-#go-back-button:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: scale(1.08);
-}
-
-#go-back-button:active {
-    transform: scale(0.96);
-}
-
-#go-back-button .material-symbols-outlined {
-    font-size: 32px;
-}
 
 .side-tab {
     background-color: var(--card2);

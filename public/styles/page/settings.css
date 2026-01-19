@@ -2,17 +2,6 @@
     font-family: "JetBrains Mono";
 }
 
-body {
-    background: var(--background);
-    color: var(--foreground);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    user-select: none;
-}
-
 #settings-tab {
     background: var(--card);
     width: 100%;

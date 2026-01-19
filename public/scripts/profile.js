@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const d = document;
     d.body.classList.add("dark");
@@ -10,6 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     let currentMode = MODE.OVERVIEW;
+
+    const profileTab = d.querySelector("#profile-tab");
+
+    profileTab.addEventListener("click", (e) => {
+        e.stopPropagation();
+    })
 
     const btnChangeUsername = d.querySelector("#btn-change-username");
     const btnChangePassword = d.querySelector("#btn-change-password");

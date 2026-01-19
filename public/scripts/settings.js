@@ -3,6 +3,9 @@ import { saveSettings } from "./api/settings.js";
 document.addEventListener("DOMContentLoaded", () => {
     const loadedSettings = localStorage.getItem("settings");
     document.body.classList.toggle("dark", !(JSON.parse(loadedSettings)?.lightMode));
+
+    const settingsTab = document.querySelector("#settings-tab");
+
     const musicVolume = document.querySelector("#music-volume");
     const sfxVolume = document.querySelector("#sfx-volume");
     const effectsEnabled = document.querySelector("#effects-enabled");
@@ -11,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const saveBtn = document.querySelector("#save-settings-button");
 
+    settingsTab.addEventListener("click", (e) => {
+        e.stopPropagation();
+    })
 
     let initialSettings = loadedSettings ? JSON.parse(loadedSettings) : {
         musicVolume: 50,
