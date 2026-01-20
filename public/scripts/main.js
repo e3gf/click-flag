@@ -1,10 +1,10 @@
-import Game from "./classes/game.js";
-import { getLoadedSettings, hideSaveDialogue, openSaveDialogue, saveDialogueOpened } from "./utils/settingsUtils.js";
+import { createGame, game} from "./config/gameState.js";
+import { getCurrentSettings, getLoadedSettings, hideSaveDialogue, openSaveDialogue, revertChanges, save, saveDialogueOpened, setLoadedSettings, updateSaveButtonVisibility } from "./utils/settingsUtils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const settings = JSON.parse(localStorage.getItem("settings"));
     document.body.classList.toggle("dark", !settings?.lightMode);
-    const game = new Game(document);
+    const gameVar = createGame(settings);
 
     const profileButton = document.querySelector("#profile-container");
     const settingsButton = document.querySelector("#settings-container");
@@ -48,36 +48,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const effectsEnabled = document.querySelector("#effects-enabled");
     const lightMode = document.querySelector("#light-mode");
 
-    const savePopup = document.querySelector("#save-popup-container");
     const savePopupSave = document.querySelector("#save-popup-save");
     const savePopupCancel = document.querySelector("#save-popup-cancel");
 
     function handleSettingsExit() {
-        const selectedSettings = {
-            musicVolume: parseInt(musicVolume.value),
-            sfxVolume: parseInt(sfxVolume.value),
-            effectsEnabled: effectsEnabled.checked,
-            lightMode: lightMode.checked,
-        }
+        const selectedSettings = getCurrentSettings();
         const loadedSettings = getLoadedSettings()
         const hasChanges = Object.keys(loadedSettings).some(
             key => loadedSettings[key] !== selectedSettings[key]
         );
-        if(hasChanges) openSaveDialogue(savePopup);
+        if(hasChanges) openSaveDialogue();
         else {
             settingsOverlay.classList.toggle("hidden", true);
         }
     }
 
     savePopupSave.addEventListener("click", () => {
-        hideSaveDialogue(savePopup);
+        save();
+        hideSaveDialogue();
         hideOverlays();
+        updateSaveButtonVisibility();
     })
 
     savePopupCancel.addEventListener("click", () => {
-        hideSaveDialogue(savePopup);  
+        revertChanges();
+        hideSaveDialogue();  
         hideOverlays();
+        updateSaveButtonVisibility();
     })
-
 
 })

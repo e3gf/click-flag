@@ -8,14 +8,11 @@ export async function http(url, options = {}) {
         ...options,
     });
 
-    const contentType = res.headers.get("content-type");
-    const isJson = contentType && contentType.includes("application/json");
-
-    const body = isJson ? await res.json() : await res.text();
+    const body = await res.json();
 
     if (!res.ok) {
         const message =
-            (isJson && body?.error) ||
+            (body?.error) ||
             body ||
             res.statusText ||
             "Something went wrong";

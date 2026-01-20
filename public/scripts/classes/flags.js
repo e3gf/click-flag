@@ -24,6 +24,7 @@ export default class WhiteFlag {
         const delay = this.getCaptureDelay(player);
 
         player.captureWhiteFlag();
+        game.audio.playSFX("click");
         this.ready = false;
 
         this.captureTimer = timerManager.addTimer(delay, () => { 

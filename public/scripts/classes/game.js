@@ -4,9 +4,10 @@ import TimerManager from "./timer.js";
 import WhiteFlag from "./flags.js";
 import Wheel from "./wheel.js";
 import UpgradeManager, { UpgradeScheduler } from "./upgrades.js";
+import { AudioManager } from "./audio.js";
 
 export default class Game {
-    constructor(document){ 
+    constructor(document, settings){ 
         this.player = new Player(this);
         this.timerManager = new TimerManager();
         this.whiteFlag = new WhiteFlag();
@@ -15,6 +16,8 @@ export default class Game {
         this.uiManager = new UI(document);
         this.upgradeManager = new UpgradeManager(this, this.uiManager);
         this.upgradeScheduler = new UpgradeScheduler(this);
+
+        this.audio = new AudioManager();
         
         this.lastTime = performance.now();
         this.loop = this.loop.bind(this);
@@ -30,6 +33,29 @@ export default class Game {
         this.#bindInputs();
         this.#createUpgrades();
 
+        // to initialize audio on first interaction
+        window.addEventListener("pointerdown", () => {
+            this.audio.init({ musicVolume: settings.musicVolume, sfxVolume: settings.sfxVolume });
+            this.audio.setMusicPlaylist([
+                "Cyberpunk Threat 1",
+                "SuperSpiffy"
+            ]);
+            this.loadAudio();
+        }, { once: true });
+
+
+    }
+
+    async loadAudio(){
+        // sfx
+        await this.audio.loadSound("click", "/audio/sfx/click.wav");
+
+        // music
+        await this.audio.loadSound("Cyberpunk Threat 1", "/audio/music/Muchkin-CyberpunkThreat1.mp3");
+        await this.audio.loadSound("SuperSpiffy", "/audio/music/2019-06-17_-_Super_Spiffy_-_David_Fesliyan.mp3");
+        
+        // play first music
+        this.audio.playRandomMusic();
     }
 
     #bindInputs(){
