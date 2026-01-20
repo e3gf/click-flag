@@ -16,15 +16,17 @@ export default class WhiteFlag {
         if(!this.ready) return;
         const player = game.player;
         const timerManager = game.timerManager;
+        const audio = game.audio;
         if(player.captureConsumption * player.getFreqValueMultiplier() > player.energyCount){
             this.outOfEnergyIndicator = true; 
+            audio.playSFX("insufficientEnergy");
             return;
         }
        
         const delay = this.getCaptureDelay(player);
 
         player.captureWhiteFlag();
-        game.audio.playSFX("click");
+        audio.playSFX("captureFlag");
         this.ready = false;
 
         this.captureTimer = timerManager.addTimer(delay, () => { 
@@ -36,17 +38,23 @@ export default class WhiteFlag {
     overclock(game){
         const player = game.player;
         const timerManager = game.timerManager;
-        if(this.overclockActive || this.overclockCooldownTimer) return;
-
+        const audio = game.audio;
+        if(this.overclockActive || this.overclockCooldownTimer){
+            audio.playSFX("cooldownErrors");
+            return;
+        } 
+        audio.playSFX("overclockStart");
         this.overclockActive = true;
         if(this.captureTimer !== null) timerManager.editTimerDuration(this.captureTimer, 1000 / player.captureFrequency / player.overclockBoost);
 
         this.overclockActiveTimer = timerManager.addTimer(player.overclockDuration, () => {
             this.overclockActive = false;
             this.overclockActiveTimer = null;
+            audio.playSFX("overclockEnd");
             if(this.captureTimer !== null) timerManager.editTimerDuration(this.captureTimer, 1000 / player.captureFrequency);
             this.overclockCooldownTimer = timerManager.addTimer(player.overclockCooldown, () => {
                 this.overclockCooldownTimer = null;
+                audio.playSFX("cooldownReady");
             })
         })
     }

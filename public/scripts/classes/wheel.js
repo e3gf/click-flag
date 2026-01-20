@@ -6,6 +6,7 @@ export default class Wheel {
 
     spinWheel(game){
         if(!this.spinReady) return;
+        game.audio.playSFX("wheelSpin");
         this.spinReady = false;
         this.spinReadyTimer = game.timerManager.addTimer(1000, () => {
             game.player.spinWheel();

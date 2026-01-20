@@ -38,7 +38,14 @@ export default class Game {
             this.audio.init({ musicVolume: settings.musicVolume, sfxVolume: settings.sfxVolume });
             this.audio.setMusicPlaylist([
                 "Cyberpunk Threat 1",
-                "SuperSpiffy"
+                "Cyberpunk Fight 1",
+                "Cyberpunk Fight 2",
+                "SuperSpiffy",
+                "Entanglement",
+                "Danger Noodle",
+                "Information Regime",
+                "Triangles",
+                "Smilin And Vibin",
             ]);
             this.loadAudio();
         }, { once: true });
@@ -48,11 +55,28 @@ export default class Game {
 
     async loadAudio(){
         // sfx
-        await this.audio.loadSound("click", "/audio/sfx/click.wav");
+        await this.audio.loadSound("captureFlag", "/audio/sfx/captureFlag.mp3");
+        await this.audio.loadSound("buyUpgrade", "/audio/sfx/buyUpgrade.mp3");
+        await this.audio.loadSound("cooldownErrors", "/audio/sfx/cooldownErrors.mp3");
+        await this.audio.loadSound("cooldownReady", "/audio/sfx/cooldownReady.mp3");
+        await this.audio.loadSound("overclockStart", "/audio/sfx/overclockStart.mp3");
+        await this.audio.loadSound("overclockEnd", "/audio/sfx/overclockEnd.mp3");
+        await this.audio.loadSound("insufficientEnergy", "/audio/sfx/insufficientEnergy.mp3");
+        await this.audio.loadSound("levelUpUpgrade", "/audio/sfx/levelUpUpgrade.mp3");
+        await this.audio.loadSound("selectBuyAmount", "/audio/sfx/selectBuyAmount.mp3");
+        await this.audio.loadSound("wheelSpin", "/audio/sfx/wheelSpin.mp3");
 
         // music
         await this.audio.loadSound("Cyberpunk Threat 1", "/audio/music/Muchkin-CyberpunkThreat1.mp3");
-        await this.audio.loadSound("SuperSpiffy", "/audio/music/2019-06-17_-_Super_Spiffy_-_David_Fesliyan.mp3");
+        await this.audio.loadSound("SuperSpiffy", "/audio/music/SuperSpiffy_DavidFesliyan.mp3");
+        await this.audio.loadSound("Entanglement", "/audio/music/Muchkin-Entangelement.mp3");
+        await this.audio.loadSound("Cyberpunk Fight 2", "/audio/music/Muchkin-CyberpunkFight2.mp3");
+        await this.audio.loadSound("Cyberpunk Fight 1", "/audio/music/Muchkin-CyberpunkFight1.mp3");
+        await this.audio.loadSound("Cyberpunk Ambient 1", "/audio/music/Muchkin-CyberpunkAmbient1.mp3");
+        await this.audio.loadSound("Danger Noodle", "/audio/music/ElectricDrama-DangerNoodle.mp3");
+        await this.audio.loadSound("Information Regime", "/audio/music/Drums_and_Bass-2025-01-14_-_Information_Regime_-_www.FesliyanStudios.com.mp3");
+        await this.audio.loadSound("Triangles", "/audio/music/Deem-Triangles(master).mp3");
+        await this.audio.loadSound("Smilin And Vibin", "/audio/music/2020-08-18_-_Smilin__And_Vibin__-_www.FesliyanStudios.com_David_Renda.mp3");
         
         // play first music
         this.audio.playRandomMusic();

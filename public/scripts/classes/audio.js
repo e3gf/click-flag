@@ -41,7 +41,7 @@ export class AudioManager {
   }
 
   playSFX(name, { volume = 1, playbackRate = 1 } = {}) {
-    if(this.sfxGain === 0) return;
+    if(this.sfxGain.gain.value === 0) return;
 
     const now = performance.now();
     const lastPlayed = this.sfxCooldowns.get(name) ?? 0;
@@ -70,7 +70,7 @@ export class AudioManager {
   }
 
   playRandomMusic({ fadeIn = 0 } = {}) {
-    if(this.musicGain === 0) return;
+    if(this.musicGain.gain.value === 0) return;
     if (this.musicPlaylist.length === 0) return;
 
     let candidates = this.musicPlaylist;

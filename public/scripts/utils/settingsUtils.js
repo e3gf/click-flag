@@ -80,6 +80,12 @@ export function applyChanges(newSettings) {
     document.body.classList.toggle("dark", !newSettings.lightMode);
     game.audio.setSFXVolume(newSettings.sfxVolume / 100);
     game.audio.setMusicVolume(newSettings.musicVolume / 100);
+    if(newSettings.musicVolume === 0){
+        game.audio.stopMusic();
+    }
+    else if(getLoadedSettings().musicVolume === 0){
+        game.audio.playRandomMusic();
+    }
 }
 
 export function revertChanges(){

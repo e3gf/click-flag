@@ -35,7 +35,7 @@
 
 
 .side-tab {
-    background-color: var(--card2);
+    background-color: var(--card-inset);
     border-radius: 2rem;
 }
 

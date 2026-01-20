@@ -1,3 +1,4 @@
+import { game } from "../config/gameState.js";
 import { UPGRADE_DEFS } from "../config/upgradeDefs.js";
 import { formatNumber, toSeconds } from "../utils/formatting.js";
 import { geometricSeriesSum } from "../utils/formulae.js";
@@ -102,6 +103,7 @@ class Upgrade {
         if (this.player.whiteFlagCount < this.selectedCost) return;
         if (this.bought && this.type === "general") return;
 
+        this.game.audio.playSFX("buyUpgrade");
         this.player.whiteFlagCount -= this.selectedCost;
         this.bought += this.selectedAmount;
 
@@ -109,6 +111,7 @@ class Upgrade {
 
         if (this.type !== "general" && this.bought >= this.nextLevelRequirement) {
             this.levelUp();
+            this.game.audio.playSFX("levelUpUpgrade");
         }
 
         this.recalculate();
@@ -390,6 +393,7 @@ class UpgradeView {
                     u.handleSelect(t.value);
                     this.ui.elements[this.elementIds.upgradeQuantityInput].value("");
                     this.ui.elements[this.elementIds.upgradeQuantityInput].toggle("selected-quantity", false);
+                    game.audio.playSFX("selectBuyAmount");
                 }
             });
 
