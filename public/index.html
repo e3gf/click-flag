@@ -186,7 +186,18 @@
                         </label>
                     </div>
                 </div>
-                <button class="save-settings-button" id="save-settings-button" disabled>Save changes</button>
+                <div class="options-button-area">
+                    <button class="save-settings-button" id="save-settings-button" disabled>Save changes</button>
+                    <button class="button reset-settings-button" id="reset-settings-button">Reset to default</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="page-container hidden" id="save-popup-container">
+            <div class="save-popup" id="save-popup">
+                <h2 class="text" id="save-popup-title">Save changes?</h2>
+                <button class="button" id="save-popup-save">Save</button>
+                <button class="button" id="save-popup-cancel">Don't save</button>
             </div>
         </div>
     </main>

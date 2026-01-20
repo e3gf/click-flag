@@ -1,8 +1,9 @@
 import { saveSettings } from "./api/settings.js";
+import { initialSettings, setLoadedSettings, getLoadedSettings, save } from "./utils/settingsUtils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    const loadedSettings = localStorage.getItem("settings");
-    document.body.classList.toggle("dark", !(JSON.parse(loadedSettings)?.lightMode));
+    const savedSettings = localStorage.getItem("settings");
+    document.body.classList.toggle("dark", !(JSON.parse(savedSettings)?.lightMode));
 
     const settingsTab = document.querySelector("#settings-tab");
 
@@ -13,21 +14,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const optionsTab = document.querySelector("#options-tab");
 
     const saveBtn = document.querySelector("#save-settings-button");
+    const resetBtn = document.querySelector("#reset-settings-button");
 
     settingsTab.addEventListener("click", (e) => {
         e.stopPropagation();
     })
 
-    let initialSettings = loadedSettings ? JSON.parse(loadedSettings) : {
-        musicVolume: 50,
-        sfxVolume: 50,
-        effectsEnabled: true,
-        lightMode: false,
-    };
+    setLoadedSettings(savedSettings ? JSON.parse(savedSettings) : initialSettings);
 
     const getCurrentSettings = () => ({
-        musicVolume: musicVolume.value,
-        sfxVolume: sfxVolume.value,
+        musicVolume: parseInt(musicVolume.value),
+        sfxVolume: parseInt(sfxVolume.value),
         effectsEnabled: effectsEnabled.checked,
         lightMode: lightMode.checked,
     });
@@ -41,8 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const hasChanges = () => {
         const current = getCurrentSettings();
-        return Object.keys(initialSettings).some(
-            key => initialSettings[key] !== current[key]
+        const loadedSettings = getLoadedSettings();
+        return Object.keys(loadedSettings).some(
+            key => loadedSettings[key] !== current[key]
         );
     };
 
@@ -59,10 +57,23 @@ document.addEventListener("DOMContentLoaded", () => {
         saveBtn.classList.toggle("save-settings-button-changes", false);
 
         const newSettings = getCurrentSettings();
-        document.body.classList.toggle("dark", !newSettings.lightMode);
-        localStorage.setItem("settings", JSON.stringify(newSettings));
-        initialSettings = newSettings;
+        applyChanges(newSettings);
+        save(newSettings);
+        setLoadedSettings(newSettings);
     });
 
-    setValues(initialSettings);
+    resetBtn.addEventListener("click", () => {
+        setLoadedSettings(initialSettings);
+        setValues(getLoadedSettings());
+        updateSaveButtonVisibility();
+        applyChanges(getLoadedSettings());
+        save(getLoadedSettings());
+    })
+
+    setValues(getLoadedSettings());
+
+    const applyChanges = (newSettings) => {
+        document.body.classList.toggle("dark", !newSettings.lightMode);
+    }
+
 });
