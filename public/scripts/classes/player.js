@@ -4,7 +4,7 @@ import { FloatingTextEffect } from "./visualEffect.js";
 export default class Player {
     constructor(game, savedData = null){
         this.game = game;
-        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 10000;
+        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 0;
         this.energyCount = savedData ? savedData.energyCount : 0;
         this.capturePower = savedData ? savedData.capturePower : 1;
         this.captureFrequency = savedData ? savedData.captureFrequency : 0.2;
