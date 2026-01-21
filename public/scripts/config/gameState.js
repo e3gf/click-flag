@@ -5,3 +5,5 @@ export let game;
 export function createGame(settings){
     game = new Game(document, settings);
 }
+
+export let gameState = {};

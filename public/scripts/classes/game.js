@@ -5,6 +5,8 @@ import WhiteFlag from "./flags.js";
 import Wheel from "./wheel.js";
 import UpgradeManager, { UpgradeScheduler } from "./upgrades.js";
 import { AudioManager } from "./audio.js";
+import VisualEffectManager from "./visualEffect.js";
+import { gameState } from "../config/gameState.js";
 
 export default class Game {
     constructor(document, settings){ 
@@ -16,6 +18,7 @@ export default class Game {
         this.uiManager = new UI(document);
         this.upgradeManager = new UpgradeManager(this, this.uiManager);
         this.upgradeScheduler = new UpgradeScheduler(this);
+        this.visualEffectManager = new VisualEffectManager(this, settings?.effectsEnabled ?? true);
 
         this.audio = new AudioManager();
         
@@ -161,6 +164,7 @@ export default class Game {
 
     update(delta){
         this.timerManager.update(delta);
+        this.visualEffectManager.update(delta);
         this.upgradeScheduler.update();
     }
 }

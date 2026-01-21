@@ -65,6 +65,19 @@ export default class UI {
         return this.document.querySelector(query);
     }
 
+    getElementCenter(element){
+        const el = this.elements[element];
+        if(!el) {
+            console.error(`Element ${element} not found.`);
+            return;
+        }
+        const {x, y, width, height} = el.getBoundingClientRect();
+        return {
+            x: Math.floor(x + width / 2),
+            y: Math.floor(y + height / 2)
+        }
+    }
+
     render(game){
         const player = game.player;
         const timerManager = game.timerManager;

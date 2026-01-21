@@ -1,3 +1,5 @@
+import { FloatingTextEffect } from "./visualEffect.js";
+
 export default class Wheel {
     constructor (){ 
         this.spinReady = true;
@@ -12,6 +14,17 @@ export default class Wheel {
             game.player.spinWheel();
             this.spinReady = true;
             this.spinReadyTimer = null;
+            game.visualEffectManager.add(
+                new FloatingTextEffect(game,
+                    {
+                        text: "+1",
+                        spread: Math.PI,
+                        ...game.uiManager.getElementCenter("wheel"),
+                        type: "energy",
+                        speed: 60,
+                    }
+                )
+            );
         })
     }
 

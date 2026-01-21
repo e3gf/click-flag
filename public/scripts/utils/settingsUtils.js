@@ -86,6 +86,7 @@ export function applyChanges(newSettings) {
     else if(getLoadedSettings().musicVolume === 0){
         game.audio.playRandomMusic();
     }
+    game.visualEffectManager.on = newSettings.effectsEnabled;
 }
 
 export function revertChanges(){

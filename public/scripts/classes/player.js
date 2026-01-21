@@ -1,9 +1,10 @@
 import roundTo from "../utils/roundTo.js";
+import { FloatingTextEffect } from "./visualEffect.js";
 
 export default class Player {
     constructor(game, savedData = null){
         this.game = game;
-        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 1e20;
+        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 10000;
         this.energyCount = savedData ? savedData.energyCount : 0;
         this.capturePower = savedData ? savedData.capturePower : 1;
         this.captureFrequency = savedData ? savedData.captureFrequency : 0.2;
@@ -24,6 +25,17 @@ export default class Player {
 
     captureWhiteFlag(){
         this.whiteFlagCount += this.getCapturePower();
+        this.game.visualEffectManager.add(
+            new FloatingTextEffect(this.game,
+                {
+                    text: `+${this.getCapturePower()}`,
+                    ...this.game.uiManager.getElementCenter("whiteFlag"),
+                    speed: 60,
+                    type: "flag",
+                    spread: Math.PI / 2
+                }
+            )
+        );
         this.energyCount -= this.captureConsumption * this.getFreqValueMultiplier();
     }
 

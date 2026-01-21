@@ -1,0 +1,14 @@
+.energy-floating-text, .flag-floating-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.flag-floating-text {
+    gap: .5rem;
+}
+
+.flag-symbol-vfx {
+    height: 1.5rem;
+}

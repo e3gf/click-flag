@@ -17,12 +17,12 @@ export default class WhiteFlag {
         const player = game.player;
         const timerManager = game.timerManager;
         const audio = game.audio;
+        const vEM = game.visualEffectManager;
         if(player.captureConsumption * player.getFreqValueMultiplier() > player.energyCount){
             this.outOfEnergyIndicator = true; 
             audio.playSFX("insufficientEnergy", 1000);
             return;
         }
-       
         const delay = this.getCaptureDelay(player);
 
         player.captureWhiteFlag();

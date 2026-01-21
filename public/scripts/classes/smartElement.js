@@ -51,4 +51,8 @@ export default class SmartElement {
     removeEventListener(event, callback){
         this.el.removeEventListener(event, callback);
     }
+
+    getBoundingClientRect(){
+        return this.el.getBoundingClientRect();
+    }
 }

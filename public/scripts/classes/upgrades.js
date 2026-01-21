@@ -3,6 +3,7 @@ import { UPGRADE_DEFS } from "../config/upgradeDefs.js";
 import { formatNumber, toSeconds } from "../utils/formatting.js";
 import { geometricSeriesSum } from "../utils/formulae.js";
 import roundTo from "../utils/roundTo.js";
+import { FloatingTextEffect } from "./visualEffect.js";
 
 export default class UpgradeManager {
     #game;
@@ -100,8 +101,8 @@ class Upgrade {
     }
 
     buy() { 
-        if (this.player.whiteFlagCount < this.selectedCost) return;
-        if (this.bought && this.type === "general") return;
+        if (this.player.whiteFlagCount < this.selectedCost) return false;
+        if (this.bought && this.type === "general") return false;
 
         this.game.audio.playSFX("buyUpgrade");
         this.player.whiteFlagCount -= this.selectedCost;
@@ -115,6 +116,7 @@ class Upgrade {
         }
 
         this.recalculate();
+        return true;
     }
 
     recalculate() {
@@ -379,7 +381,20 @@ class UpgradeView {
         });
 
         this.ui.addDynamicListener(this.elementIds.buyButtonId, "click", () => {
-            u.buy();
+            const selectedAmount = u.selectedAmount;
+            const bought = u.buy();
+            if(bought){
+                u.game.visualEffectManager.add(
+                    new FloatingTextEffect(u.game,
+                        {
+                            ...this.ui.getElementCenter(this.elementIds.buyButtonId),
+                            text: `+${selectedAmount}`,
+                            speed: 60,
+                            spread: Math.PI / 8,
+                        }
+                    ) 
+                )
+            }
         });
 
         if(u.type !== "general") {
