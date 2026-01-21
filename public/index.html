@@ -126,20 +126,43 @@
                 </div>
                 <div class="side-tab" id="user-tab">
                     <h2 class="text">User</h2>
-                    <button class="button" id="btn-change-username">Change username</button>
-                    <button class="button" id="btn-change-password">Change password</button>
-                    <div class="username-change-container">
-                        <input class="input" type="text" id="new-username" placeholder="New username">
-                        <input class="input" type="password" id="username-password" placeholder="Password (to confirm)">
+                    <div class="user-tab-container user-tab-home-container" id="user-home">
+                        <button class="button" id="btn-change-username">Change username</button>
+                        <button class="button" id="btn-change-password">Change password</button>
+                        <button class="button" id="btn-copy-recovery">Copy recovery code</button>
                     </div>
-                    <div class="password-change-container">
-                        <input class="input" type="password" id="current-password" placeholder="Current password">
-                        <input class="input" type="password" id="new-password" placeholder="New password">
-                        <input class="input" type="password" id="new-password-confirm" placeholder="Confirm new password">
+                    <div class="user-tab-container user-tab-change-container hidden" id="user-username">
+                        <div class="profile-input-container">
+                            <div class="input-container">
+                                <input class="input" type="text" id="new-username" placeholder="New username">
+                                <p class="error hidden" id="username-change-error"></p>
+                            </div>
+                            <input class="input" type="password" id="username-password" placeholder="Password (to confirm)">
+                        </div>
+                        <div class="profile-button-container">
+                            <p class="error hidden" id="username-change-server-error"></p>
+                            <button class="button" id="btn-confirm-username">Confirm</button>
+                            <button class="button" id="btn-cancel-username">Cancel</button>
+                        </div>
                     </div>
-                    <button class="button" id="btn-confirm">Confirm</button>
-                    <button class="button" id="btn-cancel">Cancel</button>
-                    <button class="button" id="btn-copy-recovery">Copy recovery code</button>
+                    <div class="user-tab-container user-tab-change-container hidden" id="user-password">
+                        <div class="profile-input-container">
+                            <input class="input" type="password" id="current-password" placeholder="Current password">
+                            <div class="input-container">
+                                <input class="input" type="password" id="new-password" placeholder="New password">
+                                <p class="error hidden" id="password-change-new-password-error"></p>
+                            </div>
+                            <div class="input-container">
+                                <input class="input" type="password" id="new-password-confirm" placeholder="Confirm new password">
+                                <p class="error hidden" id="password-change-new-password-confirm-error"></p>
+                            </div>
+                        </div>
+                        <div class="profile-button-container">
+                            <p class="error hidden" id="password-change-server-error"></p>
+                            <button class="button" id="btn-confirm-password">Confirm</button>
+                            <button class="button" id="btn-cancel-password">Cancel</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="side-tab" id="game-statistics-tab">
                     <h2 class="text">Game statistics</h2>

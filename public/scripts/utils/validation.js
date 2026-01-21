@@ -66,3 +66,23 @@ export function validateConfirmPassword
         }
         return passwordConfirmError;
 }
+
+export function validateUsername
+    (v,
+    usernameError,
+    usernameErrorId){
+    if(v === ""){
+        clearError(usernameErrorId);
+        usernameError = false; 
+        return usernameError;
+    }
+    if(!(/^[a-zA-Z0-9_-]{1,20}$/.test(v))){
+        showError(usernameErrorId, "Username should only contain alphanumeric characters and underscores, dashes.");
+        usernameError = true; 
+    }
+    else{
+        clearError(usernameErrorId);
+        usernameError = false; 
+    }
+    return usernameError;
+}

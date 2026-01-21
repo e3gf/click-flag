@@ -40,7 +40,7 @@ export default class WhiteFlag {
         const timerManager = game.timerManager;
         const audio = game.audio;
         if(this.overclockActive || this.overclockCooldownTimer){
-            audio.playSFX("cooldownErrors");
+            audio.playSFX("cooldownErrors", 1000);
             return;
         } 
         audio.playSFX("overclockStart");

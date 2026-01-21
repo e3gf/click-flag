@@ -1,25 +1,25 @@
 import { geometricSeriesSum } from "../utils/formulae.js";
 
 const levelRequirement = (levelFormula, n) => {
-    if(n < 2) return n; // n will never be negative
-    return n === 2 ? levelFormula.a : levelFormula.a * (n-1) ** 2 + levelFormula.c;
+    if (n < 2) return n; // n will never be negative
+    return n === 2 ? levelFormula.a : levelFormula.a * (n - 1) ** 2 + levelFormula.c;
 }
 
 const getLevelBounds = (levelFormula, a) => {
-    if(a === 0) return {
+    if (a === 0) return {
         levelBelow: 0,
         levelBelowRequirement: levelRequirement(levelFormula, 0),
         levelAbove: 1,
         levelAboveRequirement: levelRequirement(levelFormula, 1)
     }
-    if(a < levelFormula.a) return {
+    if (a < levelFormula.a) return {
         levelBelow: 1,
         levelBelowRequirement: levelRequirement(levelFormula, 1),
         levelAbove: 2,
         levelAboveRequirement: levelRequirement(levelFormula, 2)
     };
-    if(a < -levelFormula.c) return { 
-        levelBelow: 2, 
+    if (a < -levelFormula.c) return {
+        levelBelow: 2,
         levelBelowRequirement: levelRequirement(levelFormula, 2),
         levelAbove: 3,
         levelAboveRequirement: levelRequirement(levelFormula, 3)
@@ -27,7 +27,7 @@ const getLevelBounds = (levelFormula, a) => {
     const r = Math.sqrt((a - levelFormula.c) / levelFormula.a);
     let lB = Math.floor(r) + 1, lA = Math.ceil(r) + 1;
     lA += lB === lA;
-    return { 
+    return {
         levelBelow: lB,
         levelBelowRequirement: levelRequirement(levelFormula, lB),
         levelAbove: lA,
@@ -43,17 +43,17 @@ export const UPGRADE_DEFS = {
         title: "RAM",
         layer: 1,
         static: true, // false = periodic
-        type: "component", 
+        type: "component",
         baseCost: 10,
         costMultiplier: 1.2,
         start: { bought: 1, level: 1 },
 
         consumptionPerUnit: 0.5,
         consumptionPerLevelMulti: 1.8,
-        consumptionFunction(bought, level){
-            return this.consumptionPerUnit * bought * this.consumptionPerLevelMulti ** (level - 1);
+        consumptionFunction(bought, level) {
+            return this.consumptionPerUnit * bought ** 1.5 * this.consumptionPerLevelMulti ** (level - 1);
         },
-        consumptionApply(player, value, prev){
+        consumptionApply(player, value, prev) {
             player.captureConsumption += value - prev;
         },
 
@@ -66,19 +66,19 @@ export const UPGRADE_DEFS = {
                 apply(game, value) {
                     game.player.capturePower = value;
                 },
-                valueFunction(bought, level){
-                    return this.perUnit * bought * this.perLevelMultiplier ** (level - 1); 
+                valueFunction(bought, level) {
+                    return this.perUnit * bought * this.perLevelMultiplier ** (level - 1);
                 }
             }
         },
 
-        levelFormula: { a: 4, c: -6}, // quadratic without b term (a^2 + c)
+        levelFormula: { a: 4, c: -6 }, // quadratic without b term (a^2 + c)
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -94,10 +94,10 @@ export const UPGRADE_DEFS = {
 
         consumptionPerUnit: 0.5,
         consumptionPerLevelMulti: 2.1,
-        consumptionFunction(bought, level){
-            return this.consumptionPerUnit * bought * this.consumptionPerLevelMulti ** (level - 1); 
+        consumptionFunction(bought, level) {
+            return this.consumptionPerUnit * bought ** 1.6 * this.consumptionPerLevelMulti ** (level - 1);
         },
-        consumptionApply(player, value, prev){
+        consumptionApply(player, value, prev) {
             player.captureConsumption += value - prev;
         },
 
@@ -109,21 +109,21 @@ export const UPGRADE_DEFS = {
                 perLevelMultiplier: 1.5,
                 apply(game, value) {
                     game.player.captureFrequency = value;
-                    if(game.whiteFlag.captureTimer !== null) game.timerManager.editTimerDuration(game.whiteFlag.captureTimer, game.whiteFlag.getCaptureDelay(game.player));
+                    if (game.whiteFlag.captureTimer !== null) game.timerManager.editTimerDuration(game.whiteFlag.captureTimer, game.whiteFlag.getCaptureDelay(game.player));
                 },
-                valueFunction(bought, level){
-                    return this.perUnit * bought * this.perLevelMultiplier ** (level - 1); 
+                valueFunction(bought, level) {
+                    return this.perUnit * bought * this.perLevelMultiplier ** (level - 1);
                 }
             }
         },
 
-        levelFormula: { a: 4, c: -6}, 
+        levelFormula: { a: 4, c: -6 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -139,10 +139,10 @@ export const UPGRADE_DEFS = {
 
         consumptionPerUnit: 0.5,
         consumptionPerLevelMulti: 2.4,
-        consumptionFunction(bought, level){
-            return this.consumptionPerUnit * bought * this.consumptionPerLevelMulti ** (level - 1);
+        consumptionFunction(bought, level) {
+            return this.consumptionPerUnit * bought ** 1.3 * this.consumptionPerLevelMulti ** (level - 1);
         },
-        consumptionApply(player, value, prev){
+        consumptionApply(player, value, prev) {
             player.captureConsumption += value - prev;
         },
 
@@ -152,24 +152,24 @@ export const UPGRADE_DEFS = {
                 type: "temporal",
                 startBoost: 4000,
                 commonRatio: 0.8,
-                perLevelAddition : 0.002,
+                perLevelAddition: 0.002,
                 apply(game, value, prev) {
                     game.player.overclockCooldown += -value + (prev ?? 0);
-                    if(game.whiteFlag.overclockCooldownTimer !== null) game.timerManager.editTimerDuration(game.whiteFlag.overclockCooldownTimer, game.player.overclockCooldown);
+                    if (game.whiteFlag.overclockCooldownTimer !== null) game.timerManager.editTimerDuration(game.whiteFlag.overclockCooldownTimer, game.player.overclockCooldown);
                 },
                 valueFunction(bought, level) {
-                    return geometricSeriesSum(this.startBoost, this.commonRatio + level * this.perLevelAddition, bought) 
+                    return geometricSeriesSum(this.startBoost, this.commonRatio + level * this.perLevelAddition, bought)
                 }
             }
         },
 
-        levelFormula: { a: 4, c: -6}, 
+        levelFormula: { a: 4, c: -6 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -191,13 +191,13 @@ export const UPGRADE_DEFS = {
                 type: "temporal",
                 startBoost: 3000,
                 commonRatio: 0.84,
-                perLevelAddition : 0.002,
+                perLevelAddition: 0.002,
                 apply(game, value, prev) {
                     game.player.overclockCooldown += -value + (prev ?? 0);
-                    if(game.whiteFlag.overclockCooldownTimer !== null) game.timerManager.editTimerDuration(game.whiteFlag.overclockCooldownTimer, game.player.overclockCooldown);
+                    if (game.whiteFlag.overclockCooldownTimer !== null) game.timerManager.editTimerDuration(game.whiteFlag.overclockCooldownTimer, game.player.overclockCooldown);
                 },
                 valueFunction(bought, level) {
-                    return geometricSeriesSum(this.startBoost, this.commonRatio + level * this.perLevelAddition, bought) 
+                    return geometricSeriesSum(this.startBoost, this.commonRatio + level * this.perLevelAddition, bought)
                 }
             },
 
@@ -206,24 +206,24 @@ export const UPGRADE_DEFS = {
                 type: "temporal",
                 startBoost: 1000,
                 commonRatio: 0.98,
-                perLevelAddition : 0.0002,
+                perLevelAddition: 0.0002,
                 apply(game, value, prev) {
                     game.player.overclockDuration += value - (prev ?? 0);
-                    if(game.whiteFlag.overclockActiveTimer !== null) game.timerManager.editTimerDuration(game.whiteFlag.overclockActiveTimer, game.player.overclockDuration);
+                    if (game.whiteFlag.overclockActiveTimer !== null) game.timerManager.editTimerDuration(game.whiteFlag.overclockActiveTimer, game.player.overclockDuration);
                 },
                 valueFunction(bought, level) {
-                    return geometricSeriesSum(this.startBoost, this.commonRatio + level * this.perLevelAddition, bought) 
+                    return geometricSeriesSum(this.startBoost, this.commonRatio + level * this.perLevelAddition, bought)
                 }
             }
         },
 
-        levelFormula: { a: 4, c: -6}, 
+        levelFormula: { a: 4, c: -6 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -231,8 +231,8 @@ export const UPGRADE_DEFS = {
     // Energy upgrades
 
 
-    NanoTurbine: {
-        title: "Nano turbine",
+    HandCrankDynamo: {
+        title: "Hand Crank Dynamo",
         layer: 1,
         static: false,
         type: "energy",
@@ -246,32 +246,32 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 2.1,
             time: 1000,
             timePerLevelDecrease: 1.8,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.energyCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 8, c: -12}, 
+        levelFormula: { a: 8, c: -12 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
 
-    MicroTurbine: {
-        title: "Micro Turbine",
+    WindmillDynamo: {
+        title: "Windmill Dynamo",
         layer: 1,
         static: false,
         type: "energy",
@@ -285,32 +285,32 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 2.5,
             time: 2000,
             timePerLevelDecrease: 2,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.energyCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 8, c: -12}, 
+        levelFormula: { a: 8, c: -12 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
 
-    MiniTurbine: {
-        title: "Mini Turbine",
+    SolarPanelArray: {
+        title: "Solar Panel Array",
         layer: 1,
         static: false,
         type: "energy",
@@ -324,32 +324,71 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 3,
             time: 4000,
             timePerLevelDecrease: 2.5,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.energyCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 8, c: -12}, 
+        levelFormula: { a: 8, c: -12 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
 
-        GasGenerator: {
-        title: "Gas generator",
+    ThermalPlant: {
+        title: "Thermal Plant",
+        layer: 1,
+        static: false,
+        type: "energy",
+        baseCost: 1e5,
+        costMultiplier: 1.25,
+        start: { bought: 0, level: 0 },
+
+        consumptionPerUnit: 0,
+        periodic: {
+            perUnit: 700,
+            perLevelMultiplier: 3.25,
+            time: 8000,
+            timePerLevelDecrease: 2.75,
+            apply(game, value, times) {
+                game.player.energyCount += times * value;
+            },
+            valueFunction(bought, level) {
+                return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
+            },
+            timeFunction(level, threshold) {
+                return {
+                    f: this.time / this.timePerLevelDecrease ** (level - 1),
+                    s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
+                };
+            }
+        },
+        levelFormula: { a: 8, c: -12 },
+
+        levelRequirement(n) {
+            return levelRequirement(this.levelFormula, n);
+        },
+
+        getLevelBounds(a) {
+            return getLevelBounds(this.levelFormula, a);
+        }
+    },
+
+    SolarPanelArray: {
+        title: "Solar Panel Array",
         layer: 1,
         static: false,
         type: "energy",
@@ -363,29 +402,186 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 3,
             time: 4000,
             timePerLevelDecrease: 2.5,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.energyCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 8, c: -12}, 
+        levelFormula: { a: 8, c: -12 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
+
+    FissionReactor: {
+        title: "Fission Reactor",
+        layer: 1,
+        static: false,
+        type: "energy",
+        baseCost: 1.5e6,
+        costMultiplier: 1.275,
+        start: { bought: 0, level: 0 },
+
+        consumptionPerUnit: 0,
+        periodic: {
+            perUnit: 1e4,
+            perLevelMultiplier: 3.5,
+            time: 16000,
+            timePerLevelDecrease: 3,
+            apply(game, value, times) {
+                game.player.energyCount += times * value;
+            },
+            valueFunction(bought, level) {
+                return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
+            },
+            timeFunction(level, threshold) {
+                return {
+                    f: this.time / this.timePerLevelDecrease ** (level - 1),
+                    s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
+                };
+            }
+        },
+        levelFormula: { a: 8, c: -12 },
+
+        levelRequirement(n) {
+            return levelRequirement(this.levelFormula, n);
+        },
+
+        getLevelBounds(a) {
+            return getLevelBounds(this.levelFormula, a);
+        }
+    },
+
+    FusionCore: {
+        title: "Fusion Core",
+        layer: 1,
+        static: false,
+        type: "energy",
+        baseCost: 2.3e7,
+        costMultiplier: 1.3,
+        start: { bought: 0, level: 0 },
+
+        consumptionPerUnit: 0,
+        periodic: {
+            perUnit: 1.5e5,
+            perLevelMultiplier: 3.75,
+            time: 32000,
+            timePerLevelDecrease: 3.25,
+            apply(game, value, times) {
+                game.player.energyCount += times * value;
+            },
+            valueFunction(bought, level) {
+                return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
+            },
+            timeFunction(level, threshold) {
+                return {
+                    f: this.time / this.timePerLevelDecrease ** (level - 1),
+                    s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
+                };
+            }
+        },
+        levelFormula: { a: 8, c: -12 },
+
+        levelRequirement(n) {
+            return levelRequirement(this.levelFormula, n);
+        },
+
+        getLevelBounds(a) {
+            return getLevelBounds(this.levelFormula, a);
+        }
+    },
+
+    ZeroPointModule: {
+        title: "Zero-Point Module",
+        layer: 1,
+        static: false,
+        type: "energy",
+        baseCost: 4e8,
+        costMultiplier: 1.325,
+        start: { bought: 0, level: 0 },
+
+        consumptionPerUnit: 0,
+        periodic: {
+            perUnit: 9e7,
+            perLevelMultiplier: 4,
+            time: 128000,
+            timePerLevelDecrease: 3.75,
+            apply(game, value, times) {
+                game.player.energyCount += times * value;
+            },
+            valueFunction(bought, level) {
+                return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
+            },
+            timeFunction(level, threshold) {
+                return {
+                    f: this.time / this.timePerLevelDecrease ** (level - 1),
+                    s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
+                };
+            }
+        },
+        levelFormula: { a: 8, c: -12 },
+
+        levelRequirement(n) {
+            return levelRequirement(this.levelFormula, n);
+        },
+
+        getLevelBounds(a) {
+            return getLevelBounds(this.levelFormula, a);
+        }
+    },
+
+    QuantumFluxGenerator: {
+        title: "Quantum Flux Generator",
+        layer: 1,
+        static: false,
+        type: "energy",
+        baseCost: 5.4e9,
+        costMultiplier: 1.35,
+        start: { bought: 0, level: 0 },
+
+        consumptionPerUnit: 0,
+        periodic: {
+            perUnit: 3.2e6,
+            perLevelMultiplier: 4,
+            time: 64000,
+            timePerLevelDecrease: 3.5,
+            apply(game, value, times) {
+                game.player.energyCount += times * value;
+            },
+            valueFunction(bought, level) {
+                return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
+            },
+            timeFunction(level, threshold) {
+                return {
+                    f: this.time / this.timePerLevelDecrease ** (level - 1),
+                    s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
+                };
+            }
+        },
+        levelFormula: { a: 8, c: -12 },
+
+        levelRequirement(n) {
+            return levelRequirement(this.levelFormula, n);
+        },
+
+        getLevelBounds(a) {
+            return getLevelBounds(this.levelFormula, a);
+        }
+    },
+
 
     // Automation upgrades
 
@@ -404,7 +600,7 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 1,
         consumptionPolynomial: 1.4,
         consumptionPerLevelMulti: 1.5,
-        consumptionFunction(bought, level){
+        consumptionFunction(bought, level) {
             return (this.consumptionPerUnit * bought) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -413,26 +609,26 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 1.5,
             time: 4000,
             timePerLevelDecrease: 2,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -452,9 +648,9 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 6,
         consumptionPolynomial: 1.45,
         consumptionPerLevelMulti: 1.55,
-        consumptionFunction(bought, level){
+        consumptionFunction(bought, level) {
             console.log(bought);
-            if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
+            if (bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -463,26 +659,26 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 1.75,
             time: 10000,
             timePerLevelDecrease: 2,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -502,8 +698,8 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 10,
         consumptionPolynomial: 1.5,
         consumptionPerLevelMulti: 1.60,
-        consumptionFunction(bought, level){
-            if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
+        consumptionFunction(bought, level) {
+            if (bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -512,26 +708,26 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 2.1,
             time: 15000,
             timePerLevelDecrease: 2,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -551,9 +747,9 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 30,
         consumptionPolynomial: 1.55,
         consumptionPerLevelMulti: 1.65,
-        consumptionFunction(bought, level){
+        consumptionFunction(bought, level) {
             console.log(bought);
-            if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
+            if (bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -562,30 +758,30 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 2.5,
             time: 25000,
             timePerLevelDecrease: 2,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
-    
+
     JuniorProgrammers: {
         title: "Junior Programmers",
         layer: 1,
@@ -601,9 +797,9 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 100,
         consumptionPolynomial: 1.6,
         consumptionPerLevelMulti: 1.70,
-        consumptionFunction(bought, level){
+        consumptionFunction(bought, level) {
             console.log(bought);
-            if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
+            if (bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -612,26 +808,26 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 3,
             time: 40000,
             timePerLevelDecrease: 2,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -651,9 +847,9 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 400,
         consumptionPolynomial: 1.65,
         consumptionPerLevelMulti: 1.75,
-        consumptionFunction(bought, level){
+        consumptionFunction(bought, level) {
             console.log(bought);
-            if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
+            if (bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -662,26 +858,26 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 3.5,
             time: 60000,
             timePerLevelDecrease: 2,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -701,9 +897,9 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 1300,
         consumptionPolynomial: 1.7,
         consumptionPerLevelMulti: 1.8,
-        consumptionFunction(bought, level){
+        consumptionFunction(bought, level) {
             console.log(bought);
-            if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
+            if (bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -712,26 +908,26 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 4,
             time: 90000,
             timePerLevelDecrease: 2,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -751,9 +947,9 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 3600,
         consumptionPolynomial: 1.75,
         consumptionPerLevelMulti: 1.85,
-        consumptionFunction(bought, level){
+        consumptionFunction(bought, level) {
             console.log(bought);
-            if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
+            if (bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -762,26 +958,26 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 4,
             time: 120000,
             timePerLevelDecrease: 2,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -801,9 +997,9 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 12000,
         consumptionPolynomial: 1.8,
         consumptionPerLevelMulti: 1.9,
-        consumptionFunction(bought, level){
+        consumptionFunction(bought, level) {
             console.log(bought);
-            if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
+            if (bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -812,26 +1008,26 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 4.5,
             time: 180000,
             timePerLevelDecrease: 2.5,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -851,9 +1047,9 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 40000,
         consumptionPolynomial: 1.85,
         consumptionPerLevelMulti: 1.95,
-        consumptionFunction(bought, level){
+        consumptionFunction(bought, level) {
             console.log(bought);
-            if(bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
+            if (bought > 1) return (this.consumptionPerUnit * (bought - 1)) ** this.consumptionPolynomial * this.consumptionPerLevelMulti ** (level - 1);
             return this.consumptionPerUnit * this.consumptionPerLevelMulti ** (level - 1);
         },
 
@@ -862,26 +1058,26 @@ export const UPGRADE_DEFS = {
             perLevelMultiplier: 5.25,
             time: 240000,
             timePerLevelDecrease: 3,
-            apply(game, value, times){
+            apply(game, value, times) {
                 game.player.whiteFlagCount += times * value;
             },
-            valueFunction(bought, level){
+            valueFunction(bought, level) {
                 return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
             },
-            timeFunction(level, threshold){
+            timeFunction(level, threshold) {
                 return {
                     f: this.time / this.timePerLevelDecrease ** (level - 1),
                     s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
                 };
             }
         },
-        levelFormula: { a: 2, c: 0}, 
+        levelFormula: { a: 2, c: 0 },
 
         levelRequirement(n) {
             return levelRequirement(this.levelFormula, n);
         },
 
-        getLevelBounds(a){
+        getLevelBounds(a) {
             return getLevelBounds(this.levelFormula, a);
         }
     },
@@ -895,13 +1091,13 @@ export const UPGRADE_DEFS = {
         static: true,
         type: "general",
         baseCost: 500,
-        start: { bought: 0},
+        start: { bought: 0 },
 
         energyConsumer: false,
 
         consumptionPerUnit: 0,
 
-        apply(game){
+        apply(game) {
             console.log("Successfully bought!");
         }
     },

@@ -114,9 +114,16 @@ export default class Game {
         this.upgradeManager.add("CoolingFan");
         this.upgradeManager.add("ThermalPaste");
 
-        this.upgradeManager.add("NanoTurbine");
-        this.upgradeManager.add("MicroTurbine");
-        this.upgradeManager.add("MiniTurbine");
+        this.upgradeManager.add("HandCrankDynamo");
+        this.upgradeManager.add("WindmillDynamo");
+        this.upgradeManager.add("SolarPanelArray");
+        this.upgradeManager.add("ThermalPlant");
+        this.upgradeManager.add("FissionReactor");
+        this.upgradeManager.add("FusionCore");
+        this.upgradeManager.add("ZeroPointModule");
+        this.upgradeManager.add("QuantumFluxGenerator");
+        this.upgradeManager.add("SolarPanelArray");
+        this.upgradeManager.add("SolarPanelArray");
 
         this.upgradeManager.add("Grandpas");
         this.upgradeManager.add("SixYearOlds");

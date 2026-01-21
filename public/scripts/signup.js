@@ -1,4 +1,4 @@
-import { clearError, showError, validateConfirmPassword, validatePassword } from "./utils/pass-validation.js";
+import { clearError, showError, validateConfirmPassword, validatePassword, validateUsername } from "./utils/validation.js";
 import { signUp } from "./api/auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -33,22 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     usernameInput.addEventListener("input", (e) => {
         const v = e.target.value;
-        if(v === ""){
-            clearError("username-error");
-            usernameError = false; 
-            checkBtnState();
-            return;
-        }
-        if(!(/^[a-zA-Z0-9_-]{1,20}$/.test(v))){
-            showError("username-error", "Username should only contain alphanumeric characters and underscores, dashes.");
-            usernameError = true; 
-            checkBtnState();
-        }
-        else{
-            clearError("username-error");
-            usernameError = false; 
-            checkBtnState();
-        }
+        usernameError = validateUsername(v, usernameError, "username-error");
+        checkBtnState();
     })
 
     passwordInput.addEventListener("input", (e) => {

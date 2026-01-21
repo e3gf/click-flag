@@ -98,7 +98,7 @@ export default class UI {
             this.elements.energyCCPConsumption.style("color", "var(--error)");
         }
         this.elements.energyConsumption.text(`${formatNumber(player.energyConsumption)}/s`);
-        this.elements.energyCCPConsumption.text(`${formatNumber(player.captureConsumption)}/s`); // Finish
+        this.elements.energyCCPConsumption.text(`${formatNumber(player.captureConsumption * player.getFreqValueMultiplier() / (1 / Math.min(player.captureFrequencyThreshold, player.captureFrequency * (whiteFlag.overclockActive ? player.overclockBoost : 1))))}/s`); // Finish
         
         const wheelSpinRatio = wheel.getSpinRatio(timerManager);
         this.elements.wheel.style("rotate", `${wheelSpinRatio * 360}deg`);

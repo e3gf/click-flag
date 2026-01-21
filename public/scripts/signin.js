@@ -1,4 +1,4 @@
-import { clearError, showError, validateConfirmPassword, validatePassword } from "./utils/pass-validation.js";
+import { clearError, showError, validateConfirmPassword, validatePassword } from "./utils/validation.js";
 import { recover, resetPassword, signIn } from "./api/auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
