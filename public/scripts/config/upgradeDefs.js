@@ -243,7 +243,7 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 0,
         periodic: {
             perUnit: 0.5,
-            perLevelMultiplier: 2.1,
+            perLevelMultiplier: 2.3,
             time: 1000,
             timePerLevelDecrease: 1.8,
             apply(game, value, times) {
@@ -276,13 +276,13 @@ export const UPGRADE_DEFS = {
         static: false,
         type: "energy",
         baseCost: 500,
-        costMultiplier: 1.2,
+        costMultiplier: 1.175,
         start: { bought: 0, level: 0 },
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 5,
-            perLevelMultiplier: 2.5,
+            perUnit: 20,
+            perLevelMultiplier: 3,
             time: 2000,
             timePerLevelDecrease: 2,
             apply(game, value, times) {
@@ -315,13 +315,13 @@ export const UPGRADE_DEFS = {
         static: false,
         type: "energy",
         baseCost: 7500,
-        costMultiplier: 1.225,
+        costMultiplier: 1.2,
         start: { bought: 0, level: 0 },
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 50,
-            perLevelMultiplier: 3,
+            perUnit: 324,
+            perLevelMultiplier: 4.2,
             time: 4000,
             timePerLevelDecrease: 2.5,
             apply(game, value, times) {
@@ -354,54 +354,15 @@ export const UPGRADE_DEFS = {
         static: false,
         type: "energy",
         baseCost: 1e5,
-        costMultiplier: 1.25,
-        start: { bought: 0, level: 0 },
-
-        consumptionPerUnit: 0,
-        periodic: {
-            perUnit: 700,
-            perLevelMultiplier: 3.25,
-            time: 8000,
-            timePerLevelDecrease: 2.75,
-            apply(game, value, times) {
-                game.player.energyCount += times * value;
-            },
-            valueFunction(bought, level) {
-                return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
-            },
-            timeFunction(level, threshold) {
-                return {
-                    f: this.time / this.timePerLevelDecrease ** (level - 1),
-                    s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
-                };
-            }
-        },
-        levelFormula: { a: 8, c: -12 },
-
-        levelRequirement(n) {
-            return levelRequirement(this.levelFormula, n);
-        },
-
-        getLevelBounds(a) {
-            return getLevelBounds(this.levelFormula, a);
-        }
-    },
-
-    SolarPanelArray: {
-        title: "Solar Panel Array",
-        layer: 1,
-        static: false,
-        type: "energy",
-        baseCost: 7500,
         costMultiplier: 1.225,
         start: { bought: 0, level: 0 },
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 50,
-            perLevelMultiplier: 3,
-            time: 4000,
-            timePerLevelDecrease: 2.5,
+            perUnit: 5012,
+            perLevelMultiplier: 5,
+            time: 8000,
+            timePerLevelDecrease: 2.75,
             apply(game, value, times) {
                 game.player.energyCount += times * value;
             },
@@ -437,8 +398,8 @@ export const UPGRADE_DEFS = {
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 1e4,
-            perLevelMultiplier: 3.5,
+            perUnit: 8e4,
+            perLevelMultiplier: 5.8,
             time: 16000,
             timePerLevelDecrease: 3,
             apply(game, value, times) {
@@ -476,8 +437,8 @@ export const UPGRADE_DEFS = {
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 1.5e5,
-            perLevelMultiplier: 3.75,
+            perUnit: 6.5e5,
+            perLevelMultiplier: 6.5,
             time: 32000,
             timePerLevelDecrease: 3.25,
             apply(game, value, times) {
@@ -515,8 +476,8 @@ export const UPGRADE_DEFS = {
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 3.11e6,
-            perLevelMultiplier: 4,
+            perUnit: 8e6,
+            perLevelMultiplier: 7.2,
             time: 128000,
             timePerLevelDecrease: 3.75,
             apply(game, value, times) {
@@ -554,8 +515,8 @@ export const UPGRADE_DEFS = {
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 9e7,
-            perLevelMultiplier: 4.25,
+            perUnit: 2e8,
+            perLevelMultiplier: 7.6,
             time: 180000,
             timePerLevelDecrease: 4,
             apply(game, value, times) {
@@ -594,7 +555,7 @@ export const UPGRADE_DEFS = {
         consumptionPerUnit: 0,
         periodic: {
             perUnit: 1.78e9,
-            perLevelMultiplier: 4.5,
+            perLevelMultiplier: 8.15,
             time: 64000,
             timePerLevelDecrease: 4.25,
             apply(game, value, times) {
@@ -632,8 +593,8 @@ export const UPGRADE_DEFS = {
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 4.2e10,
-            perLevelMultiplier: 5,
+            perUnit: 8.9e10,
+            perLevelMultiplier: 8.8,
             time: 240000,
             timePerLevelDecrease: 4.75,
             apply(game, value, times) {
