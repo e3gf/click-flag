@@ -1,3 +1,4 @@
+import { game } from "./config/gameState.js";
 import { initialSettings, setLoadedSettings, getLoadedSettings, save, applyChanges, updateSaveButtonVisibility, saveBtn, setValues, getCurrentSettings } from "./utils/settingsUtils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const optionsTab = document.querySelector("#options-tab");
 
     const resetBtn = document.querySelector("#reset-settings-button");
+
+    const skipTrackButton = document.querySelector("#skip-track-button");
 
     settingsTab.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -30,6 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
         updateSaveButtonVisibility();
         applyChanges(getLoadedSettings());
         save(getLoadedSettings());
+    })
+
+    skipTrackButton.addEventListener("click", () => {
+        game.audio.playRandomMusic();
     })
 
     setValues(getLoadedSettings());

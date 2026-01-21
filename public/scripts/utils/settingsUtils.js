@@ -9,6 +9,7 @@ export const initialSettings = {
 
 export let loadedSettings = { ...initialSettings };
 
+export const musicPlaying = document.querySelector("#current-track-display");
 export const musicVolume = document.querySelector("#music-volume");
 export const sfxVolume = document.querySelector("#sfx-volume");
 export const effectsEnabled = document.querySelector("#effects-enabled");
@@ -91,4 +92,14 @@ export function applyChanges(newSettings) {
 
 export function revertChanges(){
     setValues(getLoadedSettings());
+}
+
+// Music related
+
+export function changeMusicPlaying(newMusic){
+    musicPlaying.textContent = newMusic;
+}
+
+export function stopMusicPlaying(){
+    musicPlaying.textContent = "Nothing playing";
 }

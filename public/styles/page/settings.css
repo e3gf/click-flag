@@ -122,11 +122,13 @@ h3.text {
     color: white;
     background-color: var(--muted);
     border: none;
-    border-radius: 999px;
+    border-radius: 999rem;
     cursor: pointer;
     transition: all 0.18s ease;
-    min-width: 76px;
-    text-align: center;
+    min-width: 4.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .skip-button:not(:disabled):hover {
