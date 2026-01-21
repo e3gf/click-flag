@@ -23,7 +23,21 @@ export function recover({ recoveryCode }) {
 
 export function resetPassword({ newPassword, newPasswordConfirm }) {
     return http("/api/auth/reset-password", {
-        method: "POST",
+        method: "PATCH",
         body: JSON.stringify({ newPassword, newPasswordConfirm }),
     });
+}
+
+export function changeUsername({ newUsername, password }) {
+    return http("/api/auth/change-username", {
+        method: "PATCH",
+        body: JSON.stringify({ newUsername, password }),
+    })
+}
+
+export function changePassword({ currentPassword, newPassword , newPasswordConfirm }) {
+    return http("/api/auth/change-password", {
+        method: "PATCH",
+        body: JSON.stringify({ currentPassword, newPassword, newPasswordConfirm }),
+    })
 }

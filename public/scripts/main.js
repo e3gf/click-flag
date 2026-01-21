@@ -1,5 +1,6 @@
 import { createGame, game} from "./config/gameState.js";
 import { getCurrentSettings, getLoadedSettings, hideSaveDialogue, openSaveDialogue, revertChanges, save, saveDialogueOpened, setLoadedSettings, updateSaveButtonVisibility } from "./utils/settingsUtils.js";
+import { clearError } from "./utils/validation.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const settings = JSON.parse(localStorage.getItem("settings"));

@@ -21,6 +21,7 @@ export function validatePassword
         clearError(passwordErrorId);
         clearError(passwordConfirmErrorId);
         passwordError = false; 
+        passwordConfirmError = false;
         return {passwordError, passwordConfirmError};
     }
     if(v.length < 6){

@@ -1,3 +1,6 @@
+import { changePassword, changeUsername } from "./api/auth.js";
+import { showError } from "./utils/validation.js";
+import { clearError } from "./utils/validation.js";
 import { validateConfirmPassword } from "./utils/validation.js";
 import { validatePassword } from "./utils/validation.js";
 import { validateUsername } from "./utils/validation.js";
@@ -70,6 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const newUsername = d.querySelector("#new-username");
     const usernamePassword = d.querySelector("#username-password");
 
+    newUsername.value = "";
+
     let usernameError = false;
 
     const checkBtnUsernameState = () => {
@@ -90,6 +95,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cancelButtonUsername.addEventListener("click", () => {
         setMode(MODE.HOME);
+        clearError("username-change-server-error");
+    })
+    
+    confirmButtonUsername.addEventListener("click", async () => {
+
+        confirmButtonUsername.disabled = true;
+        confirmButtonUsername.classList.toggle("disabled", true);
+
+        try {
+            const res = await changeUsername({ newUsername: newUsername.value, password: usernamePassword.value });
+        } catch (error) {
+            showError("username-change-server-error", error);
+        } finally {
+            confirmButtonUsername.disabled = false;
+            confirmButtonUsername.classList.toggle("disabled", false);
+        }
     })
 
     // Password
@@ -138,6 +159,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cancelButtonPassword.addEventListener("click", () => {
         setMode(MODE.HOME);
+        clearError("password-change-server-error");
+    })
+
+    confirmButtonPassword.addEventListener("click", async () => {
+
+        confirmButtonPassword.disabled = true;
+        confirmButtonPassword.classList.toggle("disabled", true);
+
+        try {
+            const res = await changePassword({ 
+                currentPassword: currentPassword.value,
+                newPassword: newPassword.value,
+                newPasswordConfirm: newPasswordConfirm.value
+            });
+        } catch (error) {
+            showError("password-change-server-error", error);
+        } finally {
+            confirmButtonUsername.disabled = false;
+            confirmButtonUsername.classList.toggle("disabled", false);
+        }
     })
 
     checkBtnPasswordState();

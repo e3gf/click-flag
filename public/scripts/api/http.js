@@ -8,8 +8,10 @@ export async function http(url, options = {}) {
         ...options,
     });
 
-    const body = await res.json();
+    const contentType = res.headers.get("content-type");
+    const isJson = contentType && contentType.includes("application/json");
 
+    const body = isJson ? await res.json() : await res.text();
     if (!res.ok) {
         const message =
             (body?.error) ||
