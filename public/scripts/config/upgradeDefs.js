@@ -515,7 +515,7 @@ export const UPGRADE_DEFS = {
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 9e7,
+            perUnit: 3.11e6,
             perLevelMultiplier: 4,
             time: 128000,
             timePerLevelDecrease: 3.75,
@@ -554,10 +554,88 @@ export const UPGRADE_DEFS = {
 
         consumptionPerUnit: 0,
         periodic: {
-            perUnit: 3.2e6,
-            perLevelMultiplier: 4,
+            perUnit: 9e7,
+            perLevelMultiplier: 4.25,
+            time: 180000,
+            timePerLevelDecrease: 4,
+            apply(game, value, times) {
+                game.player.energyCount += times * value;
+            },
+            valueFunction(bought, level) {
+                return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
+            },
+            timeFunction(level, threshold) {
+                return {
+                    f: this.time / this.timePerLevelDecrease ** (level - 1),
+                    s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
+                };
+            }
+        },
+        levelFormula: { a: 8, c: -12 },
+
+        levelRequirement(n) {
+            return levelRequirement(this.levelFormula, n);
+        },
+
+        getLevelBounds(a) {
+            return getLevelBounds(this.levelFormula, a);
+        }
+    },
+
+    DysonSphereSegment: {
+        title: "Dyson Sphere Segment",
+        layer: 1,
+        static: false,
+        type: "energy",
+        baseCost: 7.45e10,
+        costMultiplier: 1.375,
+        start: { bought: 0, level: 0 },
+
+        consumptionPerUnit: 0,
+        periodic: {
+            perUnit: 1.78e9,
+            perLevelMultiplier: 4.5,
             time: 64000,
-            timePerLevelDecrease: 3.5,
+            timePerLevelDecrease: 4.25,
+            apply(game, value, times) {
+                game.player.energyCount += times * value;
+            },
+            valueFunction(bought, level) {
+                return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
+            },
+            timeFunction(level, threshold) {
+                return {
+                    f: this.time / this.timePerLevelDecrease ** (level - 1),
+                    s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
+                };
+            }
+        },
+        levelFormula: { a: 8, c: -12 },
+
+        levelRequirement(n) {
+            return levelRequirement(this.levelFormula, n);
+        },
+
+        getLevelBounds(a) {
+            return getLevelBounds(this.levelFormula, a);
+        }
+    },
+
+    BigBangReplicator: {
+        title: "Big Bang Replicator",
+        layer: 1,
+        static: false,
+        type: "energy",
+        baseCost: 5e12,
+        costMultiplier: 1.4,
+        start: { bought: 0, level: 0 },
+
+        consumptionPerUnit: 0,
+        periodic: {
+            perUnit: 4.2e10,
+            perLevelMultiplier: 5,
+            time: 240000,
+            timePerLevelDecrease: 4.75,
             apply(game, value, times) {
                 game.player.energyCount += times * value;
             },

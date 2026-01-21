@@ -122,8 +122,8 @@ export default class Game {
         this.upgradeManager.add("FusionCore");
         this.upgradeManager.add("ZeroPointModule");
         this.upgradeManager.add("QuantumFluxGenerator");
-        this.upgradeManager.add("SolarPanelArray");
-        this.upgradeManager.add("SolarPanelArray");
+        this.upgradeManager.add("DysonSphereSegment");
+        this.upgradeManager.add("BigBangReplicator");
 
         this.upgradeManager.add("Grandpas");
         this.upgradeManager.add("SixYearOlds");

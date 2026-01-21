@@ -397,7 +397,7 @@ class UpgradeView {
                 const t = e.target;
                 this.ui.elements[this.elementIds.upgradeQuantityInput].toggle("selected-quantity", t.value !== "");
                 if (t.value !== "") {
-                    u.select(t.value);
+                    u.select(parseInt(t.value));
                     this.clearBtnSelection();
                 }
                 else {

@@ -74,7 +74,7 @@ export default class UI {
         this.elements.whiteFlagCount.text(formatNumber(player.whiteFlagCount));
 
         const captureRatio = whiteFlag.getCaptureRatio(timerManager);
-        if(player.captureFrequency * (player.overclockBoost * whiteFlag.overclockActive ?? 0)   < player.captureFrequencyThreshold) this.elements.captureProgress.style("width", `${captureRatio * 100}%`);
+        if(player.captureFrequency * (whiteFlag.overclockActive ? player.overclockBoost : 1 ) < player.captureFrequencyThreshold) this.elements.captureProgress.style("width", `${captureRatio * 100}%`);
         else this.elements.captureProgress.style("width", `100%`);
 
         const overclockRatio = whiteFlag.getOverclockRatio(timerManager);
@@ -87,12 +87,12 @@ export default class UI {
         this.elements.energyCount.toggle("insufficient-currency", whiteFlag.outOfEnergyIndicator);
         this.elements.energyTabEnergyCount.toggle("insufficient-currency", whiteFlag.outOfEnergyIndicator);
         this.elements.energyGeneration.text(`${formatNumber(player.energyGeneration)}/s`);
-        if(player.energyGeneration > player.captureConsumption + player.energyConsumption){
+        if(player.energyGeneration > player.energyConsumption + player.captureConsumption * player.getFreqValueMultiplier() / (1 / Math.min(player.captureFrequencyThreshold, player.captureFrequency * (whiteFlag.overclockActive ? player.overclockBoost : 1)))){
             this.elements.energyGeneration.style("color", "var(--success-color)");
-            this.elements.energyConsumption.style("color", "var(--foreground)")
-            this.elements.energyCCPConsumption.style("color", "var(--foreground)")
+            this.elements.energyConsumption.style("color", "var(--foreground)");
+            this.elements.energyCCPConsumption.style("color", "var(--foreground)");
         }
-        else if(player.energyGeneration < player.captureConsumption + player.energyConsumption){
+        else if(player.energyGeneration < player.energyConsumption + player.captureConsumption * player.getFreqValueMultiplier() / (1 / Math.min(player.captureFrequencyThreshold, player.captureFrequency * (whiteFlag.overclockActive ? player.overclockBoost : 1)))){
             this.elements.energyGeneration.style("color", "var(--foreground)")
             this.elements.energyConsumption.style("color", "var(--error)");
             this.elements.energyCCPConsumption.style("color", "var(--error)");
