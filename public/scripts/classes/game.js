@@ -35,7 +35,7 @@ export default class Game {
 
         // to initialize audio on first interaction
         window.addEventListener("pointerdown", () => {
-            this.audio.init({ musicVolume: settings.musicVolume, sfxVolume: settings.sfxVolume });
+            this.audio.init({ musicVolume: settings?.musicVolume ?? 50, sfxVolume: settings?.sfxVolume ?? 50 });
             this.audio.setMusicPlaylist([
                 "Cyberpunk Threat 1",
                 "Cyberpunk Fight 1",

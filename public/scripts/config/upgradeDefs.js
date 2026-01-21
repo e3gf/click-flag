@@ -348,6 +348,45 @@ export const UPGRADE_DEFS = {
         }
     },
 
+        GasGenerator: {
+        title: "Gas generator",
+        layer: 1,
+        static: false,
+        type: "energy",
+        baseCost: 7500,
+        costMultiplier: 1.225,
+        start: { bought: 0, level: 0 },
+
+        consumptionPerUnit: 0,
+        periodic: {
+            perUnit: 50,
+            perLevelMultiplier: 3,
+            time: 4000,
+            timePerLevelDecrease: 2.5,
+            apply(game, value, times){
+                game.player.energyCount += times * value;
+            },
+            valueFunction(bought, level){
+                return bought * this.perUnit * this.perLevelMultiplier ** (level - 1);
+            },
+            timeFunction(level, threshold){
+                return {
+                    f: this.time / this.timePerLevelDecrease ** (level - 1),
+                    s: Math.max(1, threshold / this.time * this.timePerLevelDecrease ** (level - 1))
+                };
+            }
+        },
+        levelFormula: { a: 8, c: -12}, 
+
+        levelRequirement(n) {
+            return levelRequirement(this.levelFormula, n);
+        },
+
+        getLevelBounds(a){
+            return getLevelBounds(this.levelFormula, a);
+        }
+    },
+
     // Automation upgrades
 
     Grandpas: {

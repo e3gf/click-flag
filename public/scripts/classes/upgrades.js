@@ -152,9 +152,9 @@ class Upgrade {
             let callback;
             if(this.def.energyConsumer) {
                 const prevConsumption = this.consumption;
-                const consumption = this.def.consumptionFunction(this.bought, this.level);
+                const consumption = this.def.consumptionFunction(this.bought, this.level) * this.periodic["valueMulti"];
                 this.consumption = consumption;
-                this.player.energyConsumption += (consumption - prevConsumption) * 1000 / this.periodic["time"] * this.periodic["valueMulti"];
+                this.player.energyConsumption += consumption * 1000 / this.periodic["time"] - prevConsumption * 1000 / prevTime;
                 callback = (times) => {
                     if(this.state !== "running") return;
                     p.apply(this.game, this.periodic["value"] * this.periodic["valueMulti"], times);
@@ -164,7 +164,7 @@ class Upgrade {
             else {
                 if(this.type === "energy"){
                     const generation = this.periodic["value"] * this.periodic["valueMulti"];
-                    this.player.energyGeneration += (generation - prevValue) * 1000 / this.periodic["time"];
+                    this.player.energyGeneration += generation * 1000 / this.periodic["time"] - prevValue * 1000 / prevTime;
                 }
                 callback = (times) => {
                     p.apply(this.game, this.periodic["value"] * this.periodic["valueMulti"], times);
@@ -269,7 +269,6 @@ class UpgradeView {
             upgradeBuyAmount:  `${u.name}-upgrade-buy-amount`,
             upgradeBuyCost: `${u.name}-upgrade-buy-cost`,
             upgradeLevelIndicator: `${u.name}-upgrade-level-indicator`,
-            upgradeInfoButton: `${u.name}-upgrade-info-button`,
 
             buyButtonId: `${u.name}-upgrade-buy-button`,
             upgradeButtons: `${u.name}-upgrade-buttons`,
@@ -348,9 +347,6 @@ class UpgradeView {
                     <div class="${u.type}-upgrade-level upgrade-level">
                         <div class="${u.type}-upgrade-level-indicator upgrade-level-indicator" id="${this.elementIds.upgradeLevelIndicator}"></div>
                     </div>
-                    <span class="material-symbols-outlined upgrade-info-button" id="${this.elementIds.upgradeInfoButton}">
-                        info
-                    </span>
                 </div>
             `);
         } else {
@@ -410,11 +406,6 @@ class UpgradeView {
                 }
             });
         }
-
-
-//        this.ui.addDynamicListener(this.elementIds.upgradeInfoButton, "click", () => { 
-  //          this.ui.openUpgradeInfo(u.def.info);
-    //    })
     }
 
     render(player) {

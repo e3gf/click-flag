@@ -19,7 +19,7 @@ export default class WhiteFlag {
         const audio = game.audio;
         if(player.captureConsumption * player.getFreqValueMultiplier() > player.energyCount){
             this.outOfEnergyIndicator = true; 
-            audio.playSFX("insufficientEnergy");
+            audio.playSFX("insufficientEnergy", 1000);
             return;
         }
        

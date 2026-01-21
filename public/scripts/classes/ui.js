@@ -74,7 +74,7 @@ export default class UI {
         this.elements.whiteFlagCount.text(formatNumber(player.whiteFlagCount));
 
         const captureRatio = whiteFlag.getCaptureRatio(timerManager);
-        if(player.captureFrequency < player.captureFrequencyThreshold) this.elements.captureProgress.style("width", `${captureRatio * 100}%`);
+        if(player.captureFrequency * (player.overclockBoost * whiteFlag.overclockActive ?? 0)   < player.captureFrequencyThreshold) this.elements.captureProgress.style("width", `${captureRatio * 100}%`);
         else this.elements.captureProgress.style("width", `100%`);
 
         const overclockRatio = whiteFlag.getOverclockRatio(timerManager);
@@ -87,16 +87,26 @@ export default class UI {
         this.elements.energyCount.toggle("insufficient-currency", whiteFlag.outOfEnergyIndicator);
         this.elements.energyTabEnergyCount.toggle("insufficient-currency", whiteFlag.outOfEnergyIndicator);
         this.elements.energyGeneration.text(`${formatNumber(player.energyGeneration)}/s`);
+        if(player.energyGeneration > player.captureConsumption + player.energyConsumption){
+            this.elements.energyGeneration.style("color", "var(--success-color)");
+            this.elements.energyConsumption.style("color", "var(--foreground)")
+            this.elements.energyCCPConsumption.style("color", "var(--foreground)")
+        }
+        else if(player.energyGeneration < player.captureConsumption + player.energyConsumption){
+            this.elements.energyGeneration.style("color", "var(--foreground)")
+            this.elements.energyConsumption.style("color", "var(--error)");
+            this.elements.energyCCPConsumption.style("color", "var(--error)");
+        }
         this.elements.energyConsumption.text(`${formatNumber(player.energyConsumption)}/s`);
         this.elements.energyCCPConsumption.text(`${formatNumber(player.captureConsumption)}/s`); // Finish
-
+        
         const wheelSpinRatio = wheel.getSpinRatio(timerManager);
         this.elements.wheel.style("rotate", `${wheelSpinRatio * 360}deg`);
 
+        this.elements.systemInfoCP.toggle(`overclocked-info-indicator`, whiteFlag.overclockActive);
         this.elements.systemInfoCP.text(`CP: ${formatNumber(player.getCapturePower())}`);
         this.elements.systemInfoCCPS.toggle(`overclocked-info-indicator`, whiteFlag.overclockActive);
-        if(whiteFlag.overclockActive) this.elements.systemInfoCCPS.text(`CCP: ${formatNumber(player.getCapturePower()) / (1 / player.overclockBoost / Math.min(player.captureFrequencyThreshold, player.captureFrequency))}/s`)
-        else this.elements.systemInfoCCPS.text(`CCP: ${formatNumber(player.getCapturePower() / (1 / Math.min(player.captureFrequencyThreshold, player.captureFrequency)))}/s`);
+        this.elements.systemInfoCCPS.text(`CCP: ${formatNumber(player.getCapturePower() / (1 / Math.min(player.captureFrequencyThreshold, player.captureFrequency * (whiteFlag.overclockActive ? player.overclockBoost : 1))))}/s`);
         this.elements.systemInfoUCPS.text(`UCP: ${formatNumber(player.automationGeneration)}/s`);
         this.elements.systemInfoOCDuration.text(`OC Duration: ${toSeconds(player.overclockDuration)}`);
         this.elements.systemInfoOCCooldown.text(`OC Cooldown: ${toSeconds(player.overclockCooldown)}`);

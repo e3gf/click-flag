@@ -40,13 +40,13 @@ export class AudioManager {
     this.buffers.set(name, audioBuffer);
   }
 
-  playSFX(name, { volume = 1, playbackRate = 1 } = {}) {
+  playSFX(name, delayMS = this.SFX_COOLDOWN_MS, { volume = 1, playbackRate = 1 } = {}) {
     if(this.sfxGain.gain.value === 0) return;
 
     const now = performance.now();
     const lastPlayed = this.sfxCooldowns.get(name) ?? 0;
 
-    if (now - lastPlayed < this.SFX_COOLDOWN_MS) return;
+    if (now - lastPlayed < delayMS) return;
     this.sfxCooldowns.set(name, now);
 
     const buffer = this.buffers.get(name);

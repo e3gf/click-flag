@@ -12,8 +12,6 @@ export default class Player {
         this.capturePowerMultiplier = savedData ? savedData.capturePowerMultiplier : 1;
         this.capturePowerAddition = savedData ? savedData.capturePowerAddition : 0;
 
-        this.upgradeConsumption = savedData ? savedData.upgradeConsumption : 0;
-
         this.overclockCooldown = savedData ? savedData.overclockCooldown : 60000;
         this.overclockDuration = savedData ? savedData.overclockDuration : 5000;
         this.overclockBoost = savedData ? savedData.overclockBoost : 4;
