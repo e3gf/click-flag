@@ -90,6 +90,61 @@ h3.text {
     text-align: left;
 }
 
+.now-playing-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    min-height: 42px;
+}
+
+.track-text {
+    flex: 1;
+    text-align: left;
+    font-size: 1.05rem;
+    color: var(--card-foreground);
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0.85;
+}
+
+.track-text:not(:empty):not(:-moz-only-whitespace) {
+    opacity: 1;
+}
+
+.skip-button {
+    padding: 0.5rem 1.1rem;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: white;
+    background-color: var(--muted);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    min-width: 76px;
+    text-align: center;
+}
+
+.skip-button:not(:disabled):hover {
+    background: color-mix(in srgb, var(--primary) 75%, black 25%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.skip-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background-color: var(--muted);
+}
+
+#music-now-playing-option:has(#current-track-display:not(:empty)):not(:-moz-only-whitespace) .skip-button {
+    background-color: var(--primary);
+}
+
 input[type="range"] {
     appearance: none;
     width: 160px;
@@ -180,10 +235,10 @@ input[type="checkbox"]:checked+.slider.round::before {
     cursor: not-allowed;
 }
 
-#save-settings-button:enabled:hover{
-  background: color-mix(in srgb, var(--primary) 85%, black 15%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 35%, transparent);
+#save-settings-button:enabled:hover {
+    background: color-mix(in srgb, var(--primary) 85%, black 15%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--primary) 35%, transparent);
 }
 
 .options-button-area {
