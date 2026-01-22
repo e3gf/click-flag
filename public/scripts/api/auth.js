@@ -41,3 +41,9 @@ export function changePassword({ currentPassword, newPassword , newPasswordConfi
         body: JSON.stringify({ currentPassword, newPassword, newPasswordConfirm }),
     })
 }
+
+export function signOut(){
+    return http("/api/auth/sign-out", {
+        method: "POST",
+    })
+}

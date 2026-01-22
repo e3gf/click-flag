@@ -1,4 +1,4 @@
-import { changePassword, changeUsername } from "./api/auth.js";
+import { changePassword, changeUsername, signOut } from "./api/auth.js";
 import { showError } from "./utils/validation.js";
 import { clearError } from "./utils/validation.js";
 import { validateConfirmPassword } from "./utils/validation.js";
@@ -182,6 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     checkBtnPasswordState();
+
+
+
+
+
+    signOutBtn.addEventListener("click", () => {
+        // signOut();
+    })
 
     setMode(MODE.OVERVIEW);
 });

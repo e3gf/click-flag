@@ -152,6 +152,7 @@ export default class Game {
         this.uiUpdateAccumulator += delta;
         if(this.uiUpdateAccumulator >= this.uiUpdateInterval){
             this.uiManager.render(this);
+            this.visualEffectManager.update(delta);
             this.uiUpdateAccumulator %= this.uiUpdateInterval;
         }
 
@@ -164,7 +165,6 @@ export default class Game {
 
     update(delta){
         this.timerManager.update(delta);
-        this.visualEffectManager.update(delta);
         this.upgradeScheduler.update();
     }
 }
