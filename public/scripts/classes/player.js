@@ -1,10 +1,11 @@
+import { formatNumber } from "../utils/formatting.js";
 import roundTo from "../utils/roundTo.js";
 import { FloatingTextEffect } from "./visualEffect.js";
 
 export default class Player {
     constructor(game, savedData = null){
         this.game = game;
-        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 0;
+        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 1000000;
         this.energyCount = savedData ? savedData.energyCount : 0;
         this.capturePower = savedData ? savedData.capturePower : 1;
         this.captureFrequency = savedData ? savedData.captureFrequency : 0.2;
@@ -28,7 +29,7 @@ export default class Player {
         this.game.visualEffectManager.add(
             new FloatingTextEffect(this.game,
                 {
-                    text: `+${this.getCapturePower()}`,
+                    text: `+${formatNumber(this.getCapturePower())}`,
                     ...this.game.uiManager.getElementCenter("whiteFlag"),
                     speed: 60,
                     type: "flag",
@@ -36,11 +37,15 @@ export default class Player {
                 }
             )
         );
-        this.energyCount -= this.captureConsumption * this.getFreqValueMultiplier();
+        this.energyCount -= this.getCaptureConsumption();
     }
 
     getCapturePower(){
         return (this.capturePower + this.capturePowerAddition) * this.capturePowerMultiplier * this.getFreqValueMultiplier();
+    }
+
+    getCaptureConsumption(){
+        return this.captureConsumption * this.getFreqValueMultiplier();
     }
 
     getFreqValueMultiplier(){
@@ -49,5 +54,16 @@ export default class Player {
 
     spinWheel(){
         this.energyCount += 1;
+        this.game.visualEffectManager.add(
+            new FloatingTextEffect(game,
+                {
+                    text: "+1",
+                    spread: Math.PI,
+                    ...game.uiManager.getElementCenter("wheel"),
+                    type: "energy",
+                    speed: 60,
+                }
+            )
+        );
     }
 }
