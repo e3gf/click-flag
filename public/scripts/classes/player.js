@@ -5,7 +5,7 @@ import { FloatingTextEffect } from "./visualEffect.js";
 export default class Player {
     constructor(game, savedData = null){
         this.game = game;
-        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 1000000;
+        this.whiteFlagCount = savedData ? savedData.whiteFlagCount : 1e15;
         this.energyCount = savedData ? savedData.energyCount : 0;
         this.capturePower = savedData ? savedData.capturePower : 1;
         this.captureFrequency = savedData ? savedData.captureFrequency : 0.2;
@@ -33,7 +33,7 @@ export default class Player {
                     ...this.game.uiManager.getElementCenter("whiteFlag"),
                     speed: 60,
                     type: "flag",
-                    spread: Math.PI / 2
+                    spread: 2 * Math.PI
                 }
             )
         );
@@ -55,11 +55,11 @@ export default class Player {
     spinWheel(){
         this.energyCount += 1;
         this.game.visualEffectManager.add(
-            new FloatingTextEffect(game,
+            new FloatingTextEffect(this.game,
                 {
                     text: "+1",
-                    spread: Math.PI,
-                    ...game.uiManager.getElementCenter("wheel"),
+                    spread: 2 * Math.PI,
+                    ...this.game.uiManager.getElementCenter("wheel"),
                     type: "energy",
                     speed: 60,
                 }

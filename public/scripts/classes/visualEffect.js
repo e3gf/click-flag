@@ -3,6 +3,17 @@ export default class VisualEffectManager {
         this.game = game;
         this.effects = [];
         this.on = on;
+
+        this.measurementNode = this.game.document.createElement("div");
+        this.measurementNode.id = "measurement-node";
+        Object.assign(this.measurementNode.style, {
+            position: "absolute",
+            visibility: "hidden",
+            top: "-9999px",
+            left: "-9999px",
+            contain: "layout style",
+        })
+        this.game.document.body.appendChild(this.measurementNode);
     }
 
     add(effect) {
@@ -48,6 +59,7 @@ export class VisualEffect {
         this.timerId = null;
 
         this.el = null;
+        this.measurementNode = game.document.getElementById("measurement-node");
     }
 
     start() {
@@ -133,6 +145,14 @@ export class FloatingTextEffect extends VisualEffect {
             img.src = "/content/flag-white.svg";
             this.el.appendChild(img);
         }
+        this.measurementNode.appendChild(this.el);
+
+        const {width, height} = this.el.getBoundingClientRect();
+
+        this.measurementNode.removeChild(this.el);
+
+        this.x -= Math.round(width / 2);
+        this.y -= Math.round(height / 2);
 
         Object.assign(this.el.style, {
             position: "absolute",

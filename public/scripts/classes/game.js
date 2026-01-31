@@ -10,6 +10,7 @@ import { gameState } from "../config/gameState.js";
 
 export default class Game {
     constructor(document, settings){ 
+        this.document = document;
         this.player = new Player(this);
         this.timerManager = new TimerManager();
         this.whiteFlag = new WhiteFlag();

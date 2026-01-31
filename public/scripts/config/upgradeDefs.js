@@ -478,7 +478,7 @@ export const UPGRADE_DEFS = {
         periodic: {
             perUnit: 8e6,
             perLevelMultiplier: 7.2,
-            time: 128000,
+            time: 64000,
             timePerLevelDecrease: 3.75,
             apply(game, value, times) {
                 game.player.energyCount += times * value;
@@ -517,7 +517,7 @@ export const UPGRADE_DEFS = {
         periodic: {
             perUnit: 2e8,
             perLevelMultiplier: 7.6,
-            time: 180000,
+            time: 128000,
             timePerLevelDecrease: 4,
             apply(game, value, times) {
                 game.player.energyCount += times * value;
@@ -556,7 +556,7 @@ export const UPGRADE_DEFS = {
         periodic: {
             perUnit: 1.78e9,
             perLevelMultiplier: 8.15,
-            time: 64000,
+            time: 180000,
             timePerLevelDecrease: 4.25,
             apply(game, value, times) {
                 game.player.energyCount += times * value;
