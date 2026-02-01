@@ -104,7 +104,6 @@ export default class Game {
             this.wheel.spinWheel(this);
         };
 
-
         this.uiManager.addDynamicListener("whiteFlag", "mousedown", this.startHoldEvent);
         this.uiManager.addDynamicListener("body", "mouseup", this.endHoldEvent);
         this.uiManager.addDynamicListener("overclockBtn", "click", this.overclockEvent);

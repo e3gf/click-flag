@@ -390,7 +390,7 @@ class UpgradeView {
                             ...this.ui.getElementCenter(this.elementIds.buyButtonId),
                             text: `+${selectedAmount}`,
                             speed: 60,
-                            spread: Math.PI / 8,
+                            spread: 0,
                         }
                     ) 
                 )
@@ -410,13 +410,16 @@ class UpgradeView {
 
             this.ui.addDynamicListener(this.elementIds.upgradeQuantityInput, "input", (e) => {
                 const t = e.target;
+                t.value = t.value.replace(/\D/g, "");
                 this.ui.elements[this.elementIds.upgradeQuantityInput].toggle("selected-quantity", t.value !== "");
                 if (t.value !== "") {
                     u.select(parseInt(t.value));
+                    u.selected = "custom";
                     this.clearBtnSelection();
                 }
                 else {
                     u.select(1);
+                    u.selected = "1";
                     this.selectBtn(0);
                 }
             });
@@ -425,6 +428,10 @@ class UpgradeView {
 
     render(player) {
         const u = this.upgrade;
+
+        if(u.selected === "max"){
+            u.select(u.getMaxAffordable());
+        }
 
         if(u.type === "general"){
             this.ui.elements[this.elementIds.upgradeBuyAmount].text(u.bought ? `Bought` : `Buy`);

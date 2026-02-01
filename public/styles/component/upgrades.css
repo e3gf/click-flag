@@ -98,6 +98,10 @@
     color: var(--foreground);
 }
 
+.upgrade-quantity-input:focus {
+    outline: none;
+}
+
 .upgrade-quantity-button-next {
     height: 1.5rem;
     width: 3rem;

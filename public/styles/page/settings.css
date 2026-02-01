@@ -12,6 +12,7 @@
     box-shadow: var(--shadow-lg);
     text-align: center;
     position: relative;
+    z-index: 1000;
 }
 
 .settings-top {
